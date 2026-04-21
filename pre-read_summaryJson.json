@@ -1,0 +1,150 @@
+{
+  "meta": {
+    "runId": "RUN_20250206_153000",
+    "sourceType": "Transcript",
+    "generatedBy": "SummaryAgent"
+  },
+  "meeting": {
+    "meetingTitle": "Quality Council Meeting",
+    "transcriptMeetingDate": "15 December 2025",
+    "timeZone": "GMT Standard Time",
+    "teamsMeetingLink": ""
+  },
+  "summary": {
+    "format": "HTML",
+    "htmlContent": "<h1>Quality Council Meeting Summary</h1>\n<h2>Top 3 Problems Identified</h2>\n<ul>\n<li>High number of overdue effectiveness checks and long-term actions.</li>\n<li>Repeated deviations due to human factors and knowledge gaps in processes.</li>\n<li>Resource constraints impacting timely completion of actions and commissioning of M building.</li>\n</ul>\n<h2>Key actions</h2>\n<ul>\n<li>Follow up on overdue long-term actions and effectiveness checks.</li>\n<li>Formalize operator process knowledge sessions and address knowledge gaps.</li>\n<li>Track and close QIP actions for OSD for 2026.</li>\n<li>Address ongoing DI deviations and data integrity issues.</li>\n<li>Plan periodic reviews 3 months in advance to prevent delays.</li>\n<li>Escalate need for long-term solution for temporary instructions.</li>\n</ul>\n<h2>Decisions Made</h2>\n<ul>\n<li>Keep high number of overdue effectiveness checks as a priority.</li>\n<li>Escalate TI (Temporary Instructions) issue for long-term solution.</li>\n<li>Continue planning for periodic reviews and formalize knowledge sessions.</li>\n<li>Maintain focus on reducing TI count for M2.</li>\n</ul>\n<h2>Escalations Required</h2>\n<ul>\n<li>Escalate TI issue through Psychology Council for alternative solutions.</li>\n<li>Escalate resource constraints for M building commissioning.</li>\n<li>Escalate long-term solution for temporary instructions to central quality.</li>\n</ul>\n<h2>Suggestions for Process Confirmations for Next Month</h2>\n<ul>\n<li>Confirm progress on overdue long-term actions and effectiveness checks.</li>\n<li>Validate implementation of knowledge sessions and training plans.</li>\n<li>Review status of QIP actions and DI deviation resolutions.</li>\n<li>Monitor resource allocation for M building and related projects.</li>\n</ul>\n<h2>Communications to cascade to team</h2>\n<ul>\n<li>Emphasize importance of timely closure of long-term actions and effectiveness checks.</li>\n<li>Share updates on escalation of TI issues and resource constraints.</li>\n<li>Communicate upcoming periodic review plans and training requirements.</li>\n<li>Reinforce adherence to process to avoid deviations and repeats.</li>\n</ul>\n<h2>Actions</h2>\n<table border='1'>\n<tr><th>Action</th><th>Owner</th><th>Due Date</th><th>Status</th></tr>\n<tr><td>Follow up on overdue long-term actions</td><td>Nuwandi</td><td>End of December</td><td>Ongoing</td></tr>\n<tr><td>Formalize operator process knowledge sessions</td><td>Nuwandi</td><td>Not specified</td><td>New</td></tr>\n<tr><td>Track QIP actions for OSD for 2026</td><td>Nuwandi</td><td>2026</td><td>Ongoing</td></tr>\n<tr><td>Catch up on ongoing DI deviations</td><td>Nuwandi & Chris</td><td>Not specified</td><td>New</td></tr>\n<tr><td>Plan periodic reviews 3 months in advance</td><td>Nuwandi</td><td>Starting December</td><td>Ongoing</td></tr>\n<tr><td>Escalate TI issue for long-term solution</td><td>Nuwandi</td><td>January onwards</td><td>New</td></tr>\n<tr><td>Address resource constraints for M building commissioning</td><td>Mattia</td><td>January onwards</td><td>New</td></tr>\n<tr><td>Review and close overdue SAP for engineering</td><td>Charlie</td><td>Not specified</td><td>Ongoing</td></tr>\n<tr><td>Implement signage and software changes for visual aid gaps</td><td>Engineering</td><td>Interim + Long-term</td><td>Ongoing</td></tr>\n<tr><td>Ensure compliance with validation for ECC changes</td><td>Engineering</td><td>Not specified</td><td>Ongoing</td></tr>\n</table>",
+    "approvedByUser": true
+  },
+  "actions": [
+    {
+      "actionId": "",
+      "title": "Follow up on overdue long-term actions",
+      "description": "",
+      "ownerDisplayName": "Nuwandi",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "End of December",
+      "priority": "Medium",
+      "status": "Ongoing",
+      "source": "Ongoing",
+      "resolutionStatus": "Unresolved"
+    },
+    {
+      "actionId": "",
+      "title": "Formalize operator process knowledge sessions",
+      "description": "",
+      "ownerDisplayName": "Nuwandi",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "",
+      "priority": "Medium",
+      "status": "New",
+      "source": "New",
+      "resolutionStatus": "Unresolved"
+    },
+    {
+      "actionId": "",
+      "title": "Track QIP actions for OSD for 2026",
+      "description": "",
+      "ownerDisplayName": "Nuwandi",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "2026",
+      "priority": "Medium",
+      "status": "Ongoing",
+      "source": "Ongoing",
+      "resolutionStatus": "Unresolved"
+    },
+    {
+      "actionId": "",
+      "title": "Catch up on ongoing DI deviations",
+      "description": "",
+      "ownerDisplayName": "Nuwandi & Chris",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "",
+      "priority": "Medium",
+      "status": "New",
+      "source": "New",
+      "resolutionStatus": "Unresolved"
+    },
+    {
+      "actionId": "",
+      "title": "Plan periodic reviews 3 months in advance",
+      "description": "",
+      "ownerDisplayName": "Nuwandi",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "Starting December",
+      "priority": "Medium",
+      "status": "Ongoing",
+      "source": "Ongoing",
+      "resolutionStatus": "Unresolved"
+    },
+    {
+      "actionId": "",
+      "title": "Escalate TI issue for long-term solution",
+      "description": "",
+      "ownerDisplayName": "Nuwandi",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "January onwards",
+      "priority": "High",
+      "status": "New",
+      "source": "New",
+      "resolutionStatus": "Unresolved"
+    },
+    {
+      "actionId": "",
+      "title": "Address resource constraints for M building commissioning",
+      "description": "",
+      "ownerDisplayName": "Mattia",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "January onwards",
+      "priority": "High",
+      "status": "New",
+      "source": "New",
+      "resolutionStatus": "Unresolved"
+    },
+    {
+      "actionId": "",
+      "title": "Review and close overdue SAP for engineering",
+      "description": "",
+      "ownerDisplayName": "Charlie",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "",
+      "priority": "Medium",
+      "status": "Ongoing",
+      "source": "Ongoing",
+      "resolutionStatus": "Unresolved"
+    },
+    {
+      "actionId": "",
+      "title": "Implement signage and software changes for visual aid gaps",
+      "description": "",
+      "ownerDisplayName": "Engineering",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "Interim + Long-term",
+      "priority": "Medium",
+      "status": "Ongoing",
+      "source": "Ongoing",
+      "resolutionStatus": "Unresolved"
+    },
+    {
+      "actionId": "",
+      "title": "Ensure compliance with validation for ECC changes",
+      "description": "",
+      "ownerDisplayName": "Engineering",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "",
+      "priority": "Medium",
+      "status": "Ongoing",
+      "source": "Ongoing",
+      "resolutionStatus": "Unresolved"
+    }
+  ]
+}

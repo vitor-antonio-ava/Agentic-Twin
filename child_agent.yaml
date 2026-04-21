@@ -1,0 +1,28 @@
+kind: AgentDialog
+response:
+  activity:
+  mode: Generated
+
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: userNames
+    description: List of user names
+
+beginDialog:
+  kind: OnToolSelected
+  id: main
+  description: A child agent that find user emails based on the provided list of first and last names
+
+settings:
+  instructions: Use the available tool "Search User Email" and pass the an array of people names and return their found email addresses.
+
+inputType:
+  properties:
+    userNames:
+      displayName: userNames
+      description: List of user names
+      isRequired: true
+      type:
+        kind: Table
+
+outputType: {}

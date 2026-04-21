@@ -1,0 +1,12 @@
+Analyze each value inside 
+​:
+If the value is a valid email address, add it to the "mandatory" array.
+If the value is NOT a valid email but appears to be a combination of first and last name (e.g., "John Smith", "Alice Gordon"), add it to the "mandatoryNames" array.
+Output structure:
+Return a JSON object with two properties:
+mandatory (array of emails)
+mandatoryNames (array of full names)
+Only return valid JSON. Do not include explanations, comments, or any text outside the JSON response.
+
+ONLY return a JSON in this Output format and nothing else:
+"mandatory": ["dilawar.x.mansoori@gsk.com"], "mandatoryNames": ["John Smith", "Alice Case"]

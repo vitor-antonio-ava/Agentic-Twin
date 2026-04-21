@@ -1,0 +1,67 @@
+{
+  type: "AdaptiveCard",
+  version: "1.3",
+  '$schema': "http://adaptivecards.io/schemas/adaptive-card.json",
+  body: [
+    {
+      type: "TextBlock",
+      text: "Action Item",
+      weight: "Bolder",
+      size: "Small",
+      color: "Accent",
+      spacing: "None"
+    },
+    {
+      type: "TextBlock",
+      text: Topic.currentAction.title,
+      weight: "Bolder",
+      size: "Large",
+      wrap: true,
+      spacing: "Small"
+    },
+    {
+      type: "Input.Text",
+      id: "ownerDisplayName",
+      label: "Owner",
+      value: Topic.currentAction.ownerDisplayName,
+      placeholder: "Enter owner name",
+      isRequired: true,
+      errorMessage: "Owner name is required"
+    },
+    {
+      type: "Input.Text",
+      id: "ownerEmail",
+      label: "Owner Email",
+      style: "Email",
+      value: If(IsBlank(Topic.currentAction.ownerEmail), "", Topic.currentAction.ownerEmail),
+      placeholder: "name@example.com",
+      isRequired: true,
+      regex: "^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$",
+      errorMessage: "Please enter a valid email address"
+    },
+    {
+      type: "Input.Date",
+      id: "dueDate",
+      label: "Due Date",
+      value: If(
+        Len(Topic.currentAction.dueDate) = 10,
+        Right(Topic.currentAction.dueDate, 4) & "-" & Mid(Topic.currentAction.dueDate, 4, 2) & "-" & Left(Topic.currentAction.dueDate, 2)
+      ),
+      isRequired: true,
+      errorMessage: "Please select a due date"
+    }
+  ],
+  actions: [
+    {
+      type: "Action.Submit",
+      title: "Save",
+      style: "positive",
+      data: { actionId: Topic.currentAction.actionId }
+    },
+    {
+      type: "Action.Submit",
+      title: "Cancel",
+      data: { cancelled: true }
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+    "meta": {
+        "runId": "RUN_YYYYMMDD_HHMMSS",
+        "sourceType": "PreReadPack | Transcript",
+        "generatedBy": "PreReadAgent"
+    },
+    "meeting": {
+        "meetingTitle": "Colliding Meeting 1",
+        "transcriptMeetingDate": "11 February 2026, 14:30 ",
+        "timeZone": "GMT Standard Time",
+        "teamsMeetingLink": ""
+    },
+    "summary": {
+        "format": "HTML",
+        "htmlContent": "",
+        "approvedByUser": false
+    },
+    "actions": [
+        {
+            "actionId": "",
+            "title": "",
+            "description": "",
+            "ownerDisplayName": "",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "",
+            "priority": "Low | Medium | High",
+            "status": "Outstanding | InProgress | Blocked | Done",
+            "source": "PreviousMeeting | CurrentMeeting | Transcript | User",
+            "resolutionStatus": "Unresolved | Resolved | Ambiguous"
+        }
+    ]
+}

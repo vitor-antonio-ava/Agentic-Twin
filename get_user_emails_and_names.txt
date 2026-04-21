@@ -1,0 +1,35 @@
+Extract the user names and user emails values for 
+​
+and
+​.
+
+Prepare a JSON format with mandatory and optional attendees list.
+
+If any of the values present is not a valid email and it is a combo of first and last name add that a the another property of "mandatoryNames" and "optionalNames" with an array of strings, where each entry is like "John Smith", "Alise Gordon".
+Only reply in JSON format! nothing else
+
+-----------------------------------------------------------
+
+Extract the user names and user emails values from 
+​
+and 
+​ variables.
+Prepare a JSON format with mandatory and optional attendees list.
+If any of the values present  in 
+​ is not a valid email and it is a combo of first and last name add it to the property of "mandatoryNames". If any values present in 
+​ is not a valid email and it is a combo of first and last name add it to the property of "optionalNames".
+Both "mandatoryNames" and "optionalNames" are arrays of strings, where each entry is like "John Smith", "Alise Gordon".
+Only reply in JSON format! nothing else
+
+------------------------------------------------------------
+
+Extract the user names and user emails values from 
+​
+and 
+​ variables.
+Prepare a JSON format with mandatory and optional attendees list.
+If any of the values present  in 
+​ is not a valid email and it is a combo of first and last name add it to the property of "mandatoryNames". If any values present in 
+​ is not a valid email and it is a combo of first and last name add it to the property of "optionalNames".
+Both "mandatoryNames" and "optionalNames" are arrays of strings, where each entry is like "John Smith", "Alise Gordon".
+Only reply in JSON format! nothing else

@@ -1,0 +1,25 @@
+convertTimeZone(
+    items('Apply_to_each')?['meetingTimeSlot']?['start']?['dateTime'],
+    'UTC',
+    body('Send_an_HTTP_request')?['workingHours']?['timeZone']?['name']
+)
+
+
+2026-02-25T08:00:00.0000000
+
+vitor.x.antonio@gsk.com, ana.x.ocarizsanchez@gsk.com, dilawar.x.mansoori@gsk.com
+
+Text(
+    DateAdd(
+        DateTimeValue(Global.confirmedSlotStartDateTime),
+        -TimeZoneOffset(),
+        TimeUnit.Minutes
+    ),
+    "yyyy-mm-ddThh:mm:ssZ"
+)
+
+
+Text(
+    DateTimeValue(Global.confirmedSlotStartDateTime),
+    "yyyy-mm-ddThh:mm:ss"
+)

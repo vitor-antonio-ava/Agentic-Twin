@@ -1,0 +1,150 @@
+{
+    "meta": {
+        "runId": "RUN_20250204_153000",
+        "sourceType": "Transcript",
+        "generatedBy": "SummaryAgent"
+    },
+    "meeting": {
+        "meetingTitle": "Quality Council Meeting",
+        "transcriptMeetingDate": "15 December 2025",
+        "timeZone": "GMT Standard Time",
+        "teamsMeetingLink": ""
+    },
+    "summary": {
+        "format": "HTML",
+        "htmlContent": "<h1>Quality Council Meeting Summary</h1>\n<h2>Top 3 Problems Identified</h2>\n<ul>\n<li>High number of overdue effectiveness checks and long-term actions.</li>\n<li>Repeated deviations due to human factors and knowledge gaps in processes.</li>\n<li>Resource constraints and audit risks related to M building and temporary instructions.</li>\n</ul>\n<h2>Key actions</h2>\n<ul>\n<li>Follow up on overdue long-term actions and effectiveness checks.</li>\n<li>Formalize operator process knowledge sessions and address knowledge gaps.</li>\n<li>Escalate need for long-term solution for temporary instructions to central quality.</li>\n<li>Track QIP actions for OSD for 2026 in quality council.</li>\n<li>Address ongoing DI deviations and review data integrity issues.</li>\n<li>Plan periodic reviews 3 months in advance to avoid delays.</li>\n</ul>\n<h2>Decisions Made</h2>\n<ul>\n<li>Keep high number of overdue effectiveness checks as a focus area.</li>\n<li>Maintain escalation for long-term solution for temporary instructions.</li>\n<li>Continue planning for periodic reviews and formalize knowledge sessions.</li>\n<li>Proceed with change control for commissioning to manage audit risks.</li>\n</ul>\n<h2>Escalations Required</h2>\n<ul>\n<li>Escalate TI (Temporary Instruction) issue to Psychology Council for alternative solutions.</li>\n<li>Escalate resource constraints for M building commissioning if it becomes active.</li>\n<li>Escalate long-term solution for temporary instructions to central quality.</li>\n</ul>\n<h2>Suggestions for Process Confirmations for Next Month</h2>\n<ul>\n<li>Confirm progress on overdue long-term actions and effectiveness checks.</li>\n<li>Validate implementation of knowledge sessions and training plans.</li>\n<li>Review status of escalated TI solution and resource allocation for M building.</li>\n<li>Ensure QIP actions tracking mechanism is in place for 2026.</li>\n</ul>\n<h2>Communications to cascade to team</h2>\n<ul>\n<li>Emphasize importance of adherence to processes to avoid deviations.</li>\n<li>Share updates on overdue actions and plans for resolution.</li>\n<li>Communicate upcoming periodic reviews and training requirements.</li>\n<li>Inform about escalations and their implications for operations.</li>\n</ul>\n<h2>Actions</h2>\n<table border='1'>\n<tr><th>Action</th><th>Owner</th><th>Due Date</th><th>Status</th></tr>\n<tr><td>Follow up on overdue long-term actions</td><td>Nuwandi</td><td>End of December</td><td>Ongoing</td></tr>\n<tr><td>Formalize operator process knowledge sessions</td><td>Nuwandi</td><td>Not specified</td><td>New</td></tr>\n<tr><td>Escalate TI issue to Psychology Council</td><td>Nuwandi</td><td>Not specified</td><td>New</td></tr>\n<tr><td>Track QIP actions for OSD for 2026 in quality council</td><td>Nuwandi</td><td>Next year</td><td>New</td></tr>\n<tr><td>Catch up on ongoing DI deviations</td><td>Nuwandi & Chris</td><td>Not specified</td><td>New</td></tr>\n<tr><td>Plan periodic reviews 3 months in advance</td><td>Nuwandi</td><td>Ongoing</td><td>Ongoing</td></tr>\n<tr><td>Change control for commissioning to manage audit risk</td><td>Mattia</td><td>End of January</td><td>New</td></tr>\n<tr><td>Address resource constraints for M building commissioning</td><td>Mattia</td><td>From January</td><td>New</td></tr>\n<tr><td>Review and close overdue SAP for engineering</td><td>Charlie</td><td>Not specified</td><td>Ongoing</td></tr>\n<tr><td>Implement signage and software changes for visual aids (Kappa)</td><td>Nuwandi</td><td>Interim & Long-term</td><td>Ongoing</td></tr>\n</table>",
+        "approvedByUser": true
+    },
+    "actions": [ 
+        {
+            "actionId": "",
+            "title": "Follow up on overdue long-term actions",
+            "description": "",
+            "ownerDisplayName": "Nuwandi",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "End of December",
+            "priority": "Medium",
+            "status": "Ongoing",
+            "source": "Ongoing",
+            "resolutionStatus": "Unresolved"
+        },
+        {
+            "actionId": "",
+            "title": "Formalize operator process knowledge sessions",
+            "description": "",
+            "ownerDisplayName": "Nuwandi",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "",
+            "priority": "Medium",
+            "status": "Outstanding",
+            "source": "New",
+            "resolutionStatus": "Unresolved"
+        },
+        {
+            "actionId": "",
+            "title": "Escalate TI issue to Psychology Council",
+            "description": "",
+            "ownerDisplayName": "Nuwandi",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "",
+            "priority": "High",
+            "status": "Outstanding",
+            "source": "New",
+            "resolutionStatus": "Unresolved"
+        },
+        {
+            "actionId": "",
+            "title": "Track QIP actions for OSD for 2026 in quality council",
+            "description": "",
+            "ownerDisplayName": "Nuwandi",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "Next year",
+            "priority": "Medium",
+            "status": "Outstanding",
+            "source": "New",
+            "resolutionStatus": "Unresolved"
+        },
+        {
+            "actionId": "",
+            "title": "Catch up on ongoing DI deviations",
+            "description": "",
+            "ownerDisplayName": "Nuwandi & Chris",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "",
+            "priority": "Medium",
+            "status": "Outstanding",
+            "source": "New",
+            "resolutionStatus": "Unresolved"
+        },
+        {
+            "actionId": "",
+            "title": "Plan periodic reviews 3 months in advance",
+            "description": "",
+            "ownerDisplayName": "Nuwandi",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "",
+            "priority": "Medium",
+            "status": "Ongoing",
+            "source": "Ongoing",
+            "resolutionStatus": "Unresolved"
+        },
+        {
+            "actionId": "",
+            "title": "Change control for commissioning to manage audit risk",
+            "description": "",
+            "ownerDisplayName": "Mattia",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "End of January",
+            "priority": "High",
+            "status": "Outstanding",
+            "source": "New",
+            "resolutionStatus": "Unresolved"
+        },
+        {
+            "actionId": "",
+            "title": "Address resource constraints for M building commissioning",
+            "description": "",
+            "ownerDisplayName": "Mattia",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "From January",
+            "priority": "High",
+            "status": "Outstanding",
+            "source": "New",
+            "resolutionStatus": "Unresolved"
+        },
+        {
+            "actionId": "",
+            "title": "Review and close overdue SAP for engineering",
+            "description": "",
+            "ownerDisplayName": "Charlie",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "",
+            "priority": "Medium",
+            "status": "Ongoing",
+            "source": "Ongoing",
+            "resolutionStatus": "Unresolved"
+        },
+        {
+            "actionId": "",
+            "title": "Implement signage and software changes for visual aids (Kappa)",
+            "description": "",
+            "ownerDisplayName": "Nuwandi",
+            "ownerEmail": null,
+            "ownerObjectId": null,
+            "dueDate": "Interim & Long-term",
+            "priority": "Medium",
+            "status": "Ongoing",
+            "source": "Ongoing",
+            "resolutionStatus": "Unresolved"
+        }
+    ]
+}

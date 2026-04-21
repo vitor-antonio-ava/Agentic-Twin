@@ -1,0 +1,260 @@
+kind: AdaptiveDialog
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: providedMeetingTime
+    description: The past or future meeting date time.
+    entity: DatePrebuiltEntity
+    shouldPromptUser: true
+
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: ConditionGroup
+      id: conditionGroup_hrEI16
+      conditions:
+        - id: conditionItem_Q8z6Ik
+          condition: =!IsBlank(Topic.providedMeetingTime)
+          actions:
+            - kind: SetVariable
+              id: setVariable_iMxFKH
+              variable: Topic.passedMeetingTime
+              value: =Text(Topic.providedMeetingTime)
+
+      elseActions:
+        - kind: Question
+          id: question_PPOqxJ
+          interruptionPolicy:
+            allowInterruption: true
+
+          variable: init:Topic.userInputStartTime
+          prompt: Please provide the meeting date and time. (i.e. 11 February 2026, 11:00am)
+          entity: DateTimePrebuiltEntity
+
+    - kind: SetVariable
+      id: setVariable_A23Uae
+      variable: Topic.meetingDateTime
+      value: |-
+        =If(
+            !IsBlank(Topic.passedMeetingTime),
+            Topic.passedMeetingTime,
+            Topic.userInputStartTime
+        )
+
+    - kind: SetVariable
+      id: setVariable_kLIeD5
+      variable: Topic.allDaySearch
+      value: =false
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_BJSDw2
+      input:
+        binding:
+          boolean: =Topic.allDaySearch
+          text_1: |-
+            =Text(With(
+                {
+                    localDate: DateTimeValue(Topic.meetingDateTime)
+                },
+                DateAdd(
+                    localDate,
+                    TimeZoneOffset(localDate),
+                    TimeUnit.Minutes
+                )
+            ))
+          text_2: |-
+            =Text(With(
+                {
+                    localDate: DateTimeValue(DateAdd(Topic.meetingDateTime, 30, TimeUnit.Minutes))
+                },
+                DateAdd(
+                    localDate,
+                    TimeZoneOffset(localDate),
+                    TimeUnit.Minutes
+                )
+            ))
+
+      output:
+        binding:
+          ismultiplemeetingsdetected: Topic.isMultipleMeetingsDetected
+          meetingdata: Topic.meetingsData
+          noresultsfound: Topic.noResultsFound
+
+      flowId: 06cbf289-58b1-d951-c59b-4d88155750c4
+
+    - kind: ConditionGroup
+      id: conditionGroup_oSeLt0
+      conditions:
+        - id: conditionItem_Lxsxpt
+          condition: =Topic.isMultipleMeetingsDetected = true && Topic.noResultsFound = false
+          actions:
+            - kind: SetVariable
+              id: setVariable_6lkrg9
+              variable: Topic.meetingsFound
+              value: |
+                =ForAll(
+                    ParseJSON(Topic.meetingsData),
+                    {
+                        DisplayName: ThisRecord.subject,
+                        Value: ThisRecord.subject,
+                        subject: Text(ThisRecord.subject),
+                        id: ThisRecord.id,
+                        organizer: ThisRecord.organizer,
+                        start: ThisRecord.start,
+                        end: ThisRecord.end,
+                        requiredAttendees: ThisRecord.requiredAttendees,
+                        optionalAttendees: ThisRecord.optionalAttendees,
+                        webLink: ThisRecord.webLink,
+                        timeZone: ThisRecord.timeZone
+                    }
+                )
+
+            - kind: Question
+              id: question_Tv1Mk9
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.userSelectedMeeting
+              prompt: I've found multiple meetings at the given time. Please choose the desired meeting.
+              entity:
+                kind: DynamicClosedListEntity
+                items: =Topic.meetingsFound
+
+            - kind: SetVariable
+              id: setVariable_O2rZyr
+              variable: Topic.selectedMeeting
+              value: =Topic.userSelectedMeeting
+
+        - id: conditionItem_0g3Ged
+          condition: =Topic.isMultipleMeetingsDetected = false && Topic.noResultsFound = false
+          actions:
+            - kind: SetVariable
+              id: setVariable_FKKSD6
+              variable: Topic.meetingFound
+              value: |
+                =First(ForAll(
+                    ParseJSON(Topic.meetingsData),
+                    {
+                        DisplayName: ThisRecord.subject,
+                        Value: ThisRecord.subject,
+                        subject: Text(ThisRecord.subject),
+                        id: ThisRecord.id,
+                        organizer: ThisRecord.organizer,
+                        start: ThisRecord.start,
+                        end: ThisRecord.end,
+                        requiredAttendees: ThisRecord.requiredAttendees,
+                        optionalAttendees: ThisRecord.optionalAttendees,
+                        webLink: ThisRecord.webLink,
+                        timeZone: ThisRecord.timeZone
+                    }
+                ))
+
+        - id: conditionItem_NlYFsI
+          condition: =Topic.noResultsFound = true
+          actions:
+            - kind: Question
+              id: question_N3ZyE1
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var2
+              prompt: |-
+                I couldn’t find a meeting on that date and time.
+                I can:
+                - look for a meeting with another date and specific time
+                - look for a meeting for a given date without a specific time
+                - create a new meeting
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Find meeting with date and time
+                      displayName: Find meeting with date and time
+
+                    - id: Find meeting by date
+                      displayName: Find meeting by date
+
+                    - id: Create new meeting
+                      displayName: Create new meeting
+
+            - kind: ConditionGroup
+              id: conditionGroup_ftNuQe
+              conditions:
+                - id: conditionItem_uKNdB5
+                  condition: =Topic.Var2 = 'copilots_header_a34f2.topic.scheduling_GetMeetingbyDateTime.main.question_N3ZyE1'.'Find meeting with date and time'
+                  actions:
+                    - kind: Question
+                      id: question_xnGoKs
+                      interruptionPolicy:
+                        allowInterruption: true
+
+                      variable: init:Topic.Var3
+                      prompt: Please provide a date and time (i.e. 26-02-2026 1:30pm / 13:00)
+                      entity: DateTimePrebuiltEntity
+
+                    - kind: SetMultipleVariables
+                      id: setVariable_Fazy0k
+                      assignments:
+                        - variable: Topic.meetingDateTime
+                          value: =Text(Topic.Var3)
+
+                        - variable: Topic.allDaySearch
+                          value: =false
+
+                    - kind: GotoAction
+                      id: XMc78l
+                      actionId: invokeFlowAction_BJSDw2
+
+                - id: conditionItem_KJqAng
+                  condition: =Topic.Var2 = 'copilots_header_a34f2.topic.scheduling_GetMeetingbyDateTime.main.question_N3ZyE1'.'Find meeting by date'
+                  actions:
+                    - kind: Question
+                      id: question_LbJSFJ
+                      interruptionPolicy:
+                        allowInterruption: true
+
+                      variable: init:Topic.Var4
+                      prompt: Please provide a date (i.e. 26-02-2026)
+                      entity: DatePrebuiltEntity
+
+                    - kind: SetMultipleVariables
+                      id: setVariable_7gyiV1
+                      assignments:
+                        - variable: Topic.Var5
+                          value: =DateTimeValue(Topic.Var4)
+
+                        - variable: Topic.allDaySearch
+                          value: =true
+
+                    - kind: GotoAction
+                      id: v1yMTw
+                      actionId: invokeFlowAction_BJSDw2
+
+                - id: conditionItem_xFdWHL
+                  condition: =Topic.Var2 = 'copilots_header_a34f2.topic.scheduling_GetMeetingbyDateTime.main.question_N3ZyE1'.'Create new meeting'
+                  actions:
+                    - kind: BeginDialog
+                      id: H6hV8s
+                      dialog: copilots_header_a34f2.topic.scheduling_MeetingScheduler
+
+                    - kind: EndDialog
+                      id: R84zn7
+
+    - kind: SetVariable
+      id: setVariable_Prvu4C
+      variable: Topic.meetingInfo
+      value: =Coalesce(Topic.selectedMeeting, Topic.meetingFound)
+
+    - kind: SetVariable
+      id: setVariable_IrZfpp
+      variable: Global.currentMeeting
+      value: =Topic.meetingInfo
+
+inputType:
+  properties:
+    providedMeetingTime:
+      displayName: providedMeetingTime
+      type: String
+
+outputType: {}

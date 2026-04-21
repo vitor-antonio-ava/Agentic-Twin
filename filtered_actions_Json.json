@@ -1,0 +1,93 @@
+[
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "Medium",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Formalize operator process knowledge sessions"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "",
+        "ownerDisplayName": "Nuwandi & Chris",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "Medium",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Catch up on ongoing DI deviations"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "Next year",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "Medium",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Track QIP actions for OSD for 2026"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "Starting December",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "Medium",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Plan periodic reviews 3 months in advance"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "End of January",
+        "ownerDisplayName": "Mattia",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "High",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Raise change control for M building to mitigate audit risk"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "Third week of Jan",
+        "ownerDisplayName": "Mattia",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "High",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Approval for Trumeq"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "High",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Escalate TI resolution through Psychology Council"
+    }
+]

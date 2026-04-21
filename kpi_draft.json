@@ -1,0 +1,44 @@
+{
+    "id": "numeric-or-string-id",
+    "name": "string",
+    "source": "SharePoint|Teams|SCR|PowerBI|ManualDIA|Other",
+    "area": "Cost|Quality|EHS|Delivery|Planning|Other",
+    "owner": "string",
+    "dateCreated": "2024-06-01T12:00:00Z",
+    "dateUpdated": "2024-06-01T12:00:00Z",
+    "period": {
+        "label": "Feb 2026"
+    },
+    "notes": "string",
+    "measure": {
+        "value": 0,
+        "unit": "GBP|USD|%|days|count|index",
+        "format": "currency|percent|integer|decimal"
+    },
+    "target": {
+        "value": 0,
+        "unit": "same-as-measure",
+        "type": "threshold|range|directional"
+    },
+    "trackStatus": {
+        "state": "on_track|off_track|watch|unknown",
+        "rationale": "string"
+    },
+    "variance": {
+        "vsTarget": 0,
+        "unit": "same-as-measure",
+        "direction": "favorable|unfavorable|neutral|unknown"
+    },
+    "entityType": [
+        {
+            "type": "site|supplier|product|program",
+            "name": "string"
+        }
+    ],
+    "links": [
+        {
+            "title": "string",
+            "url": "string"
+        }
+    ]
+}

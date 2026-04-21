@@ -1,0 +1,55 @@
+[
+  {
+    "id": "KPI-001",
+    "name": "On-Time Delivery Rate",
+    "Owner": "Ana Ocariz Sanchez",
+    "description": "Percentage of deliveries completed on or before the scheduled date."
+  },
+  {
+    "id": "KPI-002",
+    "name": "Production Yield",
+    "Owner": "Dilawar Mansoori",
+    "description": "Ratio of good units produced to total units started."
+  },
+  {
+    "id": "KPI-003",
+    "name": "Cycle Time",
+    "Owner": "Vitor Antonio",
+    "description": "Average time to complete one production cycle from start to finish."
+  },
+  {
+    "id": "KPI-004",
+    "name": "Schedule Adherence",
+    "description": "Percentage of production activities completed as per the planned schedule."
+  },
+  {
+    "id": "KPI-005",
+    "name": "Cost Per Unit",
+    "description": "Total production cost divided by the number of units produced."
+  },
+  {
+    "id": "KPI-006",
+    "name": "Inventory Turnover",
+    "description": "Number of times inventory is sold and replaced over a period."
+  },
+  {
+    "id": "KPI-007",
+    "name": "Right First Time (RFT)",
+    "description": "Percentage of products manufactured correctly without rework."
+  },
+  {
+    "id": "KPI-008",
+    "name": "OEE (Overall Equipment Effectiveness)",
+    "description": "Combined measure of availability, performance, and quality of equipment."
+  },
+  {
+    "id": "KPI-009",
+    "name": "Customer Complaint Rate",
+    "description": "Number of customer complaints per number of units shipped."
+  },
+  {
+    "id": "KPI-010",
+    "name": "Batch Success Rate",
+    "description": "Percentage of production batches that pass quality checks on first attempt."
+  }
+]

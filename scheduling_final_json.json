@@ -1,0 +1,39 @@
+{
+    meta: Topic.schedulingAgentParsedPayload.meta,
+    meeting: {
+        title: Global.currentMeeting.subject,
+        dateTimeStart: Global.currentMeeting.start,
+        dateTimeEnd: Global.currentMeeting.end,
+        durationMinutes: DateDiff(
+            DateTimeValue(Global.currentMeeting.start),
+            DateTimeValue(Global.currentMeeting.end),
+            TimeUnit.Minutes
+        ),
+        timeZone: "UTC"
+    },
+    attendees: {
+        mandatory: ForAll(
+            Split(Global.currentMeeting.requiredAttendees,
+        ","),
+        { email: Trim(Value)
+        }
+        ),
+        optional: If(
+            IsBlank(Global.currentMeeting.optionalAttendees),
+        [],
+            ForAll(
+                Split(Global.currentMeeting.optionalAttendees,
+        ","),
+        { email: Trim(Value)
+        }
+            )
+        ),
+        lastValidatedByUser: true
+    },
+    summary: Topic.schedulingAgentParsedPayload.summary,
+    publishing: {
+        activity: Global.schedulingAgentUserDesiredAction,
+        approvalStatus: "Approved",
+        emailSubject: Global.currentMeeting.DisplayName
+    }
+}

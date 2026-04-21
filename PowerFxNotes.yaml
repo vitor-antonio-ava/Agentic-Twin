@@ -1,0 +1,76 @@
+Concat(
+    ForAll(
+    ParseJSON(Topic.JsonInput).attendees.required,
+        {
+            email: Text(ThisRecord.email),
+            name: Text(ThisRecord.name)
+        }
+    ),
+    email,
+    ", "
+)
+
+vitor.x.antonio@gsk.com, ana.x.ocarizsanchez@gsk.com, Dilawar Mansoori
+
+dilawar.mansoori@avanade.com, Antonino Sistac
+antonino.x.sistacplaza@gsk.com
+
+ Dilawar Mansoori, Antonino Sistac
+vitor.x.antonio@gsk.com, ana.x.ocarizsanchez@gsk.com, dilawar.x.mansoori@gsk.com
+vitor.x.antonio@gsk.com, ana.x.ocarizsanchez@gsk.com, Dilawar Mansoori
+
+dilawar.x.mansoori@gsk.com
+
+dilawar.mansoori@avanade.com, vitor.antonio@avanade.com
+dilawar.mansoori@avanade.com, vitor antonio
+
+ana casado
+
+- how to detect mandatory and optional attendees
+ check from the pre-read the atttendees, 
+
+
+ outputs('Search_for_users_(V2)')?['body/value']?['Mail']
+
+11 February 2026, 14:30 
+11 February 2026, 11:00
+
+Text(With(
+    {
+        localDate: DateTimeValue(Topic.userInputStartTime)
+    },
+    DateAdd(
+        localDate,
+        TimeZoneOffset(localDate),
+        TimeUnit.Minutes
+    )
+))
+
+Text(With(
+    {
+        localDate: DateTimeValue(DateAdd(Topic.userInputStartTime, 30, TimeUnit.Minutes))
+    },
+    DateAdd(
+        localDate,
+        TimeZoneOffset(localDate),
+        TimeUnit.Minutes
+    )
+))
+
+
+ForAll(
+    ParseJSON(Topic.meetingData),
+    {
+        DisplayName: ThisRecord.subject,
+        Value: ThisRecord.subject,
+        subject: Text(ThisRecord.subject),
+        id: ThisRecord.id,
+        organizer: ThisRecord.organizer,
+        start: ThisRecord.start,
+        end: ThisRecord.end,
+        requiredAttendees: ThisRecord.requiredAttendees,
+        optionalAttendees: ThisRecord.optionalAttendees,
+        webLink: ThisRecord.webLink,
+        timeZone: ThisRecord.timeZone
+    }
+)

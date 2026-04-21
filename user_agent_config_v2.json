@@ -1,0 +1,58 @@
+{
+    "aad_id": "string",
+    "display_name": "string",
+    "email": "string",
+    "timezone": "string",
+    "preferences": {
+        "notificationTimePreference": [
+            {
+                "meetingId": "string",
+                "organizerId": "string",
+                "organizerName": "string",
+                "organizerMeetingPrepNotificationDatetime": "string",
+                "attendeesMeetingPrepNotificationDatetime": "string"
+            }
+        ],
+        "configuredMeetingIDs": [
+            {
+                "id": "string",
+                "tier": "string",
+                "tierID": "string",
+                "tierValue": "string",
+                "userStatus": "organizer|attendee",
+                "recurringMeetingStartDate": "optional-string", 
+                "recurringMeetingEndDate": "string",
+                "trackedMSProjects": [
+                    {
+                        "projectId": "string",
+                        "projectName": "string"
+                    }
+                ],
+                "trackedSCRProjects": [
+                    {
+                        "id": "string",
+                        "name": "string"
+                    }
+                ],
+                "trackedAnnualPrograms": [
+                    {
+                        "id": "string",
+                        "name": "string"
+                    }
+                ],
+                "trackedKPIIDs": [
+                    {
+                        "id": "string",
+                        "name": "string",
+                        "ownerId": "Id",
+                        "ownerName": "string",
+                        "onTarget": "boolean",
+                        "targetValue": "string",
+                        "actualValue": "string"
+                    }
+                ]
+            }
+        ]
+    },
+    "last_updated": "2024-06-01T12:00:00Z"
+}

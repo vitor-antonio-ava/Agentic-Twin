@@ -1,0 +1,90 @@
+{
+    "meta": {
+        "runId": "RUN_20250206_153000",
+        "sourceType": "Transcript",
+        "generatedBy": "SummaryAgent"
+    },
+    "meeting": {
+        "meetingTitle": "",
+        "transcriptMeetingDate": "15 December 2025, 04:06 PM",
+        "timeZone": "GMT Standard Time",
+        "teamsMeetingLink": ""
+    },
+    "summary": {
+        "format": "HTML",
+        "htmlContent": "<h1>Quality Council Meeting Summary</h1>\n<h2>Top 3 Problems Identified</h2>\n<ul>\n<li>High number of overdue effectiveness cheques and product reviews.</li>\n<li>Ongoing issues with TI (Temporary Instructions) and lack of a clear plan to reach 0 count.</li>\n<li>Resource constraints and risks in M building, including audit readiness and storage practices.</li>\n</ul>\n<h2>Key actions</h2>\n<ul>\n<li>Formalising operator process and process knowledge sessions.</li>\n<li>Follow up on overdue long-term actions, especially for engineering and deviation owners.</li>\n<li>Planning periodic reviews 3 months in advance to address delays in parallel factory.</li>\n<li>Track QIP actions for OSD for 2026 in quality council.</li>\n<li>Catch up between Nuwandi and Chris about ongoing DI deviations.</li>\n<li>Raise change control for M building to manage audit risks.</li>\n<li>Upskill operators and run process knowledge sessions.</li>\n</ul>\n<h2>Decisions Made</h2>\n<ul>\n<li>Keep high number of effectiveness cheques overdue in place as a hot topic.</li>\n<li>Remove certain actions not relevant for compliance (e.g., general training piece).</li>\n<li>Flagging risk around production equipment reports and critical alarms.</li>\n<li>Proceed with triage and approval for M building in third week of January.</li>\n</ul>\n<h2>Escalations Required</h2>\n<ul>\n<li>Escalate TI issues through Psychology Council for alternative solutions.</li>\n<li>Escalate long-term solution required for temporary instructions from Maurizio or central quality.</li>\n<li>Escalate resource risks for commissioning of M building if not resolved by January.</li>\n</ul>\n<h2>Suggestions for Process Confirmations for Next Month</h2>\n<ul>\n<li>Continue formalising operator process and process knowledge sessions.</li>\n<li>Ensure periodic reviews are planned well in advance.</li>\n<li>Track and follow up on overdue actions and DI deviations.</li>\n<li>Review and optimize curriculum and training modules, especially for operators and PTLS.</li>\n<li>Monitor and address audit risks in M building.</li>\n</ul>\n<h2>Communications to cascade to team</h2>\n<ul>\n<li>Quality KPI review and cascade through Barry as SLT member.</li>\n<li>Communicate changes in classification of actions and long-term action tracking.</li>\n<li>Remind team of ongoing process knowledge sessions and upskilling opportunities.</li>\n<li>Update on management monitoring completion and remaining actions.</li>\n<li>Notify about Laura’s sabbatical and potential work stream impacts.</li>\n</ul>\n<h2>Actions</h2>\n<table border='1'>\n<tr><th>Action</th><th>Owner(s)</th><th>Due Date</th><th>Status</th></tr>\n<tr><td>Formalise operator process and process knowledge sessions</td><td>Nuwandi, Chris</td><td>Ongoing</td><td>Ongoing</td></tr>\n<tr><td>Follow up on overdue long-term actions for engineering</td><td>Chris, Nuwandi</td><td>By end of month</td><td>Ongoing</td></tr>\n<tr><td>Catch up about ongoing DI deviations</td><td>Nuwandi, Chris</td><td>Ongoing</td><td>New</td></tr>\n<tr><td>Track QIP actions for OSD for 2026 in quality council</td><td>Nuwandi</td><td>2026</td><td>Ongoing</td></tr>\n<tr><td>Raise change control for M building audit risk</td><td>Chris, Mattia</td><td>Next weeks/Jan</td><td>New</td></tr>\n<tr><td>Plan periodic reviews 3 months in advance</td><td>Dan, Team</td><td>March</td><td>Ongoing</td></tr>\n<tr><td>Upskill operators, run process knowledge sessions</td><td>Nuwandi, Kevin</td><td>Ongoing</td><td>Ongoing</td></tr>\n<tr><td>Remove general training action from compliance</td><td>Sean</td><td>Immediate</td><td>New</td></tr>\n<tr><td>Proceed with triage and approval for M building</td><td>Nuwandi, Mattia</td><td>Third week Jan</td><td>New</td></tr>\n<tr><td>Escalate TI issues for alternative solution</td><td>Psychology Council</td><td>Ongoing</td><td>Ongoing</td></tr>\n<tr><td>Escalate long-term solution for temporary instructions</td><td>Maurizio, Quality</td><td>From Jan onwards</td><td>Ongoing</td></tr>\n<tr><td>Address resource risks for commissioning of M building</td><td>Mattia, Team</td><td>From Jan onwards</td><td>Ongoing</td></tr>\n<tr><td>Review and optimize curriculum/training modules</td><td>Kev, PTL</td><td>Ongoing</td><td>Ongoing</td></tr>\n<tr><td>Complete management monitoring for 2025</td><td>Team</td><td>Complete</td><td>Complete</td></tr>\n<tr><td>Update on Laura’s sabbatical and work stream impacts</td><td>Nuwandi, Laura</td><td>Feb-April</td><td>New</td></tr>\n</table>",
+        "approvedByUser": true
+    },
+    "actions": [
+        {
+            "actionId": "",
+            "description": "",
+            "dueDate": "2026-03-12",
+            "ownerDisplayName": "Vitor Antonio",
+            "ownerEmail": "vitor.x.antonio@gsk.com",
+            "ownerObjectId": null,
+            "priority": "Medium",
+            "resolutionStatus": "Unresolved",
+            "source": "New",
+            "status": "Outstanding",
+            "title": "Catch up about ongoing DI deviations",
+            "valid": false
+        },
+        {
+            "actionId": "",
+            "description": "",
+            "dueDate": "2026-03-13",
+            "ownerDisplayName": "Vitor antonio",
+            "ownerEmail": "vitor.x.antonio@gsk.com",
+            "ownerObjectId": null,
+            "priority": "High",
+            "resolutionStatus": "Unresolved",
+            "source": "New",
+            "status": "Outstanding",
+            "title": "Raise change control for M building audit risk",
+            "valid": false
+        },
+        {
+            "actionId": "",
+            "description": "",
+            "dueDate": "2026-03-17",
+            "ownerDisplayName": "Dilawar Mansoori",
+            "ownerEmail": "dilawar.x.mansoori@gsk.com",
+            "ownerObjectId": null,
+            "priority": "Low",
+            "resolutionStatus": "Unresolved",
+            "source": "New",
+            "status": "Outstanding",
+            "title": "Remove general training action from compliance",
+            "valid": false
+        },
+        {
+            "actionId": "",
+            "description": "",
+            "dueDate": "2026-03-05",
+            "ownerDisplayName": "Dilawar Mansoori",
+            "ownerEmail": "dilawar.x.mansoori@gsk.com",
+            "ownerObjectId": null,
+            "priority": "High",
+            "resolutionStatus": "Unresolved",
+            "source": "New",
+            "status": "Outstanding",
+            "title": "Proceed with triage and approval for M building",
+            "valid": false
+        },
+        {
+            "actionId": "",
+            "description": "",
+            "dueDate": "2026-03-12",
+            "ownerDisplayName": "Vitor Antonio",
+            "ownerEmail": "vitor.x.antonio@gsk.com",
+            "ownerObjectId": null,
+            "priority": "Medium",
+            "resolutionStatus": "Unresolved",
+            "source": "New",
+            "status": "Outstanding",
+            "title": "Update on Laura’s sabbatical and work stream impacts",
+            "valid": false
+        }
+    ]
+}

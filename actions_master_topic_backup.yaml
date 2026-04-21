@@ -1,0 +1,283 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRecognizedIntent
+  id: main
+  intent: {}
+  actions:
+    - kind: Question
+      id: question_UL3tN3
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.manualTasksJson
+      prompt: Do you want to create tasks manually?
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Yes create tasks manually
+              displayName: Yes create tasks manually
+
+            - id: No, pull from the summary
+              displayName: No, pull from the summary
+
+    - kind: BeginDialog
+      id: WulRa2
+      dialog: copilots_header_a34f2.topic.TeamsID_PlannerID
+
+    - kind: ConditionGroup
+      id: conditionGroup_r1YKX3
+      conditions:
+        - id: conditionItem_XiFJeK
+          condition: =Topic.manualTasksJson = 'copilots_header_a34f2.topic.actions_master_topic.main.question_UL3tN3'.'Yes create tasks manually'
+          actions:
+            - kind: SetVariable
+              id: initGlobalManualTasks
+              variable: Global.jsonManualTasks
+              value: =Table()
+              itemsVariable: Global.jsonManualTasks
+
+            - kind: BeginDialog
+              id: R7jOW8
+              dialog: copilots_header_a34f2.topic.manualTaskPlannerAntoCopy
+
+            - kind: EndDialog
+              id: y7z4Oh
+
+        - id: conditionItem_NijItS
+          condition: =Topic.manualTasksJson = 'copilots_header_a34f2.topic.actions_master_topic.main.question_UL3tN3'.'No, pull from the summary'
+
+    - kind: Question
+      id: question_KdJaCU
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: Global.SummaryJSON
+      prompt: Give me the actions
+      entity:
+        kind: StringPrebuiltEntity
+        sensitivityLevel: None
+
+    - kind: SearchAndSummarizeContent
+      id: i5Gp4I
+      displayName: Get actions from full JSON
+      autoSend: false
+      variable: Global.actions_JSON
+      userInput: =Global.SummaryJSON
+      additionalInstructions: |-
+        {Global.SummaryJSON} is a string of a JSON.
+
+        The key "actions" has a value of a list. Extract this value from the JSON, and return ONLY the value of the key "actions". Do not return anything else other than the "actions" property value.
+      responseCaptureType: TextOnly
+
+    - kind: SetVariable
+      id: setVariable_tbjBn9
+      variable: Topic.actionsTable
+      value: |-
+        =ForAll(
+            ParseJSON(
+                Substitute(Substitute(Global.SummaryJSON, "```json", ""), "```", "")
+            ).actions,
+            {
+                actionId:         Text(ThisRecord.actionId),
+                title:            Text(ThisRecord.title),
+                description:      Text(ThisRecord.description),
+                ownerDisplayName: Text(ThisRecord.ownerDisplayName),
+                ownerEmail:       Text(ThisRecord.ownerEmail),
+                ownerObjectId:    Text(ThisRecord.ownerObjectId),
+                dueDate:          Text(ThisRecord.dueDate),
+                priority:         Text(ThisRecord.priority),
+                status:           Text(ThisRecord.status),
+                source:           Text(ThisRecord.source),
+                resolutionStatus: Text(ThisRecord.resolutionStatus)
+            }
+        )
+
+    - kind: SetVariable
+      id: setVariable_LlIkl7
+      variable: Topic.actionsExist
+      value: =CountRows(Topic.actionsTable) > 0
+
+    - kind: SendActivity
+      id: sendActivity_aqSw7E
+      activity: "actions: {Global.actions_JSON}"
+
+    - kind: ConditionGroup
+      id: conditionGroup_actionsOrigin
+      conditions:
+        - id: conditionItem_actionsExist_yes
+          condition: =Topic.actionsExist = true
+          actions:
+            - kind: SendActivity
+              id: sendActivity_actionsAlreadyHave
+              activity: "To add your actions into planner, let's look at the ones that I was able to extract from your summary:"
+
+        - id: conditionItem_QzIseY
+          condition: =Topic.actionsExist = false
+          actions:
+            - kind: SendActivity
+              id: sendActivity_O6qSkQ
+              activity: I currently don't have any "actions to be posted in planner" in my system.
+
+            - kind: BeginDialog
+              id: jZtsRv
+              dialog: copilots_header_a34f2.topic.manualTaskPlannerAntoCopy
+
+            - kind: EndDialog
+              id: e3errO
+
+      elseActions:
+        - kind: BeginDialog
+          id: Jh9u48
+          dialog: copilots_header_a34f2.topic.manualTaskPlannerAntoCopy
+
+        - kind: EndDialog
+          id: 3vNZCi
+
+    - kind: SearchAndSummarizeContent
+      id: Yisa3n
+      displayName: Actions JSON -> Readable Text
+      autoSend: false
+      variable: Topic.actions_written_version
+      userInput: =Global.actions_JSON
+      additionalInstructions: |-
+        {Global.actions_JSON} is a list of JSONs where each of the JSONs is an action with respective fields.
+
+        #Instructions
+        From the {Global.actions_JSON}extract the values for the keys of each JSON and format them according to the "Output Format"
+
+        #Output Restrictions
+        Return ONLY the actions displayed in the Output format. Do NOT include anything else in the response. No "All steps are completed" message.
+
+        #Output Format
+        **<title>**
+        - Owner: <ownerDisplayName>
+        - Due Date: <dueDate>   (only if present)
+        - Source: <source>
+
+    - kind: SendActivity
+      id: sendActivity_pfYJOu
+      displayName: Show user actions
+      activity: "{Topic.actions_written_version}"
+
+    - kind: SetVariable
+      id: setVariable_TrsDVJ
+      variable: Topic.filteredNewActions
+      value: |-
+        =Filter(
+            Topic.actionsTable,
+            source = "New"
+        )
+
+    - kind: SendActivity
+      id: sendActivity_pLwJ8f
+      activity: |-
+        Filtered Actions:
+
+        {Topic.filteredNewActions}
+
+    - kind: SetVariable
+      id: setVariable_ERVWG3
+      variable: Global.actions_JSON
+      value: =JSON(Topic.filteredNewActions)
+
+    - kind: SendActivity
+      id: sendActivity_dmsKSZ
+      activity: "Actions before checking for due dates: {Global.actions_JSON}"
+
+    - kind: BeginDialog
+      id: DLZasJ
+      dialog: copilots_header_a34f2.topic.actions_duedates_fixer
+
+    - kind: SearchAndSummarizeContent
+      id: w1GyFf
+      displayName: Check if Due Dates are correct
+      autoSend: false
+      variable: Topic.check_due_dates
+      userInput: =Global.actions_JSON
+      additionalInstructions: |-
+        {Global.actions_JSON} includes a list, where each item in the list is a JSON of an action. The key "dueDate" of each of the JSONs must be in "yyyy-mm-dd"
+
+        If all values of dueDate keys are in correct format, return ONLY "All good".
+        If at least 1 of the values of dueDate keys is not in the correct format return ONLY "Must change due dates".
+
+    - kind: SendActivity
+      id: sendActivity_qrh9Rr
+      activity: "check_due_dates var: {Topic.check_due_dates}"
+
+    - kind: ConditionGroup
+      id: conditionGroup_callFixer
+      conditions:
+        - id: conditionItem_needFix
+          condition: =Topic.check_due_dates = "Must change due dates"
+          displayName: Due dates are wrong
+          actions:
+            - kind: SendActivity
+              id: sendActivity_RuKciN
+              activity: Going to change due dates
+
+            - kind: BeginDialog
+              id: begin_fixDates
+              dialog: copilots_header_a34f2.topic.actions_filter_dueDate
+
+      elseActions:
+        - kind: SendActivity
+          id: sendActivity_4Lar54
+          activity: Not going to change due dates
+
+    - kind: SearchAndSummarizeContent
+      id: r8Lp9K
+      displayName: Check owners full name
+      autoSend: false
+      variable: Topic.check_owners
+      userInput: =Global.actions_JSON
+      additionalInstructions: |-
+        {Global.actions_JSON} is a list where each item is a JSON object representing an action.
+
+        # Instructions
+        For each item, examine the value of the "owner" key.
+        - If the "owner" key is missing or empty, consider that invalid.
+        - Split the owner value by whitespace and count the resulting name parts.
+        - If every owner has at least two name parts (i.e., two or more whitespace-separated tokens), return ONLY "All owners valid".
+        - If at least one owner has fewer than two name parts, return ONLY "Must change owners".
+
+    - kind: ConditionGroup
+      id: conditionGroup_ownerFix
+      conditions:
+        - id: conditionItem_ownerFix
+          condition: =Topic.check_owners = "Must change owners"
+          displayName: Owner names are invalid
+          actions:
+            - kind: BeginDialog
+              id: begin_fixOwners
+              dialog: copilots_header_a34f2.topic.actions_fix_names
+
+    - kind: BeginDialog
+      id: lbOWMu
+      dialog: copilots_header_a34f2.topic.actions_email_id_resolver
+
+    - kind: SendActivity
+      id: sendActivity_x5FGSY
+      activity: "This is what the final JSON that is called \"actions_JSON\" and is a global variable would look like:"
+
+    - kind: SendActivity
+      id: sendActivity_wiHhIY
+      activity: "{Global.actions_JSON}"
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_oyRgwT
+      input:
+        binding:
+          text: =Global.actions_JSON
+          text_1: =Global.GroupId
+          text_2: =Global.PlannerId
+
+      output: {}
+      flowId: 4f443870-8b0d-f111-8406-7ced8ddd2448
+
+    - kind: EndConversation
+      id: 1nR5mK
+
+inputType: {}
+outputType: {}

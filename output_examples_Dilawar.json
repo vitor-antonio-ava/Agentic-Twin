@@ -1,0 +1,108 @@
+{
+    "meta": {
+        "runId": "RUN_TEST_001"
+    },
+    "meeting": {
+        "title": "Q1 Governance Review",
+        "dateTimeStart": "2026-02-20T10:00:00",
+        "durationMinutes": 60,
+        "timeZone": "Europe/London"
+    },
+    "attendees": {
+        "mandatory": [
+            {
+                "email": "dilawar.x.mansoori@gsk.com"
+            }
+        ],
+        "optional": []
+    },
+    "summary": {
+        "approvedByUser": true,
+        "format": "HTML",
+        "fullText": "<h2>Q1 Governance Summary</h2><p>This is a test email summary.</p>"
+    },
+    "publishing": {
+        "activity": "SendEmail",
+        "approvalStatus": "Approved",
+        "emailSubject": "Q1 Governance Summary – Test",
+        "email": {
+            "outlookMessageId": null
+        },
+        "invite": {
+            "outlookEventId": null
+        }
+    }
+} 
+
+
+
+{
+    "meta": {
+        "runId": "RUN_TEST_002"
+    },
+    "meeting": {
+        "title": "Q1 Governance Review – Invite Test",
+        "dateTimeStart": "2026-02-20T14:00:00",
+        "durationMinutes": 45,
+        "timeZone": "Europe/London"
+    },
+    "attendees": {
+        "mandatory": [
+            {
+                "email": "dilawar.x.mansoori@gsk.com"
+            }
+        ],
+        "optional": []
+    },
+    "summary": {
+        "approvedByUser": true,
+        "format": "HTML",
+        "fullText": "<h2>Q1 Governance Meeting Invite</h2><p>This summary will appear inside the meeting invite body.</p>"
+    },
+    "publishing": {
+        "activity": "SendInvite",
+        "approvalStatus": "Approved",
+        "emailSubject": "Q1 Governance Summary – Invite Test",
+        "email": {
+            "outlookMessageId": null
+        },
+        "invite": {
+            "outlookEventId": null
+        }
+    }
+}
+
+
+{
+  "meta": {
+    "runId": "RUN_YYYYMMDD_HHMMSS",
+    "sourceType": "PreReadPack | Transcript",
+    "generatedBy": "PreReadAgent"
+  },
+  "meeting": {
+    "meetingTitle": "Colliding Meeting 1",
+    "transcriptMeetingDate": "11 February 2026, 14:30 ",
+    "timeZone": "GMT Standard Time",
+    "teamsMeetingLink": ""
+  },
+  "summary": {
+    "format": "HTML",
+    "htmlContent": "",
+    "approvedByUser": false
+  },
+  "actions": [
+    {
+      "actionId": "",
+      "title": "",
+      "description": "",
+      "ownerDisplayName": "",
+      "ownerEmail": null,
+      "ownerObjectId": null,
+      "dueDate": "",
+      "priority": "Low | Medium | High",
+      "status": "Outstanding | InProgress | Blocked | Done",
+      "source": "PreviousMeeting | CurrentMeeting | Transcript | User",
+      "resolutionStatus": "Unresolved | Resolved | Ambiguous"
+    }
+  ]
+}

@@ -1,0 +1,67 @@
+{
+  "title": "Product Sync",
+  "meetingDate": "2026-02-03",
+  "attendees": [
+    "Alex Chen",
+    "John Smith",
+    "Jordan Lee"
+  ],
+  "agenda": [
+    "Quarterly roadmap overview",
+    "Feature X status",
+    "Launch prep checklist"
+  ],
+  "discussionSummary": "Reviewed roadmap priorities, confirmed delivery of Feature X is on track pending API docs, and aligned on launch tasks.",
+  "actionItems": [
+    {
+      "id": 1,
+      "description": "Share updated API documentation for Feature X",
+      "owner": "John Smith",
+      "dueDate": "2026-02-07",
+      "status": "open"
+    },
+    {
+      "id": 2,
+      "description": "Finalize launch checklist and circulate for sign-off",
+      "owner": "Alex Chen",
+      "dueDate": "2026-02-06",
+      "status": "open"
+    },
+    {
+      "id": 3,
+      "description": "Need a follow-up call on API documentation status",
+      "owner": "Alex Chen",
+      "attendees": {
+        "required": [
+          {
+            "name": "Vitor Antonio",
+            "email": "vitor.x.antonio@gsk.com"
+          },
+          {
+            "name": "Lukasz Matuszyk",
+            "email": "lukasz.x.matuszyk@gsk.com"
+          }, 
+          {
+            "name": "Ana Ocariz Sanchez",
+            "email": "ana.x.ocarizsanchez@gsk.com"
+          }
+        ],
+        "optional": [
+          {
+            "name": "Dilawar Mansoori",
+            "email": "dilawar.x.mansoori@gsk.com"
+          }
+        ]
+      },
+      "dueDate": "",
+      "status": "open"
+    },
+    {
+      "id": 4,
+      "description": "Confirm QA test coverage for Feature X",
+      "owner": "Jordan Lee",
+      "dueDate": "2026-02-08",
+      "status": "open"
+    }
+  ]
+}

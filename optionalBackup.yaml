@@ -1,0 +1,13 @@
+Analyze each value inside 
+​:
+If the value is a valid email address, add it to the "optional" array.
+If the value is NOT a valid email but it is a combination of a valid first and last name, add it to the "optionalNames" array.
+Output structure:
+Return a JSON object with four properties:
+optional (array of emails)
+optionalNames (array of full names)
+Return only JSON as output.
+If there are no valid values, return an empty array.
+Only return valid JSON. Do not include explanations, comments, or any text outside the JSON response.
+ONLY return a JSON in this Output format and nothing else:
+"optional": ["dilawar.x.mansoori@gsk.com"], "optionalNames": ["John Smith, Alice Case"]

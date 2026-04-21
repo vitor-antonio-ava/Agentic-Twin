@@ -1,0 +1,107 @@
+Project hotes
+
+Tasks:
+- Continue work on the flow
+   - Add the piece for user to configure meeting 
+   - Get the data necessary for the meeting configuration like DIM_UNIVERSAL_HIERARCHY and FCT_ACTIVE_MS_PROJECTS
+- Update Flow Diagram in Mural
+- 
+
+DIM_LIST_OF_KPIS ->
+DIM_UNIVERSAL_HIERARCHY -> 
+FCT_ACTIVE_MS_PROJECTS
+
+10 KPIS 
+
+Migration:
+- manualTaskPlannerFlow -> add the proper custom values for the Global variables - done
+- Publishing Agent global meeting payload var - done
+- actions_master_topic -> add the propertopic values - 
+- summaries_1_mapping_file_to_template -> prompt is now using GPT5 instead of 4.1
+- summaries_3_final_output_pre-read -> Add the Ana prompt
+- actions_manual_creation -> ask for prompt details from Anto - no need this is deprecated
+- DIA Orchestrator a lot of set variable errors
+
+New Agent:
+- Look at the ppt for DIA and create tasks based on the meeting with Sumit and Morgan
+- Create tasks based on the flow
+
+- Configure notification date (working day)
+
+- VERY IMPORTANT - change the flow a little bit so that user can set the KPI owner when the meeting organizer is configuring the meeting instead of doing it later when prepraring for the meeting.
+*** Update Flow diagram ***
+
+Extra: 
+- We might need to change the create event flow to instead of creating an outlook meeting it creates a teams meeting.**
+
+
+
+KPI Sources:
+- MS Projects and KPI Libraries will be together in PowerBI Dataset
+- Power BI Dataset -
+   - List of KPI's provided by Morgan (table)
+   - Universal Hierarchy table by Morgan
+   - Table for MS Projects
+   - 
+- Focus on MPR -> get KPI  
+- 
+About 30 KPIs to be tracked
+
+   - Teams Channel / Planner (meeting transcript) - get overdue actions
+   - MS Projects (SharePoint site, connection API call) - Organizer of the meeting will configure with projects to track
+   - Smart Control Room (Azure SQL DB / Power BI Dataset)
+   - KPI Library - Power BI Datasets (future Databricks) / Tool per KPI to query the dataset and get the KPI value
+    - Get all the KPI from the dataset(single) and ask the user to confirm which ones to configure
+   - DIA from attendees 
+
+
+- Add connector for Teams to retrieve kpi's data
+- Add connector for MS Projects to retrieve kpi's data
+- Add connector for Smart Control Room to retrieve kpi's data
+- Add connector for KPI Library to retrieve kpi's data
+- Create a universal JSON schema for KPI data to standardize the input from different sources
+- Implement simple CRUD for Dataverse operations for KPI management and DIA forms (add, remove, update KPIs)
+- Implement configuration feature for users to select which KPIs to track and which meetings they want to add to the agent configuration
+   - Enable user to set the sources for each KPI (Teams, MS Projects, Smart Control Room, KPI Library, DIA) 
+      - how this sources are defined its still in-progress and waiting for Morgan input
+   - Enable user to find and select the meetings from the calendar to be tracked as organizer
+   - Enable user to set the dates for the notifications for each meeting (e.g. 1 day before, 3 days before, etc.)
+- Implement power automate flow to trigger data fetch from sources based on the notification dates set by the user
+- Create initial Copilot Studio topic to check for user stored configuration in dataverse
+   - If user data exists show relevant options for the configured meetings
+   - If no user data show the option to configure the agent and link to the initial configuration topic
+- Send notifications to organizer based on notification dates set by the user
+- Send notifications to the meeting attendees based on notification dates set by the user if they have a DIA form to fill for the upcoming meeting
+- Create flow to retrieve KPI data to organizer so they can add owner information or other relevant missing data
+- Implement flow to create tasks in Dataverse for each validated KPI and track respective owner DIA form completion 
+- Create agent flow to send Teams message on behalf of the Meeting Agent for KPI/DIA owner to fill their form
+   - Implement a "chasing" mechanism to send reminders to KPI/DIA owners if they haven't completed their form within a certain timeframe
+- Create flow to fill DIA form
+   - When the user logs in to the agent the agent should be able to identify the user and retrieve any pending DIA forms they have pending
+   - Should we provide users with an option to store their DIA form locally? (download)
+- Add flow for attendee to create DIA from scratch (basically completed)
+- Create flow for organizer to verify DIA form submissions
+   - Create a topic to show the organizer all the pending DIA forms for their upcoming meetings and the status of each (pending, completed, overdue)
+   - Enable organizer to click into each DIA form to review the details and either approve or reject the form submission
+- Create agent flow to check regular meeting attendees and AI should decide if some are not necessary and can be removed from the meeting and which new attendees based on KPI/DIA owners
+   - suggest potential attendees to be added to the meeting invite based on DIA/KPI ownership
+   - suggest potential attendees to be removed from the meeting invite based on available DIA/KPI data
+   - send cancellation messages and emails to removed attendees
+   - send invitation messages and emails to new attendees with relevant meeting information and DIA/KPI details
+- Agent should provide Agenda and a Deck based on the meeting default templates and based DIA data sent for the upcoming meeting
+   - Create HTML or PPT based on templates and DIA data
+
+Old Tasks:
+
+- Fix the "Create a Task" to be "Create a DIA Task" ("Assign new DIA") for when the creating tasks  via the DIA agent flow
+- check if we can use publishing agent send email for the DIA flow 
+- Remove the "Do you want to create another task?" question after creating a task (unnecessary, we already quick replies)
+
+----------------
+
+AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgFRAAgI3pBKyI9AAEYAAAAAmCUGMbCd1Ua93r2KKMIUvwcAzbP0hxvvHkuQui25V_EyugAAAAABDQAAzbP0hxvvHkuQui25V_EyugAAI_XCYgAAEA==
+AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgFRAAgI3pXK8XOAAEYAAAAAmCUGMbCd1Ua93r2KKMIUvwcAzbP0hxvvHkuQui25V_EyugAAAAABDQAAzbP0hxvvHkuQui25V_EyugAAI_XCYgAAEA==
+
+
+"iCalUId": "040000008200E00074C5B7101A82E00807EA04094F7D7EB51FC1DC010000000000000000100000009158E3D3BA8E0B468EC5F7CABD5EBD15",
+"iCalUId": "040000008200E00074C5B7101A82E00807EA04024F7D7EB51FC1DC010000000000000000100000009158E3D3BA8E0B468EC5F7CABD5EBD15",

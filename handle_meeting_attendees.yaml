@@ -1,0 +1,162 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: Question
+      id: Question_c9iIXW
+      alwaysPrompt: true
+      variable: Topic.MandatoryAttendeesEmails
+      prompt: Enter the names or email addresses (first and last) of the mandatory attendees.
+      entity: StringPrebuiltEntity
+
+    - kind: Question
+      id: Question_reNEuU
+      variable: Topic.OptionalAttendeesEmails
+      prompt: Enter the names or email addresses (first and last) of any optional attendees.
+      entity: StringPrebuiltEntity
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_Pinlrl
+      input:
+        binding:
+          MandatoryAttendees: =Topic.MandatoryAttendeesEmails
+
+      output:
+        binding:
+          predictionOutput: Topic.mandatoryOutput
+
+      aIModelId: b7b77383-5d98-4c7f-81fb-358d1523d3e2
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_92iooZ
+      input:
+        binding:
+          OptionalAttendees: =Topic.OptionalAttendeesEmails
+
+      output:
+        binding:
+          predictionOutput: Topic.optionalOutput
+
+      aIModelId: a6ab43c1-3a37-47e9-86c6-ee093d081173
+
+    - kind: SetVariable
+      id: setVariable_hmO4ot
+      variable: Global.usersFirstAndLastNamesGlobal
+      value: |+
+        =Topic.mandatoryOutput.structuredOutput.mandatoryNames
+
+    - kind: SetVariable
+      id: setVariable_YL1TyT
+      variable: Global.optionalFirstAndLastNamesGlobal
+      value: =Topic.optionalOutput.structuredOutput.optionalNames
+
+    - kind: ConditionGroup
+      id: conditionGroup_a48z6W
+      conditions:
+        - id: conditionItem_1OqR0r
+          condition: =IsEmpty(Global.usersFirstAndLastNamesGlobal)
+
+      elseActions:
+        - kind: InvokeFlowAction
+          id: invokeFlowAction_KpWsdP
+          input:
+            binding:
+              text_1: =Concat(Global.usersFirstAndLastNamesGlobal, Text(ThisRecord.item), ", ")
+
+          output:
+            binding:
+              ismultipleemails: Topic.isMultipleMandatoryEmails
+              useremailsfound: Topic.userEmailsFound
+
+          flowId: 38358f5b-6903-f111-8407-6045bdd8c12d
+
+        - kind: ConditionGroup
+          id: conditionGroup_0zRV2q
+          conditions:
+            - id: conditionItem_wJhfBr
+              condition: =Topic.isMultipleMandatoryEmails = true
+              actions:
+                - kind: Question
+                  id: question_iz7tGj
+                  interruptionPolicy:
+                    allowInterruption: true
+
+                  variable: init:Topic.selectedUserEmails
+                  prompt: I've found multiple emails addresses, please choose the ones you want.
+                  entity:
+                    kind: DynamicClosedListEntity
+                    items: =Split(Topic.userEmailsFound, ",")
+
+                - kind: SetVariable
+                  id: setVariable_xw1r5i
+                  variable: Topic.userEmailsFound
+                  value: =Topic.selectedUserEmails
+
+    - kind: ConditionGroup
+      id: conditionGroup_eWOMhJ
+      conditions:
+        - id: conditionItem_UZmnt6
+          condition: =IsEmpty(Global.optionalFirstAndLastNamesGlobal)
+
+      elseActions:
+        - kind: InvokeFlowAction
+          id: invokeFlowAction_sHYv5g
+          input:
+            binding:
+              text_1: =Concat(Global.optionalFirstAndLastNamesGlobal, Text(ThisRecord.item), ", ")
+
+          output:
+            binding:
+              ismultipleemails: Topic.isMultipleMandatoryEmails
+              useremailsfound: Topic.optionalEmailsFound
+
+          flowId: 38358f5b-6903-f111-8407-6045bdd8c12d
+
+    - kind: SearchAndSummarizeContent
+      id: xmAXB4
+      autoSend: false
+      variable: Topic.computedAttendeesList
+      userInput: =Topic.userEmailsFound
+      additionalInstructions: |-
+        Combine emails from {Topic.MandatoryAttendeesEmails} with the values from  {Topic.userEmailsFound} .
+
+
+        Combine the results from {Topic.OptionalAttendeesEmails} with the values from {Topic.optionalEmailsFound} .
+
+        Please make sure only valid emails are in the variables.
+
+        Return ONLY valid JSON in this format:
+
+        "message": "human readable response to show user",
+        "mandatory": ["test@test.com", "test1@test.com"],
+        "optional": ["test2@test.com"]
+
+        Do not include explanations or additional text.
+      responseCaptureType: FullResponse
+
+    - kind: SetMultipleVariables
+      id: setVariable_iwV3Ye
+      assignments:
+        - variable: Topic.Var1
+          value: |-
+            =Concat(Topic.mandatoryOutput.structuredOutput.mandatory, item, ",") &
+            If(!IsBlank(Topic.userEmailsFound) And !IsEmpty(Topic.mandatoryOutput.structuredOutput.mandatory), ", "  &  Topic.userEmailsFound, "")
+             
+
+        - variable: Topic.Var2
+          value: |-
+            =Concat(Topic.optionalOutput.structuredOutput.optional, item, ",") & 
+            If(!IsBlank(Topic.optionalEmailsFound) And !IsEmpty(Topic.optionalOutput.structuredOutput.optional), ", " & Topic.optionalEmailsFound, "")
+
+    - kind: SetMultipleVariables
+      id: setVariable_kFRIhb
+      assignments:
+        - variable: Global.computedMandatoryAttendees
+          value: =Topic.Var1
+
+        - variable: Global.computedOptionalAttendees
+          value: =Topic.Var2
+
+inputType: {}
+outputType: {}

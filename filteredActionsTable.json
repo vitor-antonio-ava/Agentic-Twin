@@ -1,0 +1,80 @@
+[
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "End of December",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "High",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Ongoing",
+        "title": "Follow up on overdue long-term actions"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "Next meeting",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "Medium",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Formalize operator process knowledge sessions"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "Ongoing",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "Medium",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Track QIP actions for OSD for 2026"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "Next meeting",
+        "ownerDisplayName": "Nuwandi \u0026 Chris",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "Medium",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Catch up on ongoing DI deviations"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "January onwards",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "High",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Escalate TI issues for long-term solution"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "End of January",
+        "ownerDisplayName": "Mattia",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "High",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Change control for M building to mitigate audit risk"
+    }
+]

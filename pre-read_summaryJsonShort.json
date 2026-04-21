@@ -1,0 +1,19 @@
+{
+  "meta": {
+    "runId": "RUN_20250206_153000",
+    "sourceType": "Transcript",
+    "generatedBy": "SummaryAgent"
+  },
+  "meeting": {
+    "meetingTitle": "",
+    "transcriptMeetingDate": "15 December 2025",
+    "timeZone": "GMT Standard Time",
+    "teamsMeetingLink": ""
+  },
+  "summary": {
+    "format": "HTML",
+    "htmlContent": "<h1>Quality Council Meeting Summary</h1>\n<h2>Top 3 Problems Identified</h2>\n<ul>\n<li>High number of overdue effectiveness checks and long-term actions.</li>\n<li>Repeated deviations due to human factors and knowledge gaps in processes.</li>\n<li>Resource constraints impacting commissioning of M building and other critical activities.</li>\n</ul>\n<h2>Decisions Made</h2>\n<ul>\n<li>Keep high number of overdue effectiveness checks as a priority for monitoring.</li>\n<li>Escalate TI-related issues to higher management for alternative solutions.</li>\n<li>Proceed with planning for periodic reviews and formalizing knowledge sessions.</li>\n<li>Maintain focus on reducing TI count for M2 and improving compliance.</li>\n</ul>\n<h2>Escalations Required</h2>\n<ul>\n<li>Escalate need for long-term solution for temporary instructions to central quality.</li>\n<li>Escalate resource constraints for M building commissioning if unresolved by January.</li>\n<li>Escalate TI process improvement to Psychology Council for alternative solutions.</li>\n</ul>\n<h2>Communications to cascade to team</h2>\n<ul>\n<li>Emphasize importance of timely closure of long-term actions and effectiveness checks.</li>\n<li>Share updates on QIP actions and expectations for 2026.</li>\n<li>Communicate plans for knowledge sessions and training optimization.</li>\n<li>Inform about escalations and resource planning for M building commissioning.</li>\n</ul>",
+    "approvedByUser": true
+  },
+  "actions": []
+}

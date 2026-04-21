@@ -1,0 +1,59 @@
+{
+  type: "AdaptiveCard",
+  '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+  version: "1.5",
+  body: [
+    {
+      type: "TextBlock",
+      text: "Action Item",
+      weight: "Bolder",
+      size: "Small",
+      color: "Accent",
+      spacing: "None"
+    },
+    {
+      type: "TextBlock",
+      text: Topic.currentAction.title,
+      weight: "Bolder",
+      size: "Large",
+      wrap: true,
+      spacing: "Small"
+    },
+    {
+      type: "Input.ChoiceSet",
+      id: "owner",
+      label: "Owner",
+      style: "filtered",
+      isMultiSelect: false,
+      value: If(IsBlank(Topic.currentAction.ownerId), "", Topic.currentAction.ownerId),
+      placeholder: "Search for a person...",
+      isRequired: true,
+      errorMessage: "Please select an owner",
+      choices: [],
+      "choices.data": {
+        type: "Data.Query",
+        dataset: "graph.microsoft.com/users"
+      }
+    },
+    {
+      type: "Input.Date",
+      id: "dueDate",
+      label: "Due Date",
+      value: If(
+        Len(Topic.currentAction.dueDate) = 10,
+        Right(Topic.currentAction.dueDate, 4) & "-" & Mid(Topic.currentAction.dueDate, 4, 2) & "-" & Left(Topic.currentAction.dueDate, 2)
+      ),
+      isRequired: false,
+      errorMessage: "Please select a due date"
+    },
+    {
+      type: "ActionSet",
+      actions: [
+        {
+          type: "Action.Submit",
+          title: "Submit"
+        }
+      ]
+    }
+  ]
+}

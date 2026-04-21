@@ -1,0 +1,10 @@
+aad_id,display_name,timezone,language,role,preferences,last_updated
+a1b2c3d4-e5f6-7890-abcd-ef1234567890,John Smith,Europe/London,en-GB,Manager,"{""notifications"":{""email"":true,""teams"":true},""dashboardLayout"":""compact"",""defaultMeetingDuration"":30,""favoriteTopics"":[""scheduling"",""reports""]}",2026-04-07T09:00:00Z
+b2c3d4e5-f6a7-8901-bcde-f12345678901,Sarah Johnson,America/New_York,en-US,Analyst,"{""notifications"":{""email"":true,""teams"":false},""dashboardLayout"":""expanded"",""defaultMeetingDuration"":60,""favoriteTopics"":[""kpi"",""actions""]}",2026-04-07T09:00:00Z
+c3d4e5f6-a7b8-9012-cdef-123456789012,Maria Garcia,Europe/Madrid,es-ES,Director,"{""notifications"":{""email"":false,""teams"":true},""dashboardLayout"":""compact"",""defaultMeetingDuration"":45,""favoriteTopics"":[""reports"",""scheduling"",""kpi""]}",2026-04-07T09:00:00Z
+d4e5f6a7-b8c9-0123-defa-234567890123,Liam Chen,Asia/Singapore,en-SG,Manager,"{""notifications"":{""email"":true,""teams"":true},""dashboardLayout"":""expanded"",""defaultMeetingDuration"":30,""favoriteTopics"":[""actions""]}",2026-04-07T09:00:00Z
+e5f6a7b8-c9d0-1234-efab-345678901234,Priya Patel,Asia/Kolkata,en-IN,Analyst,"{""notifications"":{""email"":false,""teams"":false},""dashboardLayout"":""compact"",""defaultMeetingDuration"":15,""favoriteTopics"":[""scheduling""]}",2026-04-07T09:00:00Z
+
+
+
+aad_id eq '420a2572-f2f7-4c85-80dc-ea6478de394b'

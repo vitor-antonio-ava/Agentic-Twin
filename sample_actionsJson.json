@@ -1,0 +1,80 @@
+[
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "Medium",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Formalize operator process knowledge sessions"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "High",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Escalate TI issue to Psychology Council"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "Next year",
+        "ownerDisplayName": "Nuwandi",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "Medium",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Track QIP actions for OSD for 2026 in quality council"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "",
+        "ownerDisplayName": "Nuwandi & Chris",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "Medium",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Catch up on ongoing DI deviations"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "End of January",
+        "ownerDisplayName": "Mattia",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "High",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Change control for commissioning to manage audit risk"
+    },
+    {
+        "actionId": "",
+        "description": "",
+        "dueDate": "From January",
+        "ownerDisplayName": "Mattia",
+        "ownerEmail": null,
+        "ownerObjectId": null,
+        "priority": "High",
+        "resolutionStatus": "Unresolved",
+        "source": "New",
+        "status": "Outstanding",
+        "title": "Address resource constraints for M building commissioning"
+    }
+]
