@@ -7,48 +7,58 @@
         "notificationTimePreference": [
             {
                 "meetingId": "string",
+                "meetingName": "Global Supply Chain Leadership Team Meeting",
                 "organizerId": "string",
                 "organizerName": "string",
                 "organizerMeetingPrepNotificationDatetime": "string",
                 "attendeesMeetingPrepNotificationDatetime": "string"
             }
         ],
-        "configuredMeetingIDs": [
+        "configuredMeetings": [
             {
-                "id": "string",
+                "meetingId": "string",
+                "meetingName": "string",
                 "tier": "string",
-                "tierID": "string",
-                "tierValue": "string",
+                "tierId": "string",
+                "tierDescription": "string",
                 "userStatus": "organizer|attendee",
-                "recurringMeetingStartDate": "optional-string", 
+                "recurringMeetingStartDate": "string", 
                 "recurringMeetingEndDate": "string",
+                "nextOccurrenceDate": "string",
                 "trackedMSProjects": [
                     {
                         "projectId": "string",
-                        "projectName": "string"
+                        "projectName": "string",
+                        "ownerId": "string",
+                        "ownerName": "string",
+                        "ownerEmail": "string"
                     }
                 ],
                 "trackedSCRProjects": [
                     {
                         "id": "string",
-                        "name": "string"
+                        "name": "string",
+                        "ownerId": "string",
+                        "ownerName": "string",
+                        "ownerEmail": "string"
                     }
                 ],
                 "trackedAnnualPrograms": [
                     {
                         "id": "string",
-                        "name": "string"
+                        "name": "string",
+                        "ownerId": "string",
+                        "ownerName": "string",
+                        "ownerEmail": "string"
                     }
                 ],
                 "trackedKPIIDs": [
                     {
                         "id": "string",
                         "name": "string",
-                        "ownerId": "Id",
+                        "ownerId": "string",
                         "ownerName": "string",
-                        "onTarget": "boolean",
-                        "targetValue": "string",
-                        "actualValue": "string"
+                        "ownerEmail": "string"
                     }
                 ]
             }

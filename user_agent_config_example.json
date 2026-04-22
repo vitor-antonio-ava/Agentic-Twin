@@ -7,6 +7,7 @@
         "notificationTimePreference": [
             {
                 "meetingId": "AAMkADExMTIzNDU2Nzg5AA==",
+                "meetingName": "Global Supply Chain Leadership Team Meeting",
                 "organizerId": "420a2572-f2f7-4c85-80dc-ea6478de394b",
                 "organizerName": "Vitor Antonio",
                 "organizerMeetingPrepNotificationDatetime": "2026-04-13T07:00:00+02:00",
@@ -14,78 +15,79 @@
             },
             {
                 "meetingId": "AAMkADEyMzQ1Njc4OTBiAA==",
+                "meetingName": "Weekly Cross-Functional Alignment Meeting",
                 "organizerId": "420a2572-f2f7-4c85-80dc-ea6478weqqwede394b",
                 "organizerName": "John Smith",   
                 "organizerMeetingPrepNotificationDatetime": "",
                 "attendeesMeetingPrepNotificationDatetime": "2026-04-15T08:30:00+02:00"
             }
         ],
-        "configuredMeetingIDs": [
+        "configuredMeetings": [
             {
-                "id": "AAMkADExMTIzNDU2Nzg5AA==",
+                "meetingId": "AAMkADExMTIzNDU2Nzg5AA==",
+                "meetingName": "Global Supply Chain Leadership Team Meeting",
                 "tier": "Tier 1",
-                "tierID": "T1",
+                "tierId": "T1",
                 "tierDescription": "Daily operational review meeting",
-                "status": "organizer",
+                "userStatus": "organizer",
+                "recurringMeetingStartDate": "2026-01-01T09:00:00", 
+                "recurringMeetingEndDate": "2026-12-31T10:00:00",
+                "nextOccurrenceDate": "2026-04-13T09:00:00",
+                "trackedMSProjects": [
+                    {
+                        "projectId": "420a28766-f2f7-4c85-80dc-ea34538de394b",
+                        "projectName": "Sneaker Castle",
+                        "ownerId": "434645-f2f7-4c85-80dc-ea34538de78h",
+                        "ownerName": "Alex Navarro",
+                        "ownerEmail": "alex.x.navarro@gsk.com"
+                    }
+                ],
                 "trackedKPIIDs": [
                     {
                         "id": "KPI-001",
                         "name": "On-Time Delivery Rate",
                         "ownerId": "420a2572-f2f7-4c85-80dc-ea6478de394b",
                         "ownerName": "John Smith",
-                        "ownerEmail": "john.x.smith@gsk.com",
-                        "onTarget": true,
-                        "targetValue": "95%",
-                        "actualValue": "97%"
+                        "ownerEmail": "john.x.smith@gsk.com"
                     },
                     {
                         "id": "KPI-007",
                         "name": "Right First Time (RFT)",
                         "ownerId": "420a2572-f2f7-4c85-80dc-ea6478de394b",
                         "ownerName": "John Smith",
-                        "ownerEmail": "john.x.smith@gsk.com",
-                        "onTarget": false,
-                        "targetValue": "98%",
-                        "actualValue": "94%"
+                        "ownerEmail": "john.x.smith@gsk.com"
                     },
                     {
                         "id": "KPI-008",
                         "name": "OEE (Overall Equipment Effectiveness)",
                         "ownerId": "b2c3d4e5-f6a7-8901-bcde-f12345678901",
                         "ownerName": "Sarah Johnson",
-                        "ownerEmail": "sarah.x.johnson@gsk.com",
-                        "onTarget": true,
-                        "targetValue": "85%",
-                        "actualValue": "88%"
+                        "ownerEmail": "sarah.x.johnson@gsk.com"
                     }
                 ]
             },
             {
-                "id": "AAMkADEyMzQ1Njc4OTBiAA==",
+                "meetingId": "AAMkADEyMzQ1Njc4OTBiAA==",
+                "meetingName": "Weekly Cross-Functional Alignment Meeting",
                 "tier": "Tier 2",
-                "tierID": "T2",
-                "tierDescription": "Weekly cross-functional alignment meeting",
-                "status": "attendee",
+                "tierId": "T2",
+                "tierDescription": "Cross-functional features alignment",
+                "userStatus": "attendee",
+                "trackedMSProjects": [],
                 "trackedKPIIDs": [
                     {
                         "id": "KPI-002",
                         "name": "Production Yield",
                         "ownerId": "420a2572-f2f7-4c85-80dc-ea6478de394b",
                         "ownerName": "John Smith",
-                        "ownerEmail": "john.x.smith@gsk.com",
-                        "onTarget": true,
-                        "targetValue": "92%",
-                        "actualValue": "93.5%"
+                        "ownerEmail": "john.x.smith@gsk.com"
                     },
                     {
                         "id": "KPI-003",
                         "name": "Cycle Time",
                         "ownerId": "420a2572-f2f7-4c85-80dc-ea6478de394b",
                         "ownerName": "John Smith",
-                        "ownerEmail": "john.x.smith@gsk.com",
-                        "onTarget": false,
-                        "targetValue": "48h",
-                        "actualValue": "52h"
+                        "ownerEmail": "john.x.smith@gsk.com"
                     }
                 ]
             }

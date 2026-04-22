@@ -27,10 +27,7 @@
                         "description": "string",
                         "ownerId": "Id",
                         "ownerName": "string",
-                        "ownerEmail": "string",
-                        "onTarget": "boolean",
-                        "targetValue": "string",
-                        "actualValue": "string"
+                        "ownerEmail": "string"
                     }
                 ]
             }
