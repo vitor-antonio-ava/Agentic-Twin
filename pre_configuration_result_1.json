@@ -1,0 +1,68 @@
+{
+    "aad_id": "420a2572-f2f7-4c85-80dc-ea6478de394b",
+    "display_name": "Vitor Antonio",
+    "email": "​vitor.x.antonio@gsk.com​",
+    "last_updated": "2026-04-28T16:48:02Z",
+    "preferences": [
+        {
+            "meetingId": "AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgBGAAAAAACYJQYxsJ3VRr3evYoowhS-BwDNs-SHG_8eS5C6LblX4TK6AAAAAAENAADNs-SHG_8eS5C6LblX4TK6AAAj5cJiAAA=",
+            "meetingSubject": "Weekly Sync",
+            "notification": {
+                "daysBefore": "5",
+                "nextMeetingDateTime": ""
+            },
+            "recurrencePattern": "weekly",
+            "recurringMeetingEndDate": "2026-09-24",
+            "recurringMeetingStartDate": "2026-04-02",
+            "tier": "Tier 3",
+            "tierDescription": "Small Molecule",
+            "tierId": "T3_0001",
+            "tierCode": "T3",
+            "groupId": "",
+            "teamsChannelId": "",
+            "plannerId": "",
+            "trackedKPIs": [
+                {
+                    "description": "",
+                    "id": "KPI_EM_006",
+                    "name": "Milestone Delivery",
+                    "owner": "Dilawar Mansoori",
+                    "ownerEmail": "dilawar.x.mansoori@gsk.com",
+                    "ownerId": "15a8796c-a3ac-49d4-9811-40bdc57f5283"
+                },
+                {
+                    "description": "",
+                    "id": "KPI_EM_011",
+                    "name": "COW (Cost Of Waste)",
+                    "owner": "Ana Ocariz Sanchez",
+                    "ownerEmail": "ana.x.ocarizsanchez@gsk.com",
+                    "ownerId": "f303de06-e51a-408f-8efc-987599853343"
+                },
+                {
+                    "description": "",
+                    "id": "KPI_EM_018",
+                    "name": "Manual Tasks Eliminated",
+                    "owner": "Vitor Antonio",
+                    "ownerEmail": "vitor.x.antonio@gsk.com",
+                    "ownerId": "420a2572-f2f7-4c85-80dc-ea6478de394b"
+                }
+            ],
+            "trackedMSProjects": [
+                {
+                    "owner": "Sylvine Barriere",
+                    "ownerEmail": "sylvine.x.barriere@gsk.com",
+                    "projectId": "773c5730-a49e-ee11-a2b3-00155d100f4c",
+                    "projectName": "MAPS 24v infant Ph2"
+                },
+                {
+                    "owner": "Richard Cuss",
+                    "ownerEmail": "richard.m.cuss@gsk.com",
+                    "projectId": "9bc4b72c-2de4-ed11-90be-00155d107a82",
+                    "projectName": "Project Sweden (Brexafemme Integration)"
+                }
+            ],
+            "userStatus": "organizer"
+        }
+    ],
+    "timezone": "Europe/Warsaw"
+}

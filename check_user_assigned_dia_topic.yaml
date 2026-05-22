@@ -1,0 +1,165 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: SendActivity
+      id: sendActivity_ZeRVjT
+      activity: Fetching your events with assigned DIA's...
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_QrBJNo
+      input:
+        binding:
+          text: =System.User.Email
+
+      output:
+        binding:
+          usereventlist: Topic.userEventList
+
+      flowId: a76e2fcd-5266-8c21-0b80-08f74ef93949
+
+    - kind: ParseValue
+      id: AT53B6
+      variable: Topic.userEvents
+      valueType:
+        kind: Table
+        properties:
+          DisplayName: String
+          EventId: String
+          EventName: String
+
+      value: =Topic.userEventList
+
+    - kind: ConditionGroup
+      id: conditionGroup_V4A6Jn
+      conditions:
+        - id: conditionItem_UN258b
+          condition: =IsEmpty(Topic.userEvents)
+          actions:
+            - kind: Question
+              id: question_JMLGo8
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var2
+              prompt: You have no in progress DIA tasks assigned to you at the moment.
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Go back to the start
+                      displayName: Go back to the start
+
+            - kind: ClearAllVariables
+              id: 5lUlbF
+              variables: ConversationScopedVariables
+
+            - kind: BeginDialog
+              id: BTEqnA
+              dialog: cr1d7_agenttIFALA.topic.ConversationStart
+
+    - kind: Question
+      id: question_jM7nb6
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.userSelectedEvent
+      prompt: Which meeting event you want to check your assigned DIAs?
+      entity:
+        kind: DynamicClosedListEntity
+        items: =Topic.userEvents
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_uSo5ck
+      input:
+        binding:
+          text: =System.User.Email
+          text_1: =Topic.userSelectedEvent.EventId
+
+      output:
+        binding:
+          userassigneddias: Topic.userAssignedDIAs
+
+      flowId: ca49d634-2854-f111-bec6-7c1e528d4fea
+
+    - kind: ParseValue
+      id: 7emqD6
+      variable: Topic.userDIAs
+      valueType:
+        kind: Table
+        properties:
+          AssignedToEmail: String
+          AssignedToUsername: String
+          DIAResponseReceived: Number
+          DIATaskId: String
+          DisplayName: String
+          KpiId: Blank
+          OwnerId: String
+          PlannerTaskId: String
+          Status: Number
+          TaskDueDate: String
+          TaskName: String
+          TaskStartDate: String
+          TaskType: Number
+
+      value: =Topic.userAssignedDIAs
+
+    - kind: ConditionGroup
+      id: conditionGroup_CXrOUW
+      conditions:
+        - id: conditionItem_WwPIUI
+          condition: =IsEmpty(Topic.userDIAs)
+          actions:
+            - kind: Question
+              id: question_5oPK6p
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var1
+              prompt: "I couldn't find any in-progress DIA's assigned to your for this meeting event. "
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Navigate to start
+                      displayName: Navigate to start
+
+            - kind: ConditionGroup
+              id: conditionGroup_DXBx4A
+              conditions:
+                - id: conditionItem_VyruJ0
+                  condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.CheckUserAssignedDIAs.main.question_5oPK6p'.'Navigate to start'
+                  actions:
+                    - kind: BeginDialog
+                      id: yg5bSB
+                      dialog: cr1d7_agenttIFALA.topic.ConversationStart
+
+    - kind: Question
+      id: question_NYSnyG
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.userSelectedDIA
+      prompt: Which DIA do you want to select?
+      entity:
+        kind: DynamicClosedListEntity
+        items: =Topic.userDIAs
+
+    - kind: BeginDialog
+      id: 2N2EO7
+      input:
+        binding:
+          diaTaskRecord: =JSON(Topic.userSelectedDIA)
+
+      dialog: cr1d7_agenttIFALA.topic.DIADataCapture
+      output:
+        binding:
+          diaReportOutput: Topic.diaReportOutput
+          diaReportSubjectOutput: Topic.diaReportSubjectOutput
+          reportRecordOutput: Topic.reportRecordOutput
+
+inputType: {}
+outputType: {}

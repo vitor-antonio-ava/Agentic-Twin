@@ -1,0 +1,218 @@
+[
+  {
+    "id": "MSo0MjBhMjU3Mi1mMmY3LTRjODUtODBkYy1lYTY0NzhkZTM5NGIqMTc3Nzk4NjEyMjE5OSoqMTk6U1lySTUzRkhvVXFyOWxnRUlfOF8xTEpBSWtoNG9ETHdvZHNXdlhzLUdnVTFAdGhyZWFkLnRhY3Yy",
+    "subject": "Vitor Recurring Weekly Sync",
+    "creationDateTime": "2026-05-05T13:02:01.7944629Z",
+    "startDateTime": "2026-05-08T13:30:00Z",
+    "endDateTime": "2026-05-08T14:00:00Z",
+    "expiryDateTime": "2027-07-06T14:00:00Z",
+    "iCalUid": "040000008200E00074C5B7101A82E008000000006EE5B45E8FDCDC0100000000000000001000000064BD35DCF740EA4AB4F5B30C1B1A06DD",
+    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3aSYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1%40thread.tacv2/1777986122199?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22420a2572-f2f7-4c85-80dc-ea6478de394b%22%7d",
+    "joinWebUrl": "https://teams.microsoft.com/l/meetup-join/19%3aSYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1%40thread.tacv2/1777986122199?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22420a2572-f2f7-4c85-80dc-ea6478de394b%22%7d",
+    "meetingCode": "274202807263092",
+    "videoTeleconferenceId": "11687332573",
+    "meetingSpokenLanguageTag": "en-us",
+    "isBroadcast": false,
+    "autoAdmittedUsers": "everyoneInSameAndFederatedCompany",
+    "isEntryExitAnnounced": false,
+    "isEndToEndEncryptionEnabled": false,
+    "allowedPresenters": "everyone",
+    "allowAttendeeToEnableMic": true,
+    "allowAttendeeToEnableCamera": true,
+    "allowMeetingChat": "enabled",
+    "allowedLobbyAdmitters": "organizerAndCoOrganizersAndPresenters",
+    "shareMeetingChatHistoryDefault": "none",
+    "allowTeamworkReactions": true,
+    "anonymizeIdentityForRoles": [],
+    "allowParticipantsToChangeName": false,
+    "allowTranscription": true,
+    "allowRecording": true,
+    "allowWhiteboard": true,
+    "allowBreakoutRooms": true,
+    "allowLiveShare": "enabled",
+    "allowPowerPointSharing": true,
+    "allowCopyingAndSharingMeetingContent": true,
+    "meetingOptionsWebUrl": "https://teams.microsoft.com/meetingOptions/?organizerId=420a2572-f2f7-4c85-80dc-ea6478de394b&tenantId=63982aff-fb6c-4c22-973b-70e4acfb63e6&threadId=19_SYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1@thread.tacv2&messageId=1777986122199&language=",
+    "participants": {
+      "organizer": {
+        "upn": "vitor.x.antonio@gsk.com",
+        "role": "presenter",
+        "identity": {
+          "user": {
+            "@odata.type": "#microsoft.graph.communicationsUserIdentity",
+            "id": "420a2572-f2f7-4c85-80dc-ea6478de394b",
+            "tenantId": "63982aff-fb6c-4c22-973b-70e4acfb63e6"
+          }
+        }
+      },
+      "attendees": [
+        {
+          "upn": "dilawar.x.mansoori@gsk.com",
+          "role": "attendee",
+          "identity": {
+            "user": {
+              "@odata.type": "#microsoft.graph.communicationsUserIdentity",
+              "id": "15a8796c-a3ac-49d4-9811-40bdc57f5283",
+              "tenantId": "63982aff-fb6c-4c22-973b-70e4acfb63e6"
+            }
+          }
+        },
+        {
+          "upn": "ana.x.ocarizsanchez@gsk.com",
+          "role": "attendee",
+          "identity": {
+            "user": {
+              "@odata.type": "#microsoft.graph.communicationsUserIdentity",
+              "id": "f303de06-e51a-408f-8efc-987599853343",
+              "tenantId": "63982aff-fb6c-4c22-973b-70e4acfb63e6"
+            }
+          }
+        },
+        {
+          "upn": "sukant.x.sondhi@gsk.com",
+          "role": "attendee",
+          "identity": {
+            "user": {
+              "@odata.type": "#microsoft.graph.communicationsUserIdentity",
+              "id": "1fa6519c-e1fe-4cfa-be2f-2f33918551ca",
+              "tenantId": "63982aff-fb6c-4c22-973b-70e4acfb63e6"
+            }
+          }
+        },
+        {
+          "upn": "GovernancePilot@gsk.onmicrosoft.com",
+          "role": "attendee",
+          "identity": {
+            "user": {
+              "@odata.type": "#microsoft.graph.communicationsUserIdentity",
+              "id": "cc62d3f5-361b-403e-8d48-c6b81e6d781a",
+              "tenantId": "63982aff-fb6c-4c22-973b-70e4acfb63e6"
+            }
+          }
+        }
+      ]
+    },
+    "chatInfo": {
+      "threadId": "19:SYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1@thread.tacv2",
+      "messageId": "1777986122199"
+    },
+    "joinMeetingIdSettings": {
+      "isPasscodeRequired": true,
+      "joinMeetingId": "274202807263092",
+      "passcode": "NN6e5CW3"
+    },
+    "lobbyBypassSettings": {
+      "scope": "organizationAndFederated",
+      "isDialInBypassEnabled": false
+    },
+    "watermarkProtection": {
+      "isEnabledForContentSharing": false,
+      "isEnabledForVideo": false
+    },
+    "organizer": {
+      "emailAddress": {
+        "name": "Vitor Antonio",
+        "address": "vitor.x.antonio@gsk.com"
+      }
+    },
+    "groupID": "cc62d3f5-361b-403e-8d48-c6b81e6d781a",
+    "groupEmail": "GovernancePilot@gsk.onmicrosoft.com"
+  },
+  {
+    "id": "MSoxNWE4Nzk2Yy1hM2FjLTQ5ZDQtOTgxMS00MGJkYzU3ZjUyODMqMTc3ODA4MDYwMTY1MCoqMTk6U1lySTUzRkhvVXFyOWxnRUlfOF8xTEpBSWtoNG9ETHdvZHNXdlhzLUdnVTFAdGhyZWFkLnRhY3Yy",
+    "subject": "TestMeeting101",
+    "creationDateTime": "2026-05-06T15:16:41.2413022Z",
+    "startDateTime": "2026-05-15T15:30:00Z",
+    "endDateTime": "2026-05-15T16:00:00Z",
+    "expiryDateTime": "2026-10-30T16:00:00Z",
+    "iCalUid": "040000008200E00074C5B7101A82E008000000002E9309586BDDDC0100000000000000001000000020FC185B50FC9D45B6A7B804FE83C424",
+    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3aSYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1%40thread.tacv2/1778080601650?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%2215a8796c-a3ac-49d4-9811-40bdc57f5283%22%7d",
+    "joinWebUrl": "https://teams.microsoft.com/l/meetup-join/19%3aSYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1%40thread.tacv2/1778080601650?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%2215a8796c-a3ac-49d4-9811-40bdc57f5283%22%7d",
+    "meetingCode": "25064270289944",
+    "videoTeleconferenceId": "11952979421",
+    "meetingSpokenLanguageTag": "en-us",
+    "isBroadcast": false,
+    "autoAdmittedUsers": "everyoneInSameAndFederatedCompany",
+    "isEntryExitAnnounced": false,
+    "isEndToEndEncryptionEnabled": false,
+    "allowedPresenters": "everyone",
+    "allowAttendeeToEnableMic": true,
+    "allowAttendeeToEnableCamera": true,
+    "allowMeetingChat": "enabled",
+    "allowedLobbyAdmitters": "organizerAndCoOrganizersAndPresenters",
+    "shareMeetingChatHistoryDefault": "none",
+    "allowTeamworkReactions": true,
+    "anonymizeIdentityForRoles": [],
+    "allowParticipantsToChangeName": false,
+    "allowTranscription": true,
+    "allowRecording": true,
+    "allowWhiteboard": true,
+    "allowBreakoutRooms": true,
+    "allowLiveShare": "enabled",
+    "allowPowerPointSharing": true,
+    "allowCopyingAndSharingMeetingContent": true,
+    "meetingOptionsWebUrl": "https://teams.microsoft.com/meetingOptions/?organizerId=15a8796c-a3ac-49d4-9811-40bdc57f5283&tenantId=63982aff-fb6c-4c22-973b-70e4acfb63e6&threadId=19_SYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1@thread.tacv2&messageId=1778080601650&language=",
+    "participants": {
+      "organizer": {
+        "upn": "dilawar.x.mansoori@gsk.com",
+        "role": "presenter",
+        "identity": {
+          "user": {
+            "@odata.type": "#microsoft.graph.communicationsUserIdentity",
+            "id": "15a8796c-a3ac-49d4-9811-40bdc57f5283",
+            "tenantId": "63982aff-fb6c-4c22-973b-70e4acfb63e6"
+          }
+        }
+      },
+      "attendees": [
+        {
+          "upn": "vitor.x.antonio@gsk.com",
+          "role": "attendee",
+          "identity": {
+            "user": {
+              "@odata.type": "#microsoft.graph.communicationsUserIdentity",
+              "id": "420a2572-f2f7-4c85-80dc-ea6478de394b",
+              "tenantId": "63982aff-fb6c-4c22-973b-70e4acfb63e6"
+            }
+          }
+        },
+        {
+          "upn": "GovernancePilot@gsk.onmicrosoft.com",
+          "role": "attendee",
+          "identity": {
+            "user": {
+              "@odata.type": "#microsoft.graph.communicationsUserIdentity",
+              "id": "cc62d3f5-361b-403e-8d48-c6b81e6d781a",
+              "tenantId": "63982aff-fb6c-4c22-973b-70e4acfb63e6"
+            }
+          }
+        }
+      ]
+    },
+    "chatInfo": {
+      "threadId": "19:SYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1@thread.tacv2",
+      "messageId": "1778080601650"
+    },
+    "joinMeetingIdSettings": {
+      "isPasscodeRequired": true,
+      "joinMeetingId": "25064270289944",
+      "passcode": "ij9T4Ki3"
+    },
+    "lobbyBypassSettings": {
+      "scope": "organizationAndFederated",
+      "isDialInBypassEnabled": false
+    },
+    "watermarkProtection": {
+      "isEnabledForContentSharing": false,
+      "isEnabledForVideo": false
+    },
+    "organizer": {
+      "emailAddress": {
+        "name": "Dilawar Mansoori",
+        "address": "dilawar.x.mansoori@gsk.com"
+      }
+    },
+    "groupID": "cc62d3f5-361b-403e-8d48-c6b81e6d781a",
+    "groupEmail": "GovernancePilot@gsk.onmicrosoft.com"
+  }
+]

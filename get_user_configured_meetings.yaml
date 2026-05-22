@@ -1,0 +1,198 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: SendActivity
+      id: sendActivity_HmCUzx
+      activity: Fetching your configured meetings data...
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_4fik0n
+      input:
+        binding:
+          text: =System.User.Email
+
+      output:
+        binding:
+          configuredmeetings: Topic.eventsFound
+
+      flowId: bcba1f85-9a4f-f111-bec6-002248048965
+
+    - kind: SetVariable
+      id: setVariable_yJZ8ql
+      variable: Topic.userEvents
+      value: |-
+        =ForAll(
+            ParseJSON(Topic.eventsFound),
+            {
+                EventName: Text(ThisRecord.EventName),
+                DisplayName: Text(ThisRecord.EventName),
+                EventDate: Text(ThisRecord.EventDate),
+                EventMeetingType: Text(ThisRecord.EventMeetingType),
+                MandatoryAttendees: Text(ThisRecord.MandatoryAttendees),
+                OptionalAttendees: Text(ThisRecord.OptionalAttendees),
+                EventMeetingValue: Text(ThisRecord.EventMeetingValue),
+                EventId: Text(ThisRecord.EventId),
+                EventStatus: Text(ThisRecord.EventStatus),
+                DIAStatus: Text(ThisRecord.DIAStatus),
+                PostEventStatus: Text(ThisRecord.PostEventStatus),
+                EventConfigurationId: Text(ThisRecord.EventConfigurationId),
+                MeetingSetupJson: Text(ThisRecord.MeetingSetupJson),
+                MeetingKpis: ThisRecord.MeetingKpis,
+                MeetingMsProjects: ThisRecord.MeetingMsProjects,
+                MeetingPlannerId: Text(ThisRecord.MeetingPlannerId),
+                MeetingTierCode: Text(ThisRecord.MeetingTierCode),
+                MeetingTierDescription: Text(ThisRecord.MeetingTierDescription),
+                MeetingTierId: Text(ThisRecord.MeetingTierId),
+                MeetingConfigurationId: Text(ThisRecord.MeetingConfigurationId),
+                MeetingGroupId: Text(ThisRecord.MeetingGroupId),
+                MeetingFrequency: Value(ThisRecord.MeetingFrequency)
+            }
+        )
+
+    - kind: ConditionGroup
+      id: conditionGroup_BpFP3f
+      conditions:
+        - id: conditionItem_Py2wn7
+          condition: =!IsEmpty(Topic.userEvents)
+          actions:
+            - kind: Question
+              id: question_S8lMiQ
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.userSelectedMeeting
+              prompt: "Which meeting do you want check? "
+              entity:
+                kind: DynamicClosedListEntity
+                items: =Topic.userEvents
+
+            - kind: ConditionGroup
+              id: conditionGroup_Q6CpBh
+              conditions:
+                - id: conditionItem_nvGhtE
+                  condition: =Topic.userSelectedMeeting.DIAStatus = """0"""
+                  actions:
+                    - kind: SendActivity
+                      id: sendActivity_zhmTqR
+                      activity: |-
+                        You already initiated the DIA process for the next occurence of this meeting, these are the current statuses of DIA forms for the detected KPIs and their owners:
+                        - Test 1
+                        - Test 2
+
+              elseActions:
+                - kind: SetVariable
+                  id: setVariable_FHO4VS
+                  variable: Topic.selectedMeetingEventJson
+                  value: =JSON(Topic.userSelectedMeeting)
+
+                - kind: ParseValue
+                  id: peQEGr
+                  variable: Topic.selectedMeetingEvent
+                  valueType:
+                    kind: Record
+                    properties:
+                      DIAStatus: Number
+                      EventConfigurationId: String
+                      EventDate: String
+                      EventId: Blank
+                      EventMeetingType: String
+                      EventMeetingValue: String
+                      EventName: String
+                      EventStatus: Number
+                      MandatoryAttendees: String
+                      MeetingConfigurationId: String
+                      MeetingFrequency: Number
+                      MeetingGroupId: String
+                      MeetingKpis:
+                        type:
+                          kind: Table
+                          properties:
+                            description: String
+                            id: String
+                            name: String
+                            owner: String
+                            ownerEmail: String
+                            ownerId: String
+
+                      MeetingMsProjects:
+                        type:
+                          kind: Table
+                          properties:
+                            owner: String
+                            ownerEmail: String
+                            projectId: String
+                            projectName: String
+
+                      MeetingPlannerId: String
+                      MeetingSetupJson: String
+                      MeetingTierCode: String
+                      MeetingTierDescription: String
+                      MeetingTierId: String
+                      OptionalAttendees: Blank
+                      PostEventStatus: Number
+
+                  value: =Topic.selectedMeetingEventJson
+
+                - kind: ConditionGroup
+                  id: conditionGroup_xuyyxG
+                  conditions:
+                    - id: conditionItem_htY50C
+                      condition: =Topic.selectedMeetingEvent.DIAStatus = 1
+                      actions:
+                        - kind: BeginDialog
+                          id: 1QrbPB
+                          input:
+                            binding:
+                              meetingEventId: =Topic.selectedMeetingEvent.EventMeetingValue
+
+                          dialog: cr1d7_agenttIFALA.topic.CheckOnGoingDIAsStatus
+
+                  elseActions:
+                    - kind: BeginDialog
+                      id: gZEDoT
+                      input:
+                        binding:
+                          meetingEventConfig: =Topic.selectedMeetingEvent
+
+                      dialog: cr1d7_agenttIFALA.topic.DetectRedKpis
+
+      elseActions:
+        - kind: Question
+          id: question_xOTrl2
+          interruptionPolicy:
+            allowInterruption: true
+
+          variable: init:Topic.Var1
+          prompt: "I couldn't find any records of configured meetings, do you want to configure one? "
+          entity:
+            kind: EmbeddedEntity
+            definition:
+              kind: ClosedListEntity
+              items:
+                - id: Yes
+                  displayName: Yes
+
+                - id: No
+                  displayName: No
+
+        - kind: ConditionGroup
+          id: conditionGroup_j5PX8F
+          conditions:
+            - id: conditionItem_3J05Qg
+              condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.GetUserConfiguredMeetings.main.question_xOTrl2'.Yes
+              actions:
+                - kind: BeginDialog
+                  id: IIChwC
+                  dialog: cr1d7_agenttIFALA.topic.MeetingSelectionTopic
+
+            - id: conditionItem_cSkXHs
+              condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.GetUserConfiguredMeetings.main.question_xOTrl2'.No
+              actions:
+                - kind: BeginDialog
+                  id: 9JGD8e
+                  dialog: cr1d7_agenttIFALA.topic.InitialTopic
+
+inputType: {}
+outputType: {}

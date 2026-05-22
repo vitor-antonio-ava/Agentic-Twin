@@ -1,0 +1,91 @@
+[
+  {
+    "@odata.etag": "W/\"zbP0hxvvHkuQui25V+EyugAAPMrNhA==\"",
+    "id": "AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgBGAAAAAACYJQYxsJ3VRr3evYoowhS-BwDNs-SHG_8eS5C6LblX4TK6AAAAAAENAADNs-SHG_8eS5C6LblX4TK6AAA7jANFAAA=",
+    "subject": "Vitor Recurring Weekly Sync",
+    "isOnlineMeeting": true,
+    "onlineMeetingProvider": "teamsForBusiness",
+    "start": {
+      "dateTime": "2026-05-08T13:30:00.0000000",
+      "timeZone": "UTC"
+    },
+    "end": {
+      "dateTime": "2026-05-08T14:00:00.0000000",
+      "timeZone": "UTC"
+    },
+    "recurrence": {
+      "pattern": {
+        "type": "weekly",
+        "interval": 1,
+        "month": 0,
+        "dayOfMonth": 0,
+        "daysOfWeek": ["friday"],
+        "firstDayOfWeek": "sunday",
+        "index": "first"
+      },
+      "range": {
+        "type": "endDate",
+        "startDate": "2026-05-08",
+        "endDate": "2027-05-07",
+        "recurrenceTimeZone": "Central European Standard Time",
+        "numberOfOccurrences": 0
+      }
+    },
+    "onlineMeeting": {
+      "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3aSYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1%40thread.tacv2/1777986122199?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22420a2572-f2f7-4c85-80dc-ea6478de394b%22%7d"
+    },
+    "organizer": {
+      "emailAddress": {
+        "name": "Vitor Antonio",
+        "address": "vitor.x.antonio@gsk.com"
+      }
+    },
+    "groupID": "cc62d3f5-361b-403e-8d48-c6b81e6d781a",
+    "groupEmail": "GovernancePilot@gsk.onmicrosoft.com",
+    "isOrganizer": true
+  },
+  {
+    "@odata.etag": "W/\"zbP0hxvvHkuQui25V+EyugAAPnFmAw==\"",
+    "id": "AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgBGAAAAAACYJQYxsJ3VRr3evYoowhS-BwDNs-SHG_8eS5C6LblX4TK6AAAAAAENAADNs-SHG_8eS5C6LblX4TK6AAA9OYixAAA=",
+    "subject": "TestMeeting101",
+    "isOnlineMeeting": true,
+    "onlineMeetingProvider": "teamsForBusiness",
+    "start": {
+      "dateTime": "2026-05-15T15:30:00.0000000",
+      "timeZone": "UTC"
+    },
+    "end": {
+      "dateTime": "2026-05-15T16:00:00.0000000",
+      "timeZone": "UTC"
+    },
+    "recurrence": {
+      "pattern": {
+        "type": "absoluteMonthly",
+        "interval": 1,
+        "month": 0,
+        "dayOfMonth": 15,
+        "firstDayOfWeek": "sunday",
+        "index": "first"
+      },
+      "range": {
+        "type": "endDate",
+        "startDate": "2026-05-15",
+        "endDate": "2026-08-31",
+        "recurrenceTimeZone": "GMT Standard Time",
+        "numberOfOccurrences": 0
+      }
+    },
+    "onlineMeeting": {
+      "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3aSYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1%40thread.tacv2/1778080601650?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%2215a8796c-a3ac-49d4-9811-40bdc57f5283%22%7d"
+    },
+    "organizer": {
+      "emailAddress": {
+        "name": "Dilawar Mansoori",
+        "address": "dilawar.x.mansoori@gsk.com"
+      }
+    },
+    "groupID": "cc62d3f5-361b-403e-8d48-c6b81e6d781a",
+    "groupEmail": "GovernancePilot@gsk.onmicrosoft.com",
+    "isOrganizer": false
+  }
+]

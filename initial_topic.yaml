@@ -1,0 +1,61 @@
+kind: AdaptiveDialog
+modelDescription: Test Cards
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: SendActivity
+      id: sendActivity_OhwOpr
+      activity: Hey I'm the New Meeting Agent! I can help you prepare for your meetings! First let me check if you have save configurations.
+
+    - kind: Question
+      id: question_clIAps
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.Var1
+      prompt: "To get started please select one of the options:"
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Initiate DIA
+              displayName: Initiate DIA
+
+            - id: Manage DIA
+              displayName: Manage DIA
+
+            - id: My Assigned DIA
+              displayName: My Assigned DIA
+
+    - kind: ConditionGroup
+      id: conditionGroup_sVKqZT
+      conditions:
+        - id: conditionItem_QYlDoK
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.InitialTopic.main.question_clIAps'.'Initiate DIA'
+          actions:
+            - kind: BeginDialog
+              id: 7Go8gN
+              dialog: cr1d7_agenttIFALA.topic.MeetingSelectionTopic
+
+        - id: conditionItem_wmlLcG
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.InitialTopic.main.question_clIAps'.'Manage DIA'
+          actions:
+            - kind: BeginDialog
+              id: nQJ7dS
+              dialog: cr1d7_agenttIFALA.topic.GetUserConfiguredMeetings
+
+        - id: conditionItem_xZRtk9
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.InitialTopic.main.question_clIAps'.'My Assigned DIA'
+          actions:
+            - kind: BeginDialog
+              id: uwhOsH
+              dialog: cr1d7_agenttIFALA.topic.CheckUserAssignedDIAs
+
+    - kind: GotoAction
+      id: NpGJOz
+      actionId: sendActivity_OhwOpr
+
+inputType: {}
+outputType: {}

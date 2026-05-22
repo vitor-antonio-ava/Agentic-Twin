@@ -1,0 +1,386 @@
+kind: AdaptiveDialog
+modelDescription: |-
+  Step 3 — KPI Selection (Per Meeting).
+  Retrieves KPIs from Power BI (paginated, max 20 per page), lets the user select which KPIs to track,
+  delegates owner assignment to the Assign KPI Owner topic, and confirms the final list before proceeding to Step 4.
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: SendActivity
+      id: sendActivity_Step3Start
+      activity: Retrieving available KPIs for meeting **{Global.selectedMeetingSubject}**. One moment please...
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_NqOm7T
+      input: {}
+      output:
+        binding:
+          kpidata: Topic.kpiData
+
+      flowId: 52efb6eb-2537-f111-88b5-000d3a33da71
+
+    - kind: SetVariable
+      id: setVariable_ParseAllKPIs
+      variable: Topic.allKPIsList
+      value: |-
+        =ForAll(
+            ParseJSON(Topic.kpiData),
+            {
+                DisplayName: Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_NAME]'),
+                Value: Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_ID]'),
+                id: Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_ID]'),
+                name: Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_NAME]'),
+                description: Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_DESC]')
+            }
+        )
+
+    - kind: SetVariable
+      id: setVariable_TotalCount
+      variable: Topic.totalKPICount
+      value: =CountRows(Topic.allKPIsList)
+
+    - kind: SetMultipleVariables
+      id: setVariable_PaginationInit
+      assignments:
+        - variable: Topic.pageSize
+          value: =20
+
+        - variable: Topic.currentPage
+          value: =1
+
+        - variable: Topic.totalPages
+          value: =RoundUp(Topic.totalKPICount / 20, 0)
+
+    - kind: SetVariable
+      id: setVariable_PageStart
+      displayName: Calculate page start index
+      variable: Topic.pageStartIndex
+      value: =((Topic.currentPage - 1) * Topic.pageSize) + 1
+
+    - kind: SetVariable
+      id: setVariable_CurrentPageKPIs
+      displayName: Slice KPIs for current page
+      variable: Topic.currentPageKPIs
+      value: |-
+        =FirstN(
+            LastN(
+                Topic.allKPIsList,
+                Topic.totalKPICount - Topic.pageStartIndex + 1
+            ),
+            Topic.pageSize
+        )
+
+    - kind: SetVariable
+      id: setVariable_PageDisplay
+      variable: Topic.currentPageDisplayText
+      value: |-
+        =With(
+            { startNum: Topic.pageStartIndex },
+            Concat(
+                ForAll(
+                    Sequence(CountRows(Topic.currentPageKPIs)),
+                    With(
+                        { kpiRow: Last(FirstN(Topic.currentPageKPIs, Value)) },
+                        {
+                            line: Text(startNum + Value - 1) & ". **" &
+                                  kpiRow.name & "** (ID: " &
+                                  kpiRow.id & ") — " &
+                                  kpiRow.description
+                        }
+                    )
+                ),
+                line,
+                Char(10)
+            )
+        )
+
+    - kind: SendActivity
+      id: sendActivity_ShowKPIPage
+      activity: |-
+        {If(
+            Topic.totalKPICount > Topic.pageSize,
+            "Showing page " & Text(Topic.currentPage) & " of " & Text(Topic.totalPages) &
+            " (" & Text(Topic.totalKPICount) & " KPIs total)" & Char(10) & Char(10),
+            ""
+        )}{Topic.currentPageDisplayText}
+
+    - kind: Question
+      id: question_SelectKPIs
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.userKPISelection
+      prompt: |-
+        Which KPIs would you like to track for meeting '{Global.selectedMeetingSubject}'?
+
+        Select by number or name. You can select multiple (e.g. "1, 3, 5" or "On-Time Delivery Rate, Cycle Time").
+        {If(Topic.totalPages > 1, "Type **'next'** to see the next page or **'prev'** for the previous page.", "")}
+      entity: StringPrebuiltEntity
+
+    - kind: ConditionGroup
+      id: conditionGroup_PaginationCheck
+      conditions:
+        - id: conditionItem_NextPage
+          condition: =Lower(Trim(Topic.userKPISelection)) = "next"
+          actions:
+            - kind: ConditionGroup
+              id: conditionGroup_CanGoNext
+              conditions:
+                - id: conditionItem_HasNextPage
+                  condition: =Topic.currentPage < Topic.totalPages
+                  actions:
+                    - kind: SetVariable
+                      id: setVariable_IncrementPage
+                      variable: Topic.currentPage
+                      value: =Topic.currentPage + 1
+
+                    - kind: GotoAction
+                      id: goto_ShowNextPage
+                      actionId: setVariable_PageStart
+
+              elseActions:
+                - kind: SendActivity
+                  id: sendActivity_NoNextPage
+                  activity: You're already on the last page.
+
+                - kind: GotoAction
+                  id: goto_ReaskAfterNoNext
+                  actionId: question_SelectKPIs
+
+        - id: conditionItem_PrevPage
+          condition: =Lower(Trim(Topic.userKPISelection)) = "prev"
+          actions:
+            - kind: ConditionGroup
+              id: conditionGroup_CanGoPrev
+              conditions:
+                - id: conditionItem_HasPrevPage
+                  condition: =Topic.currentPage > 1
+                  actions:
+                    - kind: SetVariable
+                      id: setVariable_DecrementPage
+                      variable: Topic.currentPage
+                      value: =Topic.currentPage - 1
+
+                    - kind: GotoAction
+                      id: goto_ShowPrevPage
+                      actionId: setVariable_PageStart
+
+              elseActions:
+                - kind: SendActivity
+                  id: sendActivity_NoPrevPage
+                  activity: You're already on the first page.
+
+                - kind: GotoAction
+                  id: goto_ReaskAfterNoPrev
+                  actionId: question_SelectKPIs
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_bVd9YT
+      input:
+        binding:
+          kpiData: =Topic.kpiData
+          userKPISelection: =Topic.userKPISelection
+
+      output:
+        binding:
+          predictionOutput: Topic.resolvedKPIsJsonResult
+
+      aIModelId: df42093e-4e06-4869-a837-5d807e913ff6
+
+    - kind: SetVariable
+      id: setVariable_ParseSelectedKPIs
+      variable: Topic.selectedKPIsList
+      value: |-
+        =ForAll(
+            Topic.resolvedKPIsJsonResult.structuredOutput.result,
+            {
+                id: Text(ThisRecord.id),
+                name: Text(ThisRecord.name),
+                description: Text(ThisRecord.description)
+            }
+        )
+
+    - kind: SetVariable
+      id: setVariable_SelectedKPIsSummary
+      variable: Topic.selectedKPIsSummaryText
+      value: |-
+        =Concat(
+            ForAll(
+                Sequence(CountRows(Topic.selectedKPIsList)),
+                With(
+                    { kpiRow: Last(FirstN(Topic.selectedKPIsList, Value)) },
+                    {
+                        line: Text(Value) & ". **" &
+                              kpiRow.name & "** (" &
+                              kpiRow.id & ") — " &
+                              kpiRow.description
+                    }
+                )
+            ),
+            line,
+            Char(13) & Char(10)
+        )
+
+    - kind: SendActivity
+      id: sendActivity_ShowSelectedKPIs
+      activity: |-
+        You selected {CountRows(Topic.selectedKPIsList)} KPI(s):
+
+        {Topic.selectedKPIsSummaryText}
+
+    - kind: SetVariable
+      id: setVariable_KPIPayloadForOwnerAssignment
+      variable: Topic.selectedKPIsPayload
+      value: |-
+        =JSON(
+            ForAll(
+                Topic.selectedKPIsList,
+                {
+                    id: id,
+                    name: name,
+                    description: description
+                }
+            )
+        )
+
+    - kind: SetVariable
+      id: setVariable_EhBNxn
+      variable: Topic.selectedKpis
+      value: |-
+        =ForAll(
+            ParseJSON(Topic.selectedKPIsPayload),
+            {
+                id: ThisRecord.id,
+                name: ThisRecord.name,
+                description: ThisRecord.description
+            }
+        )
+
+    - kind: SendActivity
+      id: sendActivity_AssigningOwners
+      activity: Now let's assign owners to each selected KPI...
+
+    - kind: BeginDialog
+      id: beginDialog_AssignKPIOwner
+      input:
+        binding:
+          Kpis: =Topic.selectedKPIsList
+
+      dialog: cr1d7_agenttIFALA.topic.AssignKPIOwner
+      output:
+        binding:
+          updatedKpis: Topic.kpisWithOwners
+
+    - kind: SetVariable
+      id: setVariable_ParseKPIsWithOwners
+      variable: Topic.kpisWithOwnersList
+      value: |-
+        =ForAll(
+            Topic.kpisWithOwners,
+            {
+                id: Text(ThisRecord.id),
+                name: Text(ThisRecord.name),
+                description: Text(ThisRecord.description),
+                ownerId: Text(ThisRecord.ownerId),
+                ownerName: Text(ThisRecord.owner),
+                ownerEmail: Text(ThisRecord.ownerEmail)
+            }
+        )
+
+    - kind: SetVariable
+      id: setVariable_FinalKPISummary
+      variable: Topic.finalKPISummaryText
+      value: |-
+        =Concat(
+            ForAll(
+                Sequence(CountRows(Topic.kpisWithOwnersList)),
+                With(
+                    { kpiRow: Last(FirstN(Topic.kpisWithOwnersList, Value)) },
+                    {
+                        line: Text(Value) & ". **" & kpiRow.name & "** (" & kpiRow.id & ")" & Char(13) & Char(10) &
+                              "   Description: " & kpiRow.description & Char(13) & Char(10) &
+                              "   Owner: " & kpiRow.ownerName & " (" & kpiRow.ownerEmail & ")"
+                    }
+                )
+            ),
+            line,
+            Char(13) & Char(10)
+        )
+
+    - kind: SendActivity
+      id: sendActivity_ShowFinalKPIs
+      activity: |-
+        Here are your selected KPIs with assigned owners for meeting **{Global.selectedMeetingSubject}**:
+
+        {Topic.finalKPISummaryText}
+
+    - kind: Question
+      id: question_ConfirmKPIs
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.kpiConfirmation
+      prompt: Does this look correct? Shall I proceed?
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Yes, proceed
+              displayName: Yes, proceed
+
+            - id: No, re-select KPIs
+              displayName: No, re-select KPIs
+
+    - kind: ConditionGroup
+      id: conditionGroup_KPIConfirmation
+      conditions:
+        - id: conditionItem_KPIConfirmed
+          condition: =Topic.kpiConfirmation = 'cr1d7_agenttIFALA.topic.KPISelection.main.question_ConfirmKPIs'.'Yes, proceed'
+          actions:
+            - kind: SetMultipleVariables
+              id: setVariable_SaveKPIsToGlobal
+              assignments:
+                - variable: Global.selectedKPIsWithOwners
+                  value: =Topic.kpisWithOwners
+
+                - variable: Global.selectedKPIsList
+                  value: |-
+                    =JSON(
+                        ForAll(
+                            Topic.kpisWithOwnersList,
+                            {
+                                id: id,
+                                name: name,
+                                description: description,
+                                ownerId: ownerId,
+                                ownerName: ownerName,
+                                ownerEmail: ownerEmail
+                            }
+                        )
+                    )
+
+            - kind: SendActivity
+              id: sendActivity_KPIsSaved
+              activity: KPI selection saved for **{Global.selectedMeetingSubject}**. Moving to the next step...
+
+            - kind: BeginDialog
+              id: beginDialog_GoToStep4
+              dialog: cr1d7_agenttIFALA.topic.MSProjectSelection
+
+        - id: conditionItem_KPIReselect
+          condition: =Topic.kpiConfirmation = 'cr1d7_agenttIFALA.topic.KPISelection.main.question_ConfirmKPIs'.'No, re-select KPIs'
+          actions:
+            - kind: SendActivity
+              id: sendActivity_RestartKPISelection
+              activity: No problem! Let's select your KPIs again.
+
+            - kind: SetVariable
+              id: setVariable_ResetPage
+              variable: Topic.currentPage
+              value: =1
+
+            - kind: GotoAction
+              id: goto_RestartKPISelection
+              actionId: setVariable_PageStart

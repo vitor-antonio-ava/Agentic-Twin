@@ -1,0 +1,167 @@
+kind: AdaptiveDialog
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: meetingEventId
+    description: The meeting Event ID
+    shouldPromptUser: true
+
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_uunuTt
+      input:
+        binding:
+          text: =Topic.meetingEventId
+
+      output:
+        binding:
+          diatasks: Topic.eventTaskList
+
+      flowId: cab9bd87-547d-2af4-596e-5c231e7c2afd
+
+    - kind: ParseValue
+      id: DMTGh5
+      variable: Topic.diaTasks
+      valueType:
+        kind: Table
+        properties:
+          AssignedToEmail: String
+          AssignedToUsername: String
+          DIAResponseReceived: Number
+          DIATaskId: String
+          NewColumn: String
+          OwnerId: String
+          PlannerTaskId: String
+          Status: Number
+          TaskDueDate: String
+          TaskStartDate: String
+          TaskType: Number
+
+      value: =Topic.eventTaskList
+
+    - kind: AdaptiveCardPrompt
+      id: 9PPnGM
+      card: |-
+        ={
+          type: "AdaptiveCard",
+          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+          version: "1.5",
+          body: [
+            {
+              type: "Container",
+              spacing: "None",
+              items: [
+                {
+                  type: "TextBlock",
+                  text: "Pending Tasks",
+                  weight: "Bolder",
+                  size: "Large",
+                  color: "Accent",
+                  spacing: "None"
+                },
+                {
+                  type: "TextBlock",
+                  text: Concatenate(Text(CountRows(Topic.diaTasks)), " task(s) require your attention"),
+                  size: "Small",
+                  isSubtle: true,
+                  spacing: "None"
+                }
+              ]
+            },
+            {
+              type: "Container",
+              separator: true,
+              spacing: "Small",
+              items: ForAll(
+                Topic.diaTasks,
+                {
+                  type: "ColumnSet",
+                  separator: true,
+                  spacing: "Small",
+                  columns: [
+                    {
+                      type: "Column",
+                      width: "stretch",
+                      items: [
+                        {
+                          type: "TextBlock",
+                          text: ThisRecord.NewColumn,
+                          weight: "Bolder",
+                          size: "Small",
+                          wrap: true
+                        },
+                        {
+                          type: "TextBlock",
+                          text: Concatenate("👤  ", If(IsBlank(ThisRecord.AssignedToUsername), "", Concatenate(ThisRecord.AssignedToUsername, " - ")), ThisRecord.AssignedToEmail),
+                          size: "Small",
+                          isSubtle: true,
+                          wrap: true
+                        },
+                        {
+                          type: "TextBlock",
+                          text: Concatenate("📋 ", Switch(ThisRecord.TaskType, 0, "Planner", 1, "KPI", 2, "MSProject", 3, "Optional DIA", "Unknown"), "  |  ", Switch(ThisRecord.Status, 0, "🔄 In Progress", 1, "✅ Submitted", "Unknown")),
+                          size: "Small",
+                          isSubtle: true,
+                          wrap: true
+                        }
+                      ]
+                    },
+                    {
+                      type: "Column",
+                      width: "auto",
+                      verticalContentAlignment: "Center",
+                      items: [
+                        {
+                          type: "TextBlock",
+                          text: Text(DateTimeValue(ThisRecord.TaskDueDate), "mmm d, yyyy"),
+                          size: "Small",
+                          weight: "Bolder",
+                          horizontalAlignment: "Right",
+                          color: If(DateDiff(Today(), DateTimeValue(ThisRecord.TaskDueDate), TimeUnit.Days) <= 3, "Warning", "Good")
+                        },
+                        {
+                          type: "TextBlock",
+                          text: "⚠️ Overdue",
+                          size: "Small",
+                          weight: "Bolder",
+                          horizontalAlignment: "Right",
+                          color: "Attention",
+                          isVisible: If(Today() > DateTimeValue(ThisRecord.TaskDueDate), true, false)
+                        }
+                      ]
+                    }
+                  ]
+                }
+              )
+            }
+          ], 
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Acknowledge Statuses",
+              data: {
+                action: "Acknowledge"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          action: Topic.action
+          actionSubmitId: Topic.actionSubmitId
+
+      outputType:
+        properties:
+          action: String
+          actionSubmitId: String
+
+inputType:
+  properties:
+    meetingEventId:
+      displayName: meetingEventId
+      description: The meeting Event ID
+      type: String
+
+outputType: {}

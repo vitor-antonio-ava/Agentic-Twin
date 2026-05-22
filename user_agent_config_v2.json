@@ -3,66 +3,60 @@
     "display_name": "string",
     "email": "string",
     "timezone": "string",
-    "preferences": {
-        "notificationTimePreference": [
-            {
-                "meetingId": "string",
-                "meetingName": "Global Supply Chain Leadership Team Meeting",
-                "organizerId": "string",
-                "organizerName": "string",
-                "organizerMeetingPrepNotificationDatetime": "string",
-                "attendeesMeetingPrepNotificationDatetime": "string"
+    "preferences": [
+        {
+            "meetingId": "string",
+            "meetingSubject": "string",
+            "tier": "string",
+            "tierId": "string",
+            "tierCode": "string",
+            "tierDescription": "string",
+            "userStatus": "organizer|attendee",
+            "recurringMeetingStartDate": "string",
+            "recurringMeetingEndDate": "string",
+            "recurrencePattern": "string",
+            "trackedMSProjects": [
+                {
+                    "projectId": "string",
+                    "projectName": "string",
+                    "ownerId": "string",
+                    "ownerName": "string",
+                    "ownerEmail": "string"
+                }
+            ],
+            "trackedSCRProjects": [
+                {
+                    "id": "string",
+                    "name": "string",
+                    "ownerId": "string",
+                    "ownerName": "string",
+                    "ownerEmail": "string"
+                }
+            ],
+            "trackedAnnualPrograms": [
+                {
+                    "id": "string",
+                    "name": "string",
+                    "ownerId": "string",
+                    "ownerName": "string",
+                    "ownerEmail": "string"
+                }
+            ],
+            "trackedKPIs": [
+                {
+                    "id": "string",
+                    "name": "string",
+                    "description": "string",
+                    "ownerId": "string",
+                    "ownerName": "string",
+                    "ownerEmail": "string"
+                }
+            ],
+            "notification": {
+                "daysBefore": 0,
+                "nextMeetingDateTime": "string"
             }
-        ],
-        "configuredMeetings": [
-            {
-                "meetingId": "string",
-                "meetingName": "string",
-                "tier": "string",
-                "tierId": "string",
-                "tierDescription": "string",
-                "userStatus": "organizer|attendee",
-                "recurringMeetingStartDate": "string", 
-                "recurringMeetingEndDate": "string",
-                "nextOccurrenceDate": "string",
-                "trackedMSProjects": [
-                    {
-                        "projectId": "string",
-                        "projectName": "string",
-                        "ownerId": "string",
-                        "ownerName": "string",
-                        "ownerEmail": "string"
-                    }
-                ],
-                "trackedSCRProjects": [
-                    {
-                        "id": "string",
-                        "name": "string",
-                        "ownerId": "string",
-                        "ownerName": "string",
-                        "ownerEmail": "string"
-                    }
-                ],
-                "trackedAnnualPrograms": [
-                    {
-                        "id": "string",
-                        "name": "string",
-                        "ownerId": "string",
-                        "ownerName": "string",
-                        "ownerEmail": "string"
-                    }
-                ],
-                "trackedKPIIDs": [
-                    {
-                        "id": "string",
-                        "name": "string",
-                        "ownerId": "string",
-                        "ownerName": "string",
-                        "ownerEmail": "string"
-                    }
-                ]
-            }
-        ]
-    },
+        }
+    ],
     "last_updated": "2024-06-01T12:00:00Z"
 }

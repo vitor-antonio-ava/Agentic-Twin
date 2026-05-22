@@ -1,17 +1,11 @@
 Project hotes
 
 Tasks:
-- Continue work on the flow
-   - Add the piece for user to configure meeting 
-   - Get the data necessary for the meeting configuration like DIM_UNIVERSAL_HIERARCHY and FCT_ACTIVE_MS_PROJECTS
-- Update Flow Diagram in Mural
+- Create a flow to handle and manage the attendees
+- Create a dropdown on the DIA filling form to select the type of DIA
+- Check Excel for requirements/ adjust 
+- Close the task on planner after DIA form submission (update current flow)
 - 
-
-DIM_LIST_OF_KPIS ->
-DIM_UNIVERSAL_HIERARCHY -> 
-FCT_ACTIVE_MS_PROJECTS
-
-10 KPIS 
 
 Migration:
 - manualTaskPlannerFlow -> add the proper custom values for the Global variables - done
@@ -91,17 +85,5 @@ About 30 KPIs to be tracked
 - Agent should provide Agenda and a Deck based on the meeting default templates and based DIA data sent for the upcoming meeting
    - Create HTML or PPT based on templates and DIA data
 
-Old Tasks:
-
-- Fix the "Create a Task" to be "Create a DIA Task" ("Assign new DIA") for when the creating tasks  via the DIA agent flow
-- check if we can use publishing agent send email for the DIA flow 
-- Remove the "Do you want to create another task?" question after creating a task (unnecessary, we already quick replies)
-
-----------------
-
-AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgFRAAgI3pBKyI9AAEYAAAAAmCUGMbCd1Ua93r2KKMIUvwcAzbP0hxvvHkuQui25V_EyugAAAAABDQAAzbP0hxvvHkuQui25V_EyugAAI_XCYgAAEA==
-AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgFRAAgI3pXK8XOAAEYAAAAAmCUGMbCd1Ua93r2KKMIUvwcAzbP0hxvvHkuQui25V_EyugAAAAABDQAAzbP0hxvvHkuQui25V_EyugAAI_XCYgAAEA==
 
 
-"iCalUId": "040000008200E00074C5B7101A82E00807EA04094F7D7EB51FC1DC010000000000000000100000009158E3D3BA8E0B468EC5F7CABD5EBD15",
-"iCalUId": "040000008200E00074C5B7101A82E00807EA04024F7D7EB51FC1DC010000000000000000100000009158E3D3BA8E0B468EC5F7CABD5EBD15",

@@ -23,11 +23,9 @@ EVALUATE
 SUMMARIZE (
     'FCT_ACTIVE_MS_PROJECTS',
     'FCT_ACTIVE_MS_PROJECTS'[ProjectId],
-    'FCT_ACTIVE_MS_PROJECTS'[ProjectName],   
-    'FCT_ACTIVE_MS_PROJECTS'[ProjectOwner],? -> comes from power bi
-    <!-- 'FCT_ACTIVE_MS_PROJECTS'[ProjectRAG], -->
-    <!-- 'FCT_ACTIVE_MS_PROJECTS'[T3_ID] -->
-    <!-- 'FCT_ACTIVE_MS_PROJECTS'[T3_Desc] -->
+    'FCT_ACTIVE_MS_PROJECTS'[ProjectName],
+    'FCT_ACTIVE_MS_PROJECTS'[Owner],
+    'FCT_ACTIVE_MS_PROJECTS'[Owner_Email]
 )
 
 ## Get KIPs
@@ -87,9 +85,198 @@ CALCULATETABLE(
         )
     ),
     TREATAS( { DATE(2026, 3, 1) }, 'calendar'[MonthStart] ),
-    TREATAS( DIM_UNIVERSAL_HIERARCHY[T3_0001] )
-    
+    TREATAS( "T3_0003", DIM_UNIVERSAL_HIERARCHY[T3_ID] ),
 )
+
+
+### Multi Data Query ###
+EVALUATE
+VAR ProjectFilter =
+    {
+        "773c5730-a49e-ee11-a2b3-00155d100f4c",
+        "bd908a2e-7e2c-f111-ab42-00155d10160d"
+    }
+
+-- =======================
+-- KPI RAG (RED only)
+-- =======================
+VAR KpiRagTable =
+    FILTER(
+        SELECTCOLUMNS(
+            CALCULATETABLE(
+                UNION(
+                    ROW(
+                        "KPI_ID", "KPI_EM_035",
+                        "EntityType", "KPI",
+                        "RAG",
+                            SWITCH(
+                                TRUE(),
+                                'MeasureTable'[KPI_EM_035_OnTarget] = 1, "Green",
+                                'MeasureTable'[KPI_EM_035_OnTarget] = 0, "Red",
+                                "Unknown"
+                            )
+                    ),
+                    ROW(
+                        "KPI_ID", "KPI_EM_039",
+                        "EntityType", "KPI",
+                        "RAG",
+                            SWITCH(
+                                TRUE(),
+                                'MeasureTable'[KPI_EM_039_OnTarget] = 1, "Green",
+                                'MeasureTable'[KPI_EM_039_OnTarget] = 0, "Red",
+                                "Unknown"
+                            )
+                    )
+                ),
+                TREATAS ( { DATE(2026, 2, 1) }, 'calendar'[MonthStart] )
+            ),
+            "EntityId",    [KPI_ID],
+            "EntityType",  [EntityType],
+            "Name",
+                LOOKUPVALUE(
+                    DIM_LIST_OF_KPIS[KPI_NAME],
+                    DIM_LIST_OF_KPIS[KPI_ID], [KPI_ID]
+                ),
+            "Owner_Email", BLANK(),
+            "RAG",         [RAG]
+        ),
+        [RAG] = "Red"
+    )
+
+-- =======================
+-- MS PROJECT RAG (RED + AMBER)
+-- =======================
+VAR MSProjectRagTable =
+    FILTER(
+        SELECTCOLUMNS(
+            CALCULATETABLE(
+                FCT_ACTIVE_MS_PROJECTS,
+                TREATAS(
+                    ProjectFilter,
+                    FCT_ACTIVE_MS_PROJECTS[ProjectId]
+                )
+            ),
+            "EntityId",    FCT_ACTIVE_MS_PROJECTS[ProjectId],
+            "EntityType",  "MS PROJECT",
+            "Name",        FCT_ACTIVE_MS_PROJECTS[ProjectName],
+            "Owner_Email", FCT_ACTIVE_MS_PROJECTS[Owner_Email],
+            "RAG",         FCT_ACTIVE_MS_PROJECTS[ProjectRAG]
+        ),
+        [RAG] IN { "Red", "Amber" }
+    )
+
+-- =======================
+-- SCR PROJECT RAG (RED + AMBER)
+-- =======================
+VAR SCRProjectRagTable =
+    FILTER(
+        SELECTCOLUMNS(
+            SCR_PROJECTS,
+            "EntityId",    SCR_PROJECTS[project_id],
+            "EntityType",  "SCR PROJECT",
+            "Name",        SCR_PROJECTS[project_name],
+            "Owner_Email", SCR_PROJECTS[owner_id],   -- assuming owner_id resolves to email
+            "RAG",         SCR_PROJECTS[ProjectRAG]
+        ),
+        [RAG] IN { "Red", "Amber" }
+    )
+
+RETURN
+UNION(
+    KpiRagTable,
+    UNION(
+        MSProjectRagTable,
+        SCRProjectRagTable
+    )
+)
+ 
+
+### Multi Data Query Sample 2 ###
+EVALUATE
+VAR ProjectFilter =
+    {
+        "773c5730-a49e-ee11-a2b3-00155d100f4c",
+        "bd908a2e-7e2c-f111-ab42-00155d10160d"
+    }
+
+-- =======================
+-- KPI RAG (RED only)
+-- =======================
+VAR KpiRagTable =
+    FILTER(
+        SELECTCOLUMNS(
+            CALCULATETABLE(
+                UNION(
+                    ROW(
+                        "KPI_ID", "KPI_EM_035",
+                        "EntityType", "KPI",
+                        "RAG",
+                            SWITCH(
+                                TRUE(),
+                                'MeasureTable'[KPI_EM_035_OnTarget] = 1, "Green",
+                                'MeasureTable'[KPI_EM_035_OnTarget] = 0, "Red",
+                                "Unknown"
+                            )
+                    ),
+                    ROW(
+                        "KPI_ID", "KPI_EM_039",
+                        "EntityType", "KPI",
+                        "RAG",
+                            SWITCH(
+                                TRUE(),
+                                'MeasureTable'[KPI_EM_039_OnTarget] = 1, "Green",
+                                'MeasureTable'[KPI_EM_039_OnTarget] = 0, "Red",
+                                "Unknown"
+                            )
+                    )
+                ),
+                TREATAS ( { DATE(2026, 2, 1) }, 'calendar'[MonthStart] )
+            ),
+            "EntityId",    [KPI_ID],
+            "EntityType",  [EntityType],
+            "Name",
+                LOOKUPVALUE(
+                    DIM_LIST_OF_KPIS[KPI_NAME],
+                    DIM_LIST_OF_KPIS[KPI_ID], [KPI_ID]
+                ),
+            "Owner_Email", BLANK(),
+            "RAG",         [RAG]
+        ),
+        [RAG] = "Red"
+    )
+
+-- =======================
+-- MS PROJECT RAG (RED + AMBER)
+-- =======================
+VAR MSProjectRagTable =
+    FILTER(
+        SELECTCOLUMNS(
+            CALCULATETABLE(
+                FCT_ACTIVE_MS_PROJECTS,
+                TREATAS(
+                    ProjectFilter,
+                    FCT_ACTIVE_MS_PROJECTS[ProjectId]
+                )
+            ),
+            "EntityId",    FCT_ACTIVE_MS_PROJECTS[ProjectId],
+            "EntityType",  "MS PROJECT",
+            "Name",        FCT_ACTIVE_MS_PROJECTS[ProjectName],
+            "Owner_Email", FCT_ACTIVE_MS_PROJECTS[Owner_Email],
+            "RAG",         FCT_ACTIVE_MS_PROJECTS[ProjectRAG]
+        ),
+        [RAG] IN { "Red", "Amber" }
+    )
+
+RETURN
+UNION(
+    KpiRagTable,
+    UNION(
+        MSProjectRagTable
+    )
+)
+
+
+
 
 ## First Sample Query Tested ##
 
@@ -143,3 +330,8 @@ ORDER BY
 
 
 ## 
+
+
+
+"143d0f8d-5bf0-f011-9ab0-00155d101d02,8bf4068a-fd3b-f011-b02f-00155d189411"
+"KPI_EM_017,KPI_EM_008"

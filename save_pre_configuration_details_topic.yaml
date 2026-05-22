@@ -1,0 +1,165 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: SendActivity
+      id: sendActivity_GcgER8
+      activity: I'm going to wrap everything up now...
+
+    - kind: SetVariable
+      id: setVariable_MFRNCt
+      variable: Topic.userData
+      value: |-
+        ={  
+            aad_id: System.User.Id,
+            display_name: System.User.DisplayName,
+            email: System.User.Email,
+            timezone: System.Conversation.LocalTimeZone
+        }
+
+    - kind: SetVariable
+      id: setVariable_EgQH1D
+      variable: Topic.preConfiguredMeeting
+      value: |-
+        ={
+            meetingId: Global.selectedMeeting.id,
+            meetingSubject: Global.selectedMeeting.DisplayName,
+            tier: Global.selectedTier,
+            tierId: Global.selectedTierId,
+            tierCode: Global.selectedMeetingTierCode,
+            tierDescription: Global.selectedTierDescription,
+            userStatus: Global.selectedMeetingStatus,
+            recurringMeetingStartDate: Global.selectedMeeting.recurrenceStart, 
+            recurringMeetingEndDate: Global.selectedMeeting.recurrenceEnd,
+            recurrencePattern: Global.selectedMeeting.recurrencePattern,
+            trackedKPIs: Global.selectedKPIsList,
+            trackedMSProjects: Global.selectedMsProjectsList,
+            groupId: Global.selectedMeeting.groupId,
+            groupEmail: Global.selectedMeeting.groupEmail,
+            plannerId: Global.selectedMeeting.plannerId,
+            organizerEmail: Global.selectedMeeting.organizerEmail,
+            organizerName: Global.selectedMeeting.organizerName,
+            requiredAttendees: Global.selectedMeeting.requiredAttendees,
+            optionalAttendees: Global.selectedMeeting.optionalAttendees,
+            onlineMeetingUrl: Global.selectedMeeting.onlineMeetingUrl,
+            notification: {
+                daysBefore: Global.userMeetingNotificationDays,
+                nextMeetingDateTime: ""
+            }
+        }
+
+    - kind: SetVariable
+      id: setVariable_SwZVSL
+      variable: Global.preConfiguredMeetingData
+      value: |-
+        ={
+            aad_id: Topic.userData.aad_id,
+            display_name: Topic.userData.display_name,
+            email: Topic.userData.email,
+            timezone: Topic.userData.timezone,
+            preferences: [
+                Topic.preConfiguredMeeting
+            ],
+            last_updated: Text(Now(), "yyyy-mm-ddThh:mm:ssZ")
+        }
+
+    - kind: Question
+      id: question_VKp2IQ
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.Var1
+      prompt: |-
+        This is the information I have so far:
+
+        {Global.preConfiguredMeetingData}
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Yes, proceed
+              displayName: Yes, proceed
+
+    - kind: ConditionGroup
+      id: conditionGroup_a2tI6e
+      conditions:
+        - id: conditionItem_2LofAa
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.SavePre-ConfigurationDetails.main.question_VKp2IQ'.'Yes, proceed'
+          actions:
+            - kind: InvokeFlowAction
+              id: xESZ5m
+              input:
+                binding:
+                  text: =JSON(Global.preConfiguredMeetingData)
+
+              output:
+                binding:
+                  jsonresult: Topic.jsonResult
+
+              flowId: 856fe3bb-d839-0fe3-7f1d-f0fb08c87102
+
+            - kind: InvokeFlowAction
+              id: invokeFlowAction_dF4dLA
+              input:
+                binding:
+                  text: =Topic.preConfiguredMeeting.meetingId
+
+              output:
+                binding:
+                  events: Topic.events
+
+              flowId: 6854f089-c84e-f111-bec6-002248048965
+
+            - kind: InvokeFlowAction
+              id: invokeFlowAction_QNoAYv
+              input:
+                binding:
+                  text: =JSON(Global.preConfiguredMeetingData)
+                  text_1: =Topic.events
+
+              output: {}
+              flowId: 1da58013-1637-f111-88b4-002248048965
+
+    - kind: Question
+      id: question_UDOmtR
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.Var2
+      prompt: All done! Do you wish to configured another meeting? Or start over?
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Configure another meeting
+              displayName: Configure another meeting
+
+            - id: Done for now
+              displayName: Done for now
+
+    - kind: ConditionGroup
+      id: conditionGroup_6Lh5ji
+      conditions:
+        - id: conditionItem_E94JZ2
+          condition: =Topic.Var2 = 'cr1d7_agenttIFALA.topic.SavePre-ConfigurationDetails.main.question_UDOmtR'.'Configure another meeting'
+          actions:
+            - kind: BeginDialog
+              id: pbxs2T
+              dialog: cr1d7_agenttIFALA.topic.MeetingSelectionTopic
+
+        - id: conditionItem_w8Py6L
+          condition: =Topic.Var2 = 'cr1d7_agenttIFALA.topic.SavePre-ConfigurationDetails.main.question_UDOmtR'.'Done for now'
+          actions:
+            - kind: BeginDialog
+              id: PZIGt5
+              dialog: cr1d7_agenttIFALA.topic.InitialTopic
+
+      elseActions:
+        - kind: CancelAllDialogs
+          id: GpjBRx
+
+inputType: {}
+outputType: {}

@@ -1,0 +1,82 @@
+{
+    "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('420a2572-f2f7-4c85-80dc-ea6478de394b')/events(id,subject,organizer,recurrence,start,end,isOrganizer)",
+    "value": [
+        {
+            "@odata.etag": "W/\"zbP0hxvvHkuQui25V+EyugAAJmCsGw==\"",
+            "id": "AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgBGAAAAAACYJQYxsJ3VRr3evYoowhS-BwDNs-SHG_8eS5C6LblX4TK6AAAAAAENAADNs-SHG_8eS5C6LblX4TK6AAAj5cJiAAA=",
+            "subject": "Weekly Sync",
+            "isOrganizer": true,
+            "start": {
+                "dateTime": "2026-04-02T07:30:00.0000000",
+                "timeZone": "UTC"
+            },
+            "end": {
+                "dateTime": "2026-04-02T08:00:00.0000000",
+                "timeZone": "UTC"
+            },
+            "recurrence": {
+                "pattern": {
+                    "type": "weekly",
+                    "interval": 1,
+                    "month": 0,
+                    "dayOfMonth": 0,
+                    "daysOfWeek": [
+                        "thursday"
+                    ],
+                    "firstDayOfWeek": "monday",
+                    "index": "first"
+                },
+                "range": {
+                    "type": "endDate",
+                    "startDate": "2026-04-02",
+                    "endDate": "2026-09-24",
+                    "recurrenceTimeZone": "Central European Standard Time",
+                    "numberOfOccurrences": 0
+                }
+            },
+            "organizer": {
+                "emailAddress": {
+                    "name": "Vitor Antonio",
+                    "address": "vitor.x.antonio@gsk.com"
+                }
+            }
+        },
+        {
+            "@odata.etag": "W/\"zbP0hxvvHkuQui25V+EyugAALxB5YA==\"",
+            "id": "AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgBGAAAAAACYJQYxsJ3VRr3evYoowhS-BwDNs-SHG_8eS5C6LblX4TK6AAAAAAENAADNs-SHG_8eS5C6LblX4TK6AAAmhcDCAAA=",
+            "subject": "Test 1: recurring",
+            "isOrganizer": false,
+            "start": {
+                "dateTime": "2026-04-08T16:00:00.0000000",
+                "timeZone": "UTC"
+            },
+            "end": {
+                "dateTime": "2026-04-08T16:30:00.0000000",
+                "timeZone": "UTC"
+            },
+            "recurrence": {
+                "pattern": {
+                    "type": "daily",
+                    "interval": 1,
+                    "month": 0,
+                    "dayOfMonth": 0,
+                    "firstDayOfWeek": "sunday",
+                    "index": "first"
+                },
+                "range": {
+                    "type": "endDate",
+                    "startDate": "2026-04-08",
+                    "endDate": "2026-07-08",
+                    "recurrenceTimeZone": "Romance Standard Time",
+                    "numberOfOccurrences": 0
+                }
+            },
+            "organizer": {
+                "emailAddress": {
+                    "name": "Antonino Sistac Plaza",
+                    "address": "antonino.x.sistacplaza@gsk.com"
+                }
+            }
+        }
+    ]
+}

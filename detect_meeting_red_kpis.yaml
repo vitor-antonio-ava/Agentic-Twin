@@ -1,0 +1,338 @@
+kind: AdaptiveDialog
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: meetingEventConfig
+    description: Meeting Configuration JSON data
+    shouldPromptUser: true
+
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: SetVariable
+      id: setVariable_3rUhv6
+      variable: Topic.meetingEvent
+      value: =Topic.meetingEventConfig
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_p7VJSD
+      input:
+        binding:
+          date: 2026-04-01
+          text: =Topic.meetingEvent.MeetingTierCode & "_ID"
+          text_1: |-
+            =Concat(
+                Topic.meetingEvent.MeetingKpis,
+                id,
+                ","
+            )
+          text_2: |-
+            =Concat(
+                Topic.meetingEvent.MeetingMsProjects,
+                projectId,
+                ","
+            )
+          text_3: =Topic.meetingEvent.MeetingTierId
+
+      output:
+        binding:
+          dataresult: Topic.dataResult
+
+      flowId: e1c1add3-6448-f111-bec6-000d3a3690d9
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_m3Za9a
+      input:
+        binding:
+          text: =Topic.meetingEvent.MeetingPlannerId
+          text_1: =Topic.meetingEvent.MeetingGroupId
+
+      output:
+        binding:
+          overduetasks: Topic.overdueTasks
+
+      flowId: 3a04c1f6-a152-f111-bec7-000d3a33da71
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_Q38WRx
+      input:
+        binding:
+          dataResult: =Topic.dataResult
+          kpiList: =JSON(Topic.meetingEvent.MeetingKpis)
+          msProjectsList: =JSON(Topic.meetingEvent.MeetingMsProjects)
+          plannerOverdueTasks: =Topic.overdueTasks
+
+      output:
+        binding:
+          predictionOutput: Topic.redKPIsResults
+
+      aIModelId: 86c1a3c0-bc70-43fc-b26f-07bc2421c3a6
+
+    - kind: SetVariable
+      id: setVariable_iePi3d
+      variable: Topic.redKPIs
+      value: =Topic.redKPIsResults.structuredOutput.redKPIS
+
+    - kind: AdaptiveCardPrompt
+      id: aALrpA
+      card: |-
+        ={
+          type: "AdaptiveCard",
+          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+          version: "1.5",
+          body: [
+            {
+              type: "TextBlock",
+              text: "⚠️ Items Requiring Attention",
+              weight: "Bolder",
+              size: "Medium",
+              wrap: true
+            },
+            {
+              type: "TextBlock",
+              text: "The following KPIs and Projects associated with this meeting are flagged:",
+              wrap: true,
+              spacing: "Small",
+              isSubtle: true
+            },
+            {
+              type: "TextBlock",
+              text: Concat(
+                Topic.redKPIs,
+                    If(RAG = "Red", "🔴", "🟠") & " **" & Name & "** — " & EntityType & " • " & RAG & " • " & EntityId  & Char(10) & Char(10) & "👤 " & OwnerName & " (" & OwnerEmail & ")" & Char(10) & Char(10) & " ------------ " & Char(10) & Char(10) 
+              ),
+              wrap: true,
+              spacing: "Medium",
+              separator: true
+            },
+            {
+              type: "TextBlock",
+              text: "These are the items that need further action.",
+              wrap: true,
+              spacing: "Large",
+              weight: "Bolder",
+              size: "Medium"
+            },
+            {
+              type: "TextBlock",
+              text: "Please select which items you want to create tasks for and their due date.",
+              wrap: true,
+              spacing: "Medium",
+              horizontalAlignment: "Left",
+              style: "default",
+              fontType: "Default",
+              size: "Medium",
+              weight: "Bolder"
+            },
+            {
+              type: "Input.ChoiceSet",
+              label: "Items",
+              isMultiSelect: true,
+              choices: [
+                {
+                  title: "KPIs",
+                  value: "KPI"
+                },
+                {
+                  title: "Ms Projects",
+                  value: "MSPROJECT"
+                },
+                {
+                  title: "Planner Overdue Tasks",
+                  value: "PLANNERTASK"
+                }
+              ],
+              placeholder: "Placeholder text",
+              id: "itemChoice"
+            },
+            {
+              type: "Input.Date",
+              label: "Due date",
+              isRequired: true,
+              errorMessage:"A due date value is required",
+              id: "dueDateValue"
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Confirm",
+              data: {
+                action: "confirmDIA"
+              }
+            },
+            {
+              type: "Action.Submit",
+              title: "Skip",
+              data: {
+                action: "skipDIA"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          action: Topic.action
+          actionSubmitId: Topic.actionSubmitId
+          dueDateValue: Topic.dueDateValue
+          itemChoice: Topic.selectedTypes
+
+      outputType:
+        properties:
+          action: String
+          actionSubmitId: String
+          dueDateValue: String
+          itemChoice: String
+
+    - kind: ConditionGroup
+      id: conditionGroup_81rKJh
+      conditions:
+        - id: conditionItem_pjvH1k
+          condition: =Topic.action = "confirmDIA"
+          actions:
+            - kind: SetVariable
+              id: setVariable_5IhTdv
+              variable: Topic.kpiTypes
+              value: =Split(Topic.selectedTypes, ",")
+
+            - kind: SetVariable
+              id: setVariable_dh6Tfo
+              variable: Topic.meetingAttendeesOptionalDIAs
+              value: |-
+                =ForAll(
+                    Filter(
+                        Split(Topic.meetingEvent.MandatoryAttendees, ","),
+                        !EndsWith(TrimEnds(Value), ".onmicrosoft.com") &&
+                        IsBlank(
+                            LookUp(
+                                Topic.redKPIs,
+                                Lower(OwnerEmail) = Lower(TrimEnds(Value))
+                            )
+                        )
+                    ),
+                    {
+                        EntityId: GUID(),
+                        EntityType: "OPTIONALDIA",
+                        Name: "Regular Attendee Default (Optional)",
+                        OwnerEmail: TrimEnds(Value),
+                        OwnerName: "",
+                        RAG: "N/A"
+                    }
+                )
+
+            - kind: SetVariable
+              id: setVariable_yammGw
+              variable: Topic.filteredKPIs
+              value: |-
+                =Filter(
+                    Topic.redKPIs,
+                    EntityType in Topic.kpiTypes
+                )
+
+            - kind: Question
+              id: question_pWiGKJ
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var2
+              prompt: Continue?
+              entity: StringPrebuiltEntity
+
+            - kind: InvokeFlowAction
+              id: LAOSdV
+              input:
+                binding:
+                  text: =JSON(Topic.filteredKPIs)
+                  text_1: =Topic.meetingEvent.MeetingConfigurationId
+                  text_2: =Topic.meetingEvent.MeetingGroupId
+                  text_3: =Text(Topic.dueDateValue)
+                  text_4: =JSON(Topic.meetingAttendeesOptionalDIAs)
+                  text_5: =Topic.meetingEvent.MeetingPlannerId
+
+              output:
+                binding:
+                  createdtasksids: Topic.createdTasksIds
+
+              flowId: ea9f9ba9-4c49-f111-bec6-002248048965
+
+            - kind: InvokeFlowAction
+              id: invokeFlowAction_ZtvYja
+              input:
+                binding:
+                  text: =Topic.createdTasksIds
+                  text_1: =Topic.meetingEvent.MeetingPlannerId
+                  text_2: =Topic.meetingEvent.MeetingConfigurationId
+                  text_3: =Topic.meetingEvent.EventMeetingValue
+
+              output: {}
+              flowId: 493e7b22-6550-f111-bec7-0022480489a1
+
+            - kind: SendActivity
+              id: ASokDb
+              activity: All Planner DIA tasks created successfully!
+
+    - kind: Question
+      id: lEH2U8
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: Topic.Var1
+      prompt: Done for now?
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Yes
+              displayName: Yes
+
+        displayName: EmbeddedEntity-JG6Fpb
+
+inputType:
+  properties:
+    meetingEventConfig:
+      displayName: meetingEventConfig
+      type:
+        kind: Record
+        properties:
+          DIAStatus: Number
+          EventConfigurationId: String
+          EventDate: String
+          EventId: Blank
+          EventMeetingType: String
+          EventMeetingValue: String
+          EventName: String
+          EventStatus: Number
+          MandatoryAttendees: String
+          MeetingConfigurationId: String
+          MeetingFrequency: Number
+          MeetingGroupId: String
+          MeetingKpis:
+            type:
+              kind: Table
+              properties:
+                description: String
+                id: String
+                name: String
+                owner: String
+                ownerEmail: String
+                ownerId: String
+
+          MeetingMsProjects:
+            type:
+              kind: Table
+              properties:
+                owner: String
+                ownerEmail: String
+                projectId: String
+                projectName: String
+
+          MeetingPlannerId: String
+          MeetingSetupJson: String
+          MeetingTierCode: String
+          MeetingTierDescription: String
+          MeetingTierId: String
+          OptionalAttendees: Blank
+          PostEventStatus: Number
+
+outputType: {}
