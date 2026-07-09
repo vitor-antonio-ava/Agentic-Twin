@@ -1,0 +1,759 @@
+kind: AdaptiveDialog
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: meetingEventId
+    description: The meeting event id
+    shouldPromptUser: true
+
+  - kind: AutomaticTaskInput
+    propertyName: MandatoryAttendees
+    description: List of calculated meeting event mandatory attendees
+    shouldPromptUser: true
+
+  - kind: AutomaticTaskInput
+    propertyName: OptionalAttendees
+    description: List of calculated meeting event optional attendees
+    shouldPromptUser: true
+
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_NuJz2S
+      input:
+        binding:
+          text: =Topic.meetingEventId
+
+      output:
+        binding:
+          meetingeventdata: Topic.meetingEventData
+
+      flowId: fed3de58-845a-f111-bec7-002248048965
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_0xsXJR
+      input:
+        binding:
+          text: =Topic.meetingEventId
+
+      output:
+        binding:
+          meetingeventdata: Topic.calendarEventData
+
+      flowId: ab2149c4-ca6b-f111-a826-002248048965
+
+    - kind: ParseValue
+      id: aK4hUN
+      variable: Topic.calendarEvent
+      valueType:
+        kind: Record
+        properties:
+          body: String
+          categories:
+            type:
+              kind: Table
+
+          createdDateTime: String
+          end: String
+          endWithTimeZone: String
+          iCalUId: String
+          id: String
+          importance: String
+          isAllDay: Boolean
+          isHtml: Boolean
+          isReminderOn: Boolean
+          lastModifiedDateTime: String
+          location: String
+          optionalAttendees: String
+          organizer: String
+          recurrence: String
+          reminderMinutesBeforeStart: Number
+          requiredAttendees: String
+          resourceAttendees: String
+          responseRequested: Boolean
+          responseTime: String
+          responseType: String
+          sensitivity: String
+          seriesMasterId: String
+          showAs: String
+          start: String
+          startWithTimeZone: String
+          subject: String
+          timeZone: String
+          webLink: String
+
+      value: =Topic.calendarEventData
+
+    - kind: ParseValue
+      id: Db87DC
+      variable: Topic.meetingEvent
+      valueType:
+        kind: Record
+        properties:
+          DeckLink: String
+          DIAStatus: Number
+          EventConfigurationId: String
+          EventDate: String
+          EventId: String
+          EventMeetingType: String
+          EventMeetingValue: String
+          EventName: String
+          EventStatus: Number
+          MandatoryAttendees: String
+          MeetingConfigurationId: String
+          MeetingEventId: String
+          MeetingFrequency: Number
+          MeetingGroupId: String
+          MeetingKpis:
+            type:
+              kind: Table
+              properties:
+                description: String
+                id: String
+                name: String
+                owner: String
+                ownerEmail: String
+                ownerId: String
+
+          MeetingMsProjects:
+            type:
+              kind: Table
+              properties:
+                owner: String
+                ownerEmail: String
+                projectId: String
+                projectName: String
+
+          MeetingPlannerId: String
+          MeetingSetupJson: String
+          MeetingTierCode: String
+          MeetingTierDescription: String
+          MeetingTierId: String
+          OptionalAttendees: String
+          PostEventStatus: Number
+
+      value: =Topic.meetingEventData
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_bkyPtw
+      input:
+        binding:
+          text: =Topic.meetingEventId
+
+      output:
+        binding:
+          meetingconfiguration: Topic.meetingConfiguration
+
+      flowId: 51d8e104-1d6b-f111-a825-7c1e528d4fea
+
+    - kind: ParseValue
+      id: 6JDcL1
+      variable: Topic.Var1
+      valueType:
+        kind: Record
+        properties:
+          DIAEnabled: Number
+          GroupId: String
+          MandatoryAttendees: String
+          MeetingConfigId: String
+          MeetingConfiguration: String
+          MeetingConfigurationId: String
+          MeetingPurpose: String
+          MeetingStatus: Number
+          NotifyDaysPrior: Number
+          Organizer: String
+          OrganizerEmail: String
+          PlannerId: String
+          PreConfigurationComplete: Number
+          SetupStatus: Number
+          SharePointTeamSiteUrl: String
+          Tier: String
+          TierCode: String
+          TierDescription: String
+          TierId: String
+          Timezone: String
+
+      value: =Topic.meetingConfiguration
+
+    - kind: SetMultipleVariables
+      id: setVariable_UWxV4e
+      assignments:
+        - variable: Topic.Var2
+          value: =System.Conversation.LocalTimeZoneOffset
+
+        - variable: Topic.Var3
+          value: =System.Conversation.LocalTimeZone
+
+    - kind: SetVariable
+      id: setVariable_JDIBMS
+      variable: Topic.meetingAttendees
+      value: =Concatenate(Topic.MandatoryAttendees, ",", Topic.OptionalAttendees)
+
+    - kind: InvokeFlowAction
+      id: kTtTGu
+      input:
+        binding:
+          text: =Topic.meetingEvent.MeetingEventId
+
+      output:
+        binding:
+          submitteddias: Topic.Var5
+
+      flowId: 4b8e5cae-aa59-f111-bec7-7c1e528d4fea
+
+    - kind: ParseValue
+      id: zJRs0L
+      variable: Topic.submittedDIATable
+      valueType:
+        kind: Table
+        properties:
+          AssignedOwnerEmail: String
+          AssignedOwnerName: String
+          BalancedScorecard: String
+          CurrentResponse: String
+          DIA: String
+          DIATaskId: String
+          DIATaskName: String
+          DIATaskType: String
+          DIAType: String
+          DIAUserInput: String
+          KPIId: String
+          KPIName: String
+          NextSteps: String
+          PatientImpact: String
+          Recommendation: String
+          Situation: String
+
+      value: =Topic.Var5
+
+    - kind: SetVariable
+      id: setVariable_kVXLX4
+      variable: Topic.filteredKPIs
+      value: |-
+        =ForAll(
+            Filter(Topic.submittedDIATable, DIATaskType = "KPI"),
+            {
+                DIATaskId: DIATaskId,
+                KPIId: KPIId,
+                KPIName: KPIName
+            }
+        )
+
+    - kind: AdaptiveCardPrompt
+      id: kfOufQ
+      card: |-
+        ={
+          type: "AdaptiveCard",
+          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+          version: "1.5",
+          body: [
+            {
+              type: "TextBlock",
+              text: "Meeting Pre-Read Setup",
+              size: "Large",
+              weight: "Bolder",
+              color: "Accent",
+              spacing: "None"
+            },
+            {
+              type: "TextBlock",
+              text: "Review and update meeting details before sharing the pre-read.",
+              wrap: true,
+              size: "Small",
+              isSubtle: true,
+              spacing: "Small"
+            },
+            {
+              type: "Container",
+              separator: true,
+              spacing: "Medium",
+              items: [
+                {
+                  type: "TextBlock",
+                  text: "Meeting Purpose",
+                  weight: "Bolder",
+                  size: "Small",
+                  spacing: "None"
+                },
+                {
+                  type: "Input.Text",
+                  id: "meetingPurpose",
+                  isMultiline: true,
+                  placeholder: "Enter meeting purpose...",
+                  value: Topic.Var1.MeetingPurpose
+                }
+              ]
+            },
+            {
+              type: "Container",
+              separator: true,
+              spacing: "Medium",
+              items: [
+                {
+                  type: "TextBlock",
+                  text: "Meeting Attendees",
+                  weight: "Bolder",
+                  size: "Small",
+                  spacing: "None"
+                },
+                {
+                  type: "TextBlock",
+                  text: Topic.meetingAttendees,
+                  wrap: true,
+                  size: "Small"
+                }
+              ]
+            },
+            {
+              type: "Container",
+              separator: true,
+              spacing: "Medium",
+              items: [
+                {
+                  type: "TextBlock",
+                  text: "Inputs",
+                  weight: "Bolder",
+                  size: "Small",
+                  spacing: "None"
+                },
+                {
+                  type: "Input.Text",
+                  id: "meetingInputs",
+                  isMultiline: true,
+                  placeholder: "Test",
+                  value: "KPI Dashboard (Power Bi)" & Char(10) & "MPR Report (Power Bi)" & Char(10) & "SD/SiP Report (Power Bi)" & Char(10) & "Decisions Required & SPADM"
+                }
+              ]
+            },
+            {
+              type: "Container",
+              separator: true,
+              spacing: "Medium",
+              items: [
+                {
+                  type: "TextBlock",
+                  text: "Outputs",
+                  weight: "Bolder",
+                  size: "Small",
+                  spacing: "None"
+                },
+                {
+                  type: "Input.Text",
+                  id: "meetingOutputs",
+                  isMultiline: true,
+                  placeholder: "Test",
+                  value: "D - MPR Decisions" & Char(10) & "I - Interventions / Actions / Help Required" & Char(10) & "I - Problem Solve Focus Areas" & Char(10) & "A - KPI + critical programme status (Projects and SD Initiatives)" & Char(10) & "A - Successes, Recognition"
+                }
+              ]
+            },
+            {
+              type: "Container",
+              separator: true,
+              spacing: "Medium",
+              items: [
+                {
+                  type: "TextBlock",
+                  text: "Meeting Agenda",
+                  weight: "Bolder",
+                  size: "Small",
+                  spacing: "None"
+                },
+                {
+                  type: "TextBlock",
+                  text: $"{CountRows(Topic.submittedDIATable)} topic(s) from submitted DIAs",
+                  size: "Small",
+                  isSubtle: true,
+                  spacing: "None"
+                }
+              ]
+            },
+            {
+              type: "Container",
+              spacing: "Small",
+              items: [
+                {
+                  type: "ColumnSet",
+                  spacing: "Small",
+                  columns: [
+                    {
+                      type: "Column",
+                      width: "90px",
+                      items: [
+                        {
+                          type: "TextBlock",
+                          text: "Time",
+                          weight: "Bolder",
+                          size: "Small"
+                        }
+                      ]
+                    },
+                    {
+                      type: "Column",
+                      width: "stretch",
+                      items: [
+                        {
+                          type: "TextBlock",
+                          text: "Topic",
+                          weight: "Bolder",
+                          size: "Small"
+                        }
+                      ]
+                    },
+                    {
+                      type: "Column",
+                      width: "120px",
+                      items: [
+                        {
+                          type: "TextBlock",
+                          text: "Owner",
+                          weight: "Bolder",
+                          size: "Small"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              type: "Container",
+              spacing: "None",
+              items: ForAll(
+                Sequence(CountRows(Topic.submittedDIATable)),
+                With(
+                  {
+                    currentItem: Index(Topic.submittedDIATable, Value),
+                    localStartTime: DateAdd(Topic.calendarEvent.startWithTimeZone, System.Conversation.LocalTimeZoneOffset, TimeUnit.Minutes),
+                    slotTime: DateAdd(DateAdd(Topic.calendarEvent.startWithTimeZone, System.Conversation.LocalTimeZoneOffset, TimeUnit.Minutes), (Value - 1) * 10, TimeUnit.Minutes)
+                  },
+                  {
+                    type: "ColumnSet",
+                    separator: true,
+                    spacing: "Small",
+                    columns: [
+                      {
+                        type: "Column",
+                        width: "90px",
+                        items: [
+                          {
+                            type: "Input.Text",
+                            id: $"time_{Value}",
+                            value: Text(slotTime, "HH:mm"),
+                            placeholder: "00:00"
+                          }
+                        ]
+                      },
+                      {
+                        type: "Column",
+                        width: "stretch",
+                        items: [
+                          {
+                            type: "TextBlock",
+                            text: currentItem.DIATaskName,
+                            wrap: true,
+                            size: "Small"
+                          },
+                          {
+                            type: "TextBlock",
+                            text: $"Type: " & currentItem.DIATaskType,
+                            size: "Small",
+                            isSubtle: true
+                          }
+                        ]
+                      },
+                      {
+                        type: "Column",
+                        width: "120px",
+                        items: [
+                          {
+                            type: "TextBlock",
+                            text: currentItem.AssignedOwnerName & " - " & currentItem.AssignedOwnerEmail,
+                            size: "Small",
+                            wrap: true
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                )
+              )
+            },
+            {
+              type: "Container",
+              separator: true,
+              spacing: "Medium",
+              items: [
+                {
+                  type: "TextBlock",
+                  text: "Additional Agenda Items",
+                  weight: "Bolder",
+                  size: "Small",
+                  spacing: "None"
+                },
+                {
+                  type: "ColumnSet",
+                  spacing: "Small",
+                  columns: [
+                    {
+                      type: "Column",
+                      width: "90px",
+                      items: [
+                        {
+                          type: "Input.Text",
+                          id: "additionalTime1",
+                          placeholder: "HH:mm",
+                          value: Text(DateAdd(DateAdd(Topic.calendarEvent.startWithTimeZone, System.Conversation.LocalTimeZoneOffset, TimeUnit.Minutes), CountRows(Topic.submittedDIATable) * 10, TimeUnit.Minutes), "HH:mm")
+                        }
+                      ]
+                    },
+                    {
+                      type: "Column",
+                      width: "stretch",
+                      items: [
+                        {
+                          type: "Input.Text",
+                          id: "additionalTopic1",
+                          placeholder: "Enter topic..."
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  type: "ColumnSet",
+                  spacing: "Small",
+                  columns: [
+                    {
+                      type: "Column",
+                      width: "90px",
+                      items: [
+                        {
+                          type: "Input.Text",
+                          id: "additionalTime2",
+                          placeholder: "HH:mm",
+                          value: Text(DateAdd(DateAdd(Topic.calendarEvent.startWithTimeZone, System.Conversation.LocalTimeZoneOffset, TimeUnit.Minutes), (CountRows(Topic.submittedDIATable) + 1) * 10, TimeUnit.Minutes), "HH:mm")
+                        }
+                      ]
+                    },
+                    {
+                      type: "Column",
+                      width: "stretch",
+                      items: [
+                        {
+                          type: "Input.Text",
+                          id: "additionalTopic2",
+                          placeholder: "Enter topic..."
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  type: "ColumnSet",
+                  spacing: "Small",
+                  columns: [
+                    {
+                      type: "Column",
+                      width: "90px",
+                      items: [
+                        {
+                          type: "Input.Text",
+                          id: "additionalTime3",
+                          placeholder: "HH:mm",
+                          value: Text(DateAdd(DateAdd(Topic.calendarEvent.startWithTimeZone, System.Conversation.LocalTimeZoneOffset, TimeUnit.Minutes), (CountRows(Topic.submittedDIATable) + 2) * 10, TimeUnit.Minutes), "HH:mm")
+                        }
+                      ]
+                    },
+                    {
+                      type: "Column",
+                      width: "stretch",
+                      items: [
+                        {
+                          type: "Input.Text",
+                          id: "additionalTopic3",
+                          placeholder: "Enter topic..."
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  type: "ColumnSet",
+                  spacing: "Small",
+                  columns: [
+                    {
+                      type: "Column",
+                      width: "90px",
+                      items: [
+                        {
+                          type: "Input.Text",
+                          id: "additionalTime4",
+                          placeholder: "HH:mm"
+                        }
+                      ]
+                    },
+                    {
+                      type: "Column",
+                      width: "stretch",
+                      items: [
+                        {
+                          type: "Input.Text",
+                          id: "additionalTopic4",
+                          placeholder: "Enter topic..."
+                        }
+                      ]
+                    }
+                  ]
+                },
+                {
+                  type: "ColumnSet",
+                  spacing: "Small",
+                  columns: [
+                    {
+                      type: "Column",
+                      width: "90px",
+                      items: [
+                        {
+                          type: "Input.Text",
+                          id: "additionalTime5",
+                          placeholder: "HH:mm"
+                        }
+                      ]
+                    },
+                    {
+                      type: "Column",
+                      width: "stretch",
+                      items: [
+                        {
+                          type: "Input.Text",
+                          id: "additionalTopic5",
+                          placeholder: "Enter topic..."
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Confirm Pre-Read",
+              style: "positive",
+              data: {
+                action: "confirm_preread"
+              }
+            },
+            {
+              type: "Action.Submit",
+              title: "Cancel Pre-Read",
+              style: "default",
+              data: {
+                action: "cancel_preread"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          action: Topic.action
+          actionSubmitId: Topic.actionSubmitId
+
+      outputType:
+        properties:
+          action: String
+          actionSubmitId: String
+
+    - kind: ConditionGroup
+      id: conditionGroup_HQJjUe
+      conditions:
+        - id: conditionItem_HKPHdC
+          condition: =Topic.action = "confirm_preread"
+          actions:
+            - kind: SetVariable
+              id: ZsUcGq
+              variable: Topic.agendaData
+              value: |-
+                =  {
+                    action: Text(System.Activity.Value.action),
+                    meetingPurpose: Text(System.Activity.Value.meetingPurpose),
+                    meetingAttendees: Topic.meetingAttendees,
+                    meetingInputs: Text(System.Activity.Value.meetingInputs),
+                    meetingOutputs: Text(System.Activity.Value.meetingOutputs),
+                    agendaItems: ForAll(
+                      Sequence(CountRows(Topic.submittedDIATable)),
+                      {
+                        DIATaskName: Index(Topic.submittedDIATable, Value).DIATaskName,
+                        DIATaskType: Index(Topic.submittedDIATable, Value).DIATaskType,
+                        AssignedOwnerName: Index(Topic.submittedDIATable, Value).AssignedOwnerName,
+                        time: Switch(Value,
+                                      1, Text(System.Activity.Value.time_1),
+                                      2, Text(System.Activity.Value.time_2),
+                                      3, Text(System.Activity.Value.time_3),
+                                      4, Text(System.Activity.Value.time_4),
+                                      5, Text(System.Activity.Value.time_5),
+                                      6, Text(System.Activity.Value.time_6),
+                                      7, Text(System.Activity.Value.time_7),
+                                      8, Text(System.Activity.Value.time_8),
+                                      9, Text(System.Activity.Value.time_9),
+                                      10, Text(System.Activity.Value.time_10),
+                                      ""
+                    )
+                      }
+                    ),
+                    additionalItems: Filter(
+                      Table(
+                        {time: Text(System.Activity.Value.additionalTime1), topic: Text(System.Activity.Value.additionalTopic1)},
+                        {time: Text(System.Activity.Value.additionalTime2), topic: Text(System.Activity.Value.additionalTopic2)},
+                        {time: Text(System.Activity.Value.additionalTime3), topic: Text(System.Activity.Value.additionalTopic3)},
+                        {time: Text(System.Activity.Value.additionalTime4), topic: Text(System.Activity.Value.additionalTopic4)},
+                        {time: Text(System.Activity.Value.additionalTime5), topic: Text(System.Activity.Value.additionalTopic5)}
+                      ),
+                      !IsBlank(topic)
+                    )
+                  }
+
+            - kind: BeginDialog
+              id: pfbN9l
+              input:
+                binding:
+                  eventConfigurationId: =Topic.Var1.MeetingConfigurationId
+                  meetingEventAgendaSlideData: =Topic.agendaData
+                  meetingEventCalendarId: =Topic.meetingEvent.MeetingEventId
+                  meetingEventId: =Topic.meetingEventId
+
+              dialog: cr1d7_agenttIFALA.topic.GenerateDIAHTMLSlidesV2
+
+        - id: conditionItem_yU8zB1
+          condition: =Topic.action = "cancel_preread"
+          actions:
+            - kind: ClearAllVariables
+              id: mx4xKF
+
+            - kind: EndConversation
+              id: 1aG7i1
+
+            - kind: BeginDialog
+              id: cWPzGa
+              dialog: cr1d7_agenttIFALA.topic.ConversationStart
+
+inputType:
+  properties:
+    MandatoryAttendees:
+      displayName: MandatoryAttendees
+      description: List of calculated meeting event mandatory attendees
+      type: String
+
+    meetingEventId:
+      displayName: meetingEventId
+      description: The meeting event id
+      type: String
+
+    OptionalAttendees:
+      displayName: OptionalAttendees
+      description: List of calculated meeting event optional attendees
+      type: String
+
+outputType: {}

@@ -1,0 +1,43 @@
+{
+    "AISummaryText": "These are the action items from the meeting. Please review and let me know if you have any questions or if there is anything you would like to add or change.\n\nTasks\n\nTask: Commissioning Document Approval - Chase Kate for approval of the commissioning documents and inform Natalia once approved so she can start working on the commissioning. - Joanna\n\nTask: L2 Content Challenge Follow-Up - Follow up after the Tuesday meeting regarding the challenge on L2 content with Bessma and update the process as needed. - Isabelle\n\nTask: SOP 720 Retirement Justification - Contact Phil LC and relevant stakeholders to obtain a clear justification for retiring SOP 720, specifying whether the process is no longer needed or covered by another SOP. - Hamzah\n\nTask: Accenture Contract Progression - Send the Accenture contract to Adam and Lloyd, and if needed, involve Mathieu from tech to progress the contract while Doug and Adam are away. - Hamzah\n\nTask: Annual MM Monitoring Support - Request help from the group as needed to identify and interview appropriate privacy champions for annual MM monitoring, given recent organizational changes. - Hamzah\n\nTask: KPI Library Access Contingency - Ensure access to the KPI library is set up for BSP team members to cover tasks if Kingsley is unavailable. - Hamzah\n\nTask: Cluster Issue Escalation - Escalate the cluster issue ticket and, if no response is received, CC Hamzah and Sumit in communications to expedite resolution. - Kingsley\n\nTask: MAIC Deck Review - Review the MAIC deck for drug substance and ensure alignment before it is sent out for DP. - Jessica\n\nFollow-up Meeting: KPI Library and Ticket Management Follow-up\nSuggested Attendees: Sumit, Morgan, Kingsley",
+    "MeetingNotesHTML": "<html><body style=\"font-family: Arial, sans-serif; color: #333;\"><p>These are the meeting notes and calculated action items from the meeting. Please review and let me know if you have any questions or if there is anything you would like to add or change.</p><h3 style=\"color: #2E74B5;\">Meeting Summary</h3><ul><li><strong>Task Updates and Progress Across Teams:</strong> Participants including Joanna, Isabelle, Claudette, Sumit, Aaron, Natalia, Sharon, Chi, Jessica, and Kingsley provided updates on their assigned tasks, highlighting completed work, ongoing challenges, and requests for support, with Hamzah facilitating the discussion and follow-ups.</li><li><strong>Contract Renewals and Approvals:</strong> Hamzah, Jenny, Joanna, and Sumit discussed the renewal process for the Accenture contract, addressing signatory availability, escalation paths, and the need to involve tech stakeholders such as Mathieu due to Doug and Adam's absence.</li><li><strong>KPI Library and PPM Issue Management:</strong> Jessica, Kingsley, Hamzah, Sumit, Morgan, and Jenny addressed ongoing issues with the KPI library and PPM, focusing on ticket management, user education, and the need for a clear support and escalation process.</li><li><strong>Digital Initiatives and Smart Manufacturing Projects:</strong> Sumit, Morgan, Jessica, Jenny, and Chi discussed ongoing digital initiatives, including preparations for the Smart Manufacturing and AI Council, digital twin pilots, proactive risk management, and integration of risk management tools with SharePoint and the smart control room.</li><li><strong>SOP and PRA Documentation Updates:</strong> Hamzah, Sumit, and Joanna discussed the status of SOP 720 and PRA authoring, focusing on the need for clear justification for SOP retirement and ongoing updates to ensure documentation accurately reflects current processes.</li><li><strong>MPI Launch and Digital Twin Funding Alignment:</strong> Jessica, Jenny, Morgan, and Sumit discussed the alignment of digital twin and FIL funding within the MPI launch system, clarifying business ownership, scope, and the need to avoid duplicate funding in multiple PIPs.</li></ul><h3 style=\"color: #2E74B5;\">Tasks</h3><ul><li><strong>Commissioning Document Approval</strong> &mdash; Joanna</li><li><strong>L2 Content Challenge Follow-Up</strong> &mdash; Isabelle</li><li><strong>SOP 720 Retirement Justification</strong> &mdash; Hamzah</li><li><strong>Accenture Contract Progression</strong> &mdash; Hamzah</li><li><strong>Annual MM Monitoring Support</strong> &mdash; Hamzah</li><li><strong>KPI Library Access Contingency</strong> &mdash; Hamzah</li><li><strong>Cluster Issue Escalation</strong> &mdash; Kingsley</li><li><strong>MAIC Deck Review</strong> &mdash; Jessica</li></ul><h3 style=\"color: #2E74B5;\">Follow-up Meeting</h3><ul><li><strong>Topic:</strong> KPI Library and Ticket Management Follow-up</li><li><strong>Description:</strong> Streamline ticket management and reduce stakeholder noise for KPI library and PPM issues</li><li><strong>Suggested Attendees:</strong> Sumit, Morgan, Kingsley</li></ul></body></html>",
+    "tasks": [
+        {
+            "taskName": "Commissioning Document Approval",
+            "assignee": "Joanna"
+        },
+        {
+            "taskName": "L2 Content Challenge Follow-Up",
+            "assignee": "Isabelle"
+        },
+        {
+            "taskName": "SOP 720 Retirement Justification",
+            "assignee": "Hamzah"
+        },
+        {
+            "taskName": "Accenture Contract Progression",
+            "assignee": "Hamzah"
+        },
+        {
+            "taskName": "Annual MM Monitoring Support",
+            "assignee": "Hamzah"
+        },
+        {
+            "taskName": "KPI Library Access Contingency",
+            "assignee": "Hamzah"
+        },
+        {
+            "taskName": "Cluster Issue Escalation",
+            "assignee": "Kingsley"
+        },
+        {
+            "taskName": "MAIC Deck Review",
+            "assignee": "Jessica"
+        }
+    ],
+    "followupMeeting": {
+        "topic": "KPI Library and Ticket Management Follow-up",
+        "meetingDescription": "Streamline ticket management and reduce stakeholder noise for KPI library and PPM issues",
+        "suggestedAttendees": "Sumit, Morgan, Kingsley"
+    }
+}

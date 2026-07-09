@@ -1,0 +1,92 @@
+{
+    "statusCode": 200,
+    "headers": {
+        "Cache-Control": "private",
+        "Transfer-Encoding": "chunked",
+        "Strict-Transport-Security": "max-age=31536000",
+        "request-id": "861cc8dd-e32e-4850-be62-9e0bc7d547b0",
+        "client-request-id": "861cc8dd-e32e-4850-be62-9e0bc7d547b0",
+        "x-ms-ags-diagnostic": "{\"ServerInfo\":{\"DataCenter\":\"West US 3\",\"Slice\":\"E\",\"Ring\":\"2\",\"ScaleUnit\":\"001\",\"RoleInstance\":\"PH2PEPF00002F7A\"}}",
+        "x-ms-environment-id": "0fdc3e03-cc62-ee4c-b39f-a0b03fd24d1e",
+        "x-ms-tenant-id": "63982aff-fb6c-4c22-973b-70e4acfb63e6",
+        "x-ms-subscription-id": "0fdc3e03-cc62-ee4c-b39f-a0b03fd24d1e",
+        "x-ms-dlp-re": "CalendarGetTables_V2|False",
+        "x-ms-dlp-gu": "-|-",
+        "x-ms-dlp-ef": "-|-/-|-|-|-",
+        "x-ms-mip-sl": "-|-|-|-",
+        "x-ms-au-creator-id": "420a2572-f2f7-4c85-80dc-ea6478de394b",
+        "Timing-Allow-Origin": "*",
+        "x-ms-apihub-cached-response": "false",
+        "x-ms-apihub-obo": "false",
+        "Date": "Mon, 25 May 2026 07:15:52 GMT",
+        "Content-Type": "application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8",
+        "Content-Length": "1933"
+    },
+    "body": {
+        "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('420a2572-f2f7-4c85-80dc-ea6478de394b')/calendars",
+        "value": [
+            {
+                "id": "AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgBGAAAAAACYJQYxsJ3VRr3evYoowhS-BwDNs-SHG_8eS5C6LblX4TK6AAAAAAEGAADNs-SHG_8eS5C6LblX4TK6AAACfwI5AAA=",
+                "name": "Birthdays",
+                "color": "auto",
+                "hexColor": "",
+                "groupClassId": "0006f0b7-0000-0000-c000-000000000046",
+                "isDefaultCalendar": false,
+                "changeKey": "zbP0hxvvHkuQui25V+EyugAAAn2x5w==",
+                "canShare": false,
+                "canViewPrivateItems": true,
+                "canEdit": false,
+                "allowedOnlineMeetingProviders": [],
+                "defaultOnlineMeetingProvider": "unknown",
+                "isTallyingResponses": false,
+                "isRemovable": true,
+                "owner": {
+                    "name": "Vitor Antonio",
+                    "address": "vitor.x.antonio@gsk.com"
+                }
+            },
+            {
+                "id": "AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgBGAAAAAACYJQYxsJ3VRr3evYoowhS-BwDNs-SHG_8eS5C6LblX4TK6AAAAAAEGAADNs-SHG_8eS5C6LblX4TK6AAACfwI1AAA=",
+                "name": "Calendar",
+                "color": "auto",
+                "hexColor": "",
+                "groupClassId": "0006f0b7-0000-0000-c000-000000000046",
+                "isDefaultCalendar": true,
+                "changeKey": "zbP0hxvvHkuQui25V+EyugAAAn2vYg==",
+                "canShare": true,
+                "canViewPrivateItems": true,
+                "canEdit": true,
+                "allowedOnlineMeetingProviders": [
+                    "teamsForBusiness"
+                ],
+                "defaultOnlineMeetingProvider": "teamsForBusiness",
+                "isTallyingResponses": true,
+                "isRemovable": false,
+                "owner": {
+                    "name": "Vitor Antonio",
+                    "address": "vitor.x.antonio@gsk.com"
+                }
+            },
+            {
+                "id": "AAMkADk1ZDc4YzJmLTQzZDktNGE1NC04NjFiLTZkOTM0YTFmOTYwMgBGAAAAAACYJQYxsJ3VRr3evYoowhS-BwDNs-SHG_8eS5C6LblX4TK6AAAAAAEGAADNs-SHG_8eS5C6LblX4TK6AAACfwI2AAA=",
+                "name": "United Kingdom holidays",
+                "color": "auto",
+                "hexColor": "",
+                "groupClassId": "0006f0b7-0000-0000-c000-000000000046",
+                "isDefaultCalendar": false,
+                "changeKey": "zbP0hxvvHkuQui25V+EyugAAAn2vbA==",
+                "canShare": false,
+                "canViewPrivateItems": true,
+                "canEdit": false,
+                "allowedOnlineMeetingProviders": [],
+                "defaultOnlineMeetingProvider": "unknown",
+                "isTallyingResponses": false,
+                "isRemovable": true,
+                "owner": {
+                    "name": "Vitor Antonio",
+                    "address": "vitor.x.antonio@gsk.com"
+                }
+            }
+        ]
+    }
+}

@@ -1,0 +1,164 @@
+{
+  '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+  type: "AdaptiveCard",
+  version: "1.5",
+  body: [
+    {
+      type: "TextBlock",
+      text: "Follow-up Meeting",
+      size: "Small",
+      weight: "Lighter",
+      color: "Accent",
+      spacing: "None"
+    },
+    {
+      type: "TextBlock",
+      text: Topic.followupMeeting.topic,
+      size: "Large",
+      weight: "Bolder",
+      wrap: true,
+      spacing: "Small"
+    },
+    {
+      type: "TextBlock",
+      text: "Please review and confirm the details below before scheduling this meeting.",
+      wrap: true,
+      isSubtle: true,
+      spacing: "Small"
+    },
+    {
+      type: "Container",
+      separator: true,
+      spacing: "Medium",
+      items: [
+        {
+          type: "TextBlock",
+          text: "Meeting Details",
+          weight: "Bolder",
+          size: "Small",
+          color: "Accent",
+          spacing: "None"
+        },
+        {
+          type: "Input.Text",
+          id: "meetingTopic",
+          label: "Meeting Topic",
+          value: Topic.followupMeeting.topic,
+          placeholder: "Enter meeting topic",
+          isRequired: true,
+          errorMessage: "Meeting topic is required"
+        },
+        {
+          type: "Input.Text",
+          id: "meetingDescription",
+          label: "Description",
+          isMultiline: true,
+          value: Topic.followupMeeting.meetingDescription,
+          placeholder: "Enter meeting description",
+          isRequired: false
+        }
+      ]
+    },
+    {
+      type: "Container",
+      separator: true,
+      spacing: "Medium",
+      items: [
+        {
+          type: "TextBlock",
+          text: "Date & Time",
+          weight: "Bolder",
+          size: "Small",
+          color: "Accent",
+          spacing: "None"
+        },
+        {
+          type: "ColumnSet",
+          spacing: "Small",
+          columns: [
+            {
+              type: "Column",
+              width: "stretch",
+              items: [
+                {
+                  type: "Input.Date",
+                  id: "meetingDate",
+                  label: "Date",
+                  isRequired: true,
+                  errorMessage: "Please select a meeting date"
+                }
+              ]
+            },
+            {
+              type: "Column",
+              width: "stretch",
+              items: [
+                {
+                  type: "Input.Time",
+                  id: "meetingTime",
+                  label: "Time",
+                  isRequired: true,
+                  errorMessage: "Please select a meeting time"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type: "Container",
+      separator: true,
+      spacing: "Medium",
+      items: [
+        {
+          type: "TextBlock",
+          text: "Attendees",
+          weight: "Bolder",
+          size: "Small",
+          color: "Accent",
+          spacing: "None"
+        },
+        {
+          type: "TextBlock",
+          text: Concatenate("Suggested: ", Topic.followupMeeting.suggestedAttendees),
+          size: "Small",
+          isSubtle: true,
+          wrap: true,
+          spacing: "None"
+        },
+        {
+          type: "Input.ChoiceSet",
+          id: "meetingAttendees",
+          label: "Confirm Attendees",
+          isMultiSelect: true,
+          isRequired: true,
+          errorMessage: "Please select at least one attendee",
+          placeholder: "Search for people...",
+          style: "filtered",
+          "choices.data": {
+            type: "Data.Query",
+            dataset: "graph.microsoft.com/users"
+          }
+        }
+      ]
+    }
+  ],
+  actions: [
+    {
+      type: "Action.Submit",
+      title: "Confirm & Schedule",
+      data: {
+        action: "scheduleFollowupMeeting"
+      }
+    },
+    {
+      type: "Action.Submit",
+      title: "Cancel",
+      style: "destructive",
+      data: {
+        action: "cancelFollowupMeeting"
+      }
+    }
+  ]
+}

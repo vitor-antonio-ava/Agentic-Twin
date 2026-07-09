@@ -1,0 +1,86 @@
+{
+  type: "AdaptiveCard",
+  '$schema': "http://adaptivecards.io/schemas/adaptive-card.json",
+  version: "1.5",
+  body: [
+    {
+      type: "Container",
+      style: "emphasis",
+      bleed: true,
+      items: [
+        {
+          type: "ColumnSet",
+          columns: [
+            {
+              type: "Column",
+              width: "auto",
+              items: [
+                {
+                  type: "Image",
+                  url: "https://img.icons8.com/fluency/48/combo-chart.png",
+                  size: "Small"
+                }
+              ]
+            },
+            {
+              type: "Column",
+              width: "stretch",
+              verticalContentAlignment: "Center",
+              items: [
+                {
+                  type: "TextBlock",
+                  text: "KPI Selection",
+                  size: "Large",
+                  weight: "Bolder",
+                  color: "Accent"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      type: "TextBlock",
+      text: "Search and select the KPIs you want to track. You can select multiple items.",
+      wrap: true,
+      spacing: "Medium"
+    },
+    {
+      type: "TextBlock",
+      text: "Search by name or ID:",
+      weight: "Bolder",
+      spacing: "Medium"
+    },
+    {
+      type: "Input.ChoiceSet",
+      id: "selectedKpis",
+      style: "filtered",
+      isMultiSelect: true,
+      placeholder: "Type to search KPIs...",
+      choices: ForAll(
+        ParseJSON(Topic.kpiData),
+        {
+          title: Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_NAME]') & " (" & Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_ID]') & ")",
+          value: Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_ID]')
+        }
+      )
+    },
+    {
+      type: "TextBlock",
+      text: "💡 Tip: Type a KPI name or ID to filter the list",
+      size: "Small",
+      isSubtle: true,
+      spacing: "Small"
+    },
+  actions: [
+    {
+      type: "ActionSet",
+      actions: [
+        { type: "Action.Submit", id: "submitKpiSelection", title: "✓ Confirm Selection", style: "positive" },
+        { type: "Action.Submit", id: "skipKpiSelection", title: "Skip", style: "destructive" }
+      ]
+    }
+  ]
+]
+}

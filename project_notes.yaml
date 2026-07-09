@@ -1,11 +1,33 @@
 Project hotes
 
 Tasks:
-- Create a flow to handle and manage the attendees
-- Create a dropdown on the DIA filling form to select the type of DIA
-- Check Excel for requirements/ adjust 
-- Close the task on planner after DIA form submission (update current flow)
+- test the -1 and -2 days before notification for the meeting
+
+- Need to fix the get recurring meeting start date and end date
+ - utcnow() - 12 months -> Start date 
+- double check Get User Meeting Configurations V2 -> for unclassified tier meetings
+- Block creation of a meeting configuration if one already exists in dataverse
+- handle error for PowerBI permissions error when fetching Tier Hierarchy and KPI data
+
+- DIA Attendees Update - is it being used???
+- remove PA_WordPopulation ? has a reference to a Word Connector in DMAIC
+- Update Calendar Event Attendees - unused but staying in solution
 - 
+
+- Prepare a guide book (less priority) -> look at the guidebook from Ana
+- Recording of the whole flow (with voice over) -> less priority
+- do a Process Flow for the Meetings twin
+
+- in post-meeting, go straight to the list of DIA tasks
+- improve the meeting notes prompt
+- how to get the audio from a past meeting and include it in the meeting notes email -> not possible, need to generate audio notes from transcript
+- investigate why not all meeting attendees got the meeting notes email -> look in dataverse meeting attendees
+- possibility to edit Task names before sending them out (post-email)
+- let user change the name for optional DIA's
+
+!Important 
+- Investigate the Office 365 Groups connector, it seems to be able to help with requests for a group
+
 
 Migration:
 - manualTaskPlannerFlow -> add the proper custom values for the Global variables - done

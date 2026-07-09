@@ -1,61 +1,94 @@
-kind: AdaptiveDialog
-modelDescription: Test Cards
+﻿kind: AdaptiveDialog
+modelDescription: When the user greets the agent or wants to start the flow over, this is the initial step that will greet the user start the whole agent flow for the My Meeting Twin.
 beginDialog:
-  kind: OnRedirect
+  kind: OnRecognizedIntent
   id: main
+  intent: {}
   actions:
-    - kind: SendActivity
-      id: sendActivity_OhwOpr
-      activity: Hey I'm the New Meeting Agent! I can help you prepare for your meetings! First let me check if you have save configurations.
-
-    - kind: Question
-      id: question_clIAps
-      interruptionPolicy:
-        allowInterruption: true
-
-      variable: init:Topic.Var1
-      prompt: "To get started please select one of the options:"
-      entity:
-        kind: EmbeddedEntity
-        definition:
-          kind: ClosedListEntity
-          items:
-            - id: Initiate DIA
-              displayName: Initiate DIA
-
-            - id: Manage DIA
-              displayName: Manage DIA
-
-            - id: My Assigned DIA
-              displayName: My Assigned DIA
+    - kind: AdaptiveCardPrompt
+      id: card_mainMenu
+      card: |-
+        {
+          "$schema": "https://adaptivecards.io/schemas/adaptive-card.json",
+          "type": "AdaptiveCard",
+          "version": "1.5",
+          "body": [
+            {
+              "type": "TextBlock",
+              "text": "Hi! I'm your My Meeting Twin Agent 👋",
+              "size": "Large",
+              "weight": "Bolder",
+              "wrap": true
+            },
+            {
+              "type": "TextBlock",
+              "text": "I can help you get ready for your upcoming meetings. Let me first check if you have any saved configurations set up.\n\nLet's get started, please choose one of the options below:",
+              "wrap": true,
+              "spacing": "Small"
+            },
+            {
+              "type": "Input.ChoiceSet",
+              "id": "mainMenuChoice",
+              "style": "expanded",
+              "isRequired": true,
+              "errorMessage": "Please select an option to continue.",
+              "choices": [
+                { "title": "Initiate DIA", "value": "Initiate DIA" },
+                { "title": "Manage DIA", "value": "Manage DIA" },
+                { "title": "My Assigned DIA", "value": "My Assigned DIA" },
+                { "title": "Post-Meeting", "value": "Post-Meeting" }
+              ]
+            }
+          ],
+          "actions": [
+            {
+              "type": "Action.Submit",
+              "title": "Continue",
+              "style": "positive"
+            }
+          ]
+        }
+      output:
+        binding:
+          mainMenuChoice: Topic.Var1
+      outputType:
+        properties:
+          mainMenuChoice: String
 
     - kind: ConditionGroup
       id: conditionGroup_sVKqZT
       conditions:
         - id: conditionItem_QYlDoK
-          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.InitialTopic.main.question_clIAps'.'Initiate DIA'
+          condition: =Topic.Var1 = "Initiate DIA"
           actions:
             - kind: BeginDialog
               id: 7Go8gN
               dialog: cr1d7_agenttIFALA.topic.MeetingSelectionTopic
 
         - id: conditionItem_wmlLcG
-          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.InitialTopic.main.question_clIAps'.'Manage DIA'
+          condition: =Topic.Var1 = "Manage DIA"
           actions:
             - kind: BeginDialog
               id: nQJ7dS
               dialog: cr1d7_agenttIFALA.topic.GetUserConfiguredMeetings
 
         - id: conditionItem_xZRtk9
-          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.InitialTopic.main.question_clIAps'.'My Assigned DIA'
+          condition: =Topic.Var1 = "My Assigned DIA"
           actions:
             - kind: BeginDialog
               id: uwhOsH
               dialog: cr1d7_agenttIFALA.topic.CheckUserAssignedDIAs
 
+        - id: conditionItem_mOBBJw
+          condition: =Topic.Var1 = "Post-Meeting"
+          actions:
+            - kind: BeginDialog
+              id: hFQDvV
+              dialog: cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript
+
     - kind: GotoAction
-      id: NpGJOz
-      actionId: sendActivity_OhwOpr
+      id: FnrsDy
+      actionId: card_mainMenu
 
 inputType: {}
 outputType: {}

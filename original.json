@@ -1,0 +1,147 @@
+{
+    "type": "object",
+    "properties": {
+        "@@odata.context": {
+            "type": "string"
+        },
+        "value": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "@@odata.etag": {
+                        "type": "string"
+                    },
+                    "id": {
+                        "type": "string"
+                    },
+                    "subject": {
+                        "type": "string"
+                    },
+                    "isOrganizer": {
+                        "type": "boolean"
+                    },
+                    "isOnlineMeeting": {
+                        "type": "boolean"
+                    },
+                    "onlineMeetingProvider": {
+                        "type": "string"
+                    },
+                    "start": {
+                        "type": "object",
+                        "properties": {
+                            "dateTime": {
+                                "type": "string"
+                            },
+                            "timeZone": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "end": {
+                        "type": "object",
+                        "properties": {
+                            "dateTime": {
+                                "type": "string"
+                            },
+                            "timeZone": {
+                                "type": "string"
+                            }
+                        }
+                    },
+                    "recurrence": {
+                        "type": "object",
+                        "properties": {
+                            "pattern": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "interval": {
+                                        "type": "integer"
+                                    },
+                                    "month": {
+                                        "type": "integer"
+                                    },
+                                    "dayOfMonth": {
+                                        "type": "integer"
+                                    },
+                                    "daysOfWeek": {
+                                        "type": "array",
+                                        "items": {
+                                            "type": "string"
+                                        }
+                                    },
+                                    "firstDayOfWeek": {
+                                        "type": "string"
+                                    },
+                                    "index": {
+                                        "type": "string"
+                                    }
+                                }
+                            },
+                            "range": {
+                                "type": "object",
+                                "properties": {
+                                    "type": {
+                                        "type": "string"
+                                    },
+                                    "startDate": {
+                                        "type": "string"
+                                    },
+                                    "endDate": {
+                                        "type": "string"
+                                    },
+                                    "recurrenceTimeZone": {
+                                        "type": "string"
+                                    },
+                                    "numberOfOccurrences": {
+                                        "type": "integer"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "organizer": {
+                        "type": "object",
+                        "properties": {
+                            "emailAddress": {
+                                "type": "object",
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "address": {
+                                        "type": "string"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "onlineMeeting": {
+                        "type": "object",
+                        "properties": {
+                            "joinUrl": {
+                                "type": "string"
+                            }
+                        }
+                    }
+                },
+                "required": [
+                    "@@odata.etag",
+                    "id",
+                    "subject",
+                    "isOrganizer",
+                    "isOnlineMeeting",
+                    "onlineMeetingProvider",
+                    "start",
+                    "end",
+                    "recurrence",
+                    "organizer",
+                    "onlineMeeting"
+                ]
+            }
+        }
+    }
+}

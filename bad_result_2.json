@@ -1,0 +1,2093 @@
+{
+    "statusCode": 200,
+    "headers": {
+        "Cache-Control": "private",
+        "Transfer-Encoding": "chunked",
+        "Strict-Transport-Security": "max-age=31536000",
+        "request-id": "2e296552-177d-4ebd-b501-e22377c97864",
+        "client-request-id": "2e296552-177d-4ebd-b501-e22377c97864",
+        "x-ms-ags-diagnostic": "{\"ServerInfo\":{\"DataCenter\":\"West US 3\",\"Slice\":\"E\",\"Ring\":\"2\",\"ScaleUnit\":\"000\",\"RoleInstance\":\"PH1PEPF0001162D\"}}",
+        "x-ms-environment-id": "0fdc3e03-cc62-ee4c-b39f-a0b03fd24d1e",
+        "x-ms-tenant-id": "63982aff-fb6c-4c22-973b-70e4acfb63e6",
+        "x-ms-subscription-id": "0fdc3e03-cc62-ee4c-b39f-a0b03fd24d1e",
+        "x-ms-dlp-re": "HttpRequest|False|2026-06-01T23:30:17.5545990+00:00",
+        "x-ms-dlp-gu": "-|-",
+        "x-ms-dlp-ef": "-|-/-|-|-|-|-",
+        "x-ms-mip-sl": "-|-|-|-",
+        "x-ms-au-creator-id": "6b2e79fe-b541-41ad-b868-31da205ced0d",
+        "Timing-Allow-Origin": "*",
+        "x-ms-apihub-cached-response": "true",
+        "x-ms-apihub-obo": "false",
+        "Date": "Tue, 02 Jun 2026 09:11:21 GMT",
+        "Content-Type": "application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8",
+        "Content-Length": "50877"
+    },
+    "body": {
+        "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('6b2e79fe-b541-41ad-b868-31da205ced0d')/events(id,subject,organizer,recurrence,start,end,isOrganizer,onlineMeeting,onlineMeetingProvider,isOnlineMeeting)",
+        "value": [
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAFQXd5jw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAUFjOwVAAA=",
+                "subject": "GYM",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2026-01-13T05:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-01-13T07:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-01-13",
+                        "endDate": "2026-04-20",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGM+ZnQg==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAATyhBV6AAA=",
+                "subject": "Architecture Governance - EM & DP Tech ",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-01-14T10:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-01-14T10:50:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "wednesday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-01-14",
+                        "endDate": "2026-04-08",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Rashitha Jayasekara",
+                        "address": "rashitha.x.jayasekara@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZmEzOThiYzctYzhlYi00MTFiLTkwOWMtOTcxNWY0NWUyMGUz%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%2284d15d78-bac9-4f63-b016-806d56aa171e%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGVJwNDA==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWDBAAA=",
+                "subject": "EM-SM T3 - Smart Manufacturing Council",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-01-14T15:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-01-14T15:50:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "wednesday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "second"
+                    },
+                    "range": {
+                        "type": "numbered",
+                        "startDate": "2026-01-14",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 12
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Jenny Fry",
+                        "address": "jenny.l.fry@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_NjY2OTk2NTktNzU2MC00ZThkLTk5ZmQtZjVmYjY5YTZhMTgw%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22282c4938-d7fe-4073-9af9-cc0fda854601%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGM+ZmqA==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAUVBCzoAAA=",
+                "subject": "NPI KPIs",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-01-15T16:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-01-15T17:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-01-15",
+                        "endDate": "2026-03-05",
+                        "recurrenceTimeZone": "W. Europe Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Tomasz Jankowski",
+                        "address": "tomasz.m.jankowski@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWYxYTkxYjAtYjg2YS00OTNmLWE0ZGUtY2U0YjhhNTU0ZWEy%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22d4b494d3-f21a-49a8-a604-97b6fda79187%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGM+ZnIw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAUCbOgPAAA=",
+                "subject": "Annual Programme 5 - KPIs ",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-01-19T14:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-01-19T15:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-01-19",
+                        "endDate": "2026-03-27",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Jennifer Coulon",
+                        "address": "jennifer.8.coulon@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZTkyYjNjZDEtN2NiNC00MWZkLTg2ZTAtY2Y0MGU5NjQ0NzJk%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22dd2cbc74-30ab-4a64-918e-227947ca2986%22%7d",
+                    "quickDial": ""
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGVJwL+g==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWDXAAA=",
+                "subject": "CO Demand Routine Call",
+                "isOrganizer": true,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-01-20T11:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-01-20T11:25:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-01-20",
+                        "endDate": "2026-07-07",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YWYzYTIzODMtMGM0Yy00MzM2LThhMmItMzQ5YTBiZGFjNjUz%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%226b2e79fe-b541-41ad-b868-31da205ced0d%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR7uw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWEjAAA=",
+                "subject": "PREP",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2026-02-02T08:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-02-02T08:25:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-02-02",
+                        "endDate": "2026-07-20",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR8vA==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAURLkawAAA=",
+                "subject": "GSC Tech D&A - Power BI Monthly Forum",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-02-02T11:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-02-02T12:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-02-02",
+                        "endDate": "2026-12-12",
+                        "recurrenceTimeZone": "India Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Anagha B C",
+                        "address": "anagha.x.bc@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_NjNiZjhkOGQtMWRjMC00MDg2LWI3ODYtN2RjOWRiZGRjZTg3%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%226358a782-bdc2-49f3-bb83-399b61dff13b%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR8ag==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWENAAA=",
+                "subject": "PRIMO_Wk Streams_Progress Review",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-02-02T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-02-02T14:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-02-02",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "Romance Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Fabrice Prevost",
+                        "address": "fabrice.x.prevost@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ODAzYzk3ODctMTM4Ny00MjgwLTg2ODYtYzczY2M0ZmNkZDIx%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22d413efd1-8583-47a6-83b2-67491419e0e3%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGQEUqGg==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWEZAAA=",
+                "subject": "Digital Comms Planning & Delivery",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-02-03T13:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-02-03T13:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-02-03",
+                        "endDate": "2026-12-31",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sharon Baillie",
+                        "address": "sharon.e.baillie@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZTQwOTI1YTUtMWQyZS00YzYwLWJhMWQtMGEyZjM5MmE3MTMx%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22ea03f2a6-d92c-4f77-8e40-4ab91459d79e%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR8ZQ==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLYZtAAA=",
+                "subject": "FW: Daily Tech Update - My Agentic Twin",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-02-09T13:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-02-09T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday",
+                            "wednesday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-02-09",
+                        "endDate": "2027-07-29",
+                        "recurrenceTimeZone": "Romance Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Mollet Torrella, Maria",
+                        "address": "maria.mollet@accenture.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_MzMyY2U3MTQtNWNhNi00MTU5LThkODUtMzdmMGM1ZjBiMjI4%40thread.v2/0?context=%7b%22Tid%22%3a%22e0793d39-0939-496d-b129-198edd916feb%22%2c%22Oid%22%3a%2275d0d254-f326-4727-a9c3-9a378cf7f56e%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR7tg==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWFNAAA=",
+                "subject": "Unity Catalog Metric Weekly Standup",
+                "isOrganizer": true,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-02-16T10:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-02-16T10:55:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-02-16",
+                        "endDate": "2026-08-03",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_OTM4ZWIxYTctZGNiNS00MjNhLTg4NjUtMmIxNTdiMmNmODU4%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%226b2e79fe-b541-41ad-b868-31da205ced0d%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGIpgxNw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWHHAAA=",
+                "subject": "P&OS T3 - Smart Manufacturing & AI Council",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-02-19T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-02-19T14:50:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "third"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-02-19",
+                        "endDate": "2026-12-31",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Jenny Fry",
+                        "address": "jenny.l.fry@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_MzZjNGY4ZjAtMzExNy00MzI3LTkzMzQtZTlkMDhlN2I5ODNi%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22282c4938-d7fe-4073-9af9-cc0fda854601%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR70A==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAUVBCzjAAA=",
+                "subject": "P&OS GSK HQ Day",
+                "isOrganizer": false,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2026-03-03T00:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-03-04T00:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-03-03",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Phillip Barratt",
+                        "address": "phillip.a.barratt@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR7wg==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAUj8igLAAA=",
+                "subject": "Connection: Friday Coffee Catch-up",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-03-06T11:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-03-06T12:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-03-06",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YzRjZmNiOTAtNGIxYS00Y2QxLWIxMjktODUxMTcxNDFkOTY1%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%221b705fe4-8612-4fb7-afe5-ec04c4f5e686%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGM+Zmpw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWEyAAA=",
+                "subject": "Quarterly Performance Community Connect | Let’s Learn, Share & Grow Together",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-03-10T13:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-03-10T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 3,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "second"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-03-10",
+                        "endDate": "2026-12-31",
+                        "recurrenceTimeZone": "India Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "OneGSC PerformanceComms",
+                        "address": "OneGSC.PerformanceComms@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_NTA0MGEyZTctNmY3Ny00YjBhLThkMTktYTQ5ZmQ0NmNiNWUw%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22b8d83299-d81e-488e-b98a-da1f1563edcf%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGd+cHsQ==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAUpq0HQAAA=",
+                "subject": "Sprint Review - EM PowerApps",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-03-13T08:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-03-13T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-03-13",
+                        "endDate": "2026-05-22",
+                        "recurrenceTimeZone": "India Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Queen Ghosh",
+                        "address": "queen.8.ghosh@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZTJhY2Q5YjEtN2Y1MS00NzBiLThmZDYtOTU3MzZjM2Y0MDU1%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%228ed0b302-a0f4-410e-a838-15099a691ae9%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGDSFd4w==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWGLAAA=",
+                "subject": "Sprint Planning - EM PowerApps",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-03-16T09:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-03-16T10:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-03-16",
+                        "endDate": "2026-08-07",
+                        "recurrenceTimeZone": "India Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Queen Ghosh",
+                        "address": "queen.8.ghosh@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_MjUwN2IwYjEtYTVhNS00ZDhiLWIyMTQtOTA0ZWQ2YTg3ODBj%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%228ed0b302-a0f4-410e-a838-15099a691ae9%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR7ww==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLYZpAAA=",
+                "subject": "KD:Morgan",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-03-18T11:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-03-18T11:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "wednesday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-03-18",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "Central European Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Krzysztof Dobrowolski",
+                        "address": "krzysztof.j.dobrowolski@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_NWQ3MzNmZDgtNjY2YS00ZjU4LWJhZGMtNTNjNmU2ZWVkNGY5%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%225841221d-f9f1-4d22-8014-b139f47a0c0b%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGM+ZlwQ==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAU40bc6AAA=",
+                "subject": "Reminder 3: Action Required: Endorsement & Sensitivity Labelling of Power BI Artifacts ",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-03-18T11:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-03-18T11:45:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-03-18",
+                        "endDate": "2026-04-07",
+                        "recurrenceTimeZone": "India Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sridevi Bhumi",
+                        "address": "sridevi.x.bhumi@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_OWRkMTYzZjYtZGNmZC00NjJiLWJlMWMtZjVmMGJhYzZjZmY0%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%2258a5327e-5a0e-4fb6-9c87-30d355cef821%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGZldnKQ==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLYZuAAA=",
+                "subject": "FW: Demo My Agentic Twin",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-03-19T13:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-03-19T14:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-03-19",
+                        "endDate": "2027-09-10",
+                        "recurrenceTimeZone": "Romance Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Mollet Torrella, Maria",
+                        "address": "maria.mollet@accenture.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_NDhkOTIyZjItOGIxZi00MjdkLWE4YmUtZGFiOTM4NWNiYzM4%40thread.v2/0?context=%7b%22Tid%22%3a%22e0793d39-0939-496d-b129-198edd916feb%22%2c%22Oid%22%3a%2275d0d254-f326-4727-a9c3-9a378cf7f56e%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR70Q==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWG6AAA=",
+                "subject": "DOT - Delpharm Deployment Kick Off Meeting",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-03-19T14:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-03-19T15:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-03-19",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Mark Newell",
+                        "address": "mark.c.newell@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YWZlZmRlYTMtNDAxMi00MDRmLTlhNDktOTIzOTU1NDFlMWRj%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22c45756ce-fcea-48e1-b5fd-4b34c8fdf76e%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR70g==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWHEAAA=",
+                "subject": "Morgan:Phil",
+                "isOrganizer": true,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-03-26T13:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-03-26T13:55:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-03-26",
+                        "endDate": "2026-09-10",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZWJmNzYyNWYtNWRlOC00NGNjLThmMjItYWIyZDllMmExYzAy%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%226b2e79fe-b541-41ad-b868-31da205ced0d%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGM+Zlsw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWIKAAA=",
+                "subject": "GSK - Governance DIA Agent Status",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-04-08T10:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-04-08T10:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "daily",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "numbered",
+                        "startDate": "2026-04-08",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "Central European Standard Time",
+                        "numberOfOccurrences": 3
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Vitor Antonio",
+                        "address": "vitor.antonio@avanade.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_OTlmZTNiNDQtYjVmYy00ZWVkLTgzZTQtZmQ1YjZjNjRmOTRi%40thread.v2/0?context=%7b%22Tid%22%3a%22cf36141c-ddd7-45a7-b073-111f66d0b30c%22%2c%22Oid%22%3a%22150792c6-aa23-4f67-bd19-4a9d0062f0a0%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR87A==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAU6W3IMAAA=",
+                "subject": "Bi-weekly EM Tech and P&OS Connect - IPO to follow ",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-04-09T14:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-04-09T15:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-04-09",
+                        "endDate": "2026-09-24",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZDU0ZGE4NTctM2QzOC00YzIwLWJiODUtZTUzMzA0YWI1NGIx%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%221b705fe4-8612-4fb7-afe5-ec04c4f5e686%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGVJwMiA==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLYZ5AAA=",
+                "subject": "Meetings/DIA Weekly Alignment",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-04-21T12:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-04-21T13:15:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "numbered",
+                        "startDate": "2026-04-21",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "Romance Standard Time",
+                        "numberOfOccurrences": 6
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Tapia Hassen-Bey, Sara",
+                        "address": "s.tapia.hassen-bey@accenture.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_NzVlZGRmZmQtMTAwNi00ZWU5LTlmMWItYzZiODc3MmQyMDZk%40thread.v2/0?context=%7b%22Tid%22%3a%22e0793d39-0939-496d-b129-198edd916feb%22%2c%22Oid%22%3a%223c819490-44f1-4605-874e-73ecc23f55a1%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGM+Zlgw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAVF_ShNAAA=",
+                "subject": "Architecture Governance - EM & DP Tech ",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-04-22T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-04-22T09:50:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "wednesday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-04-22",
+                        "endDate": "2026-04-22",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Rashitha Jayasekara",
+                        "address": "rashitha.x.jayasekara@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZmEzOThiYzctYzhlYi00MTFiLTkwOWMtOTcxNWY0NWUyMGUz%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%2284d15d78-bac9-4f63-b016-806d56aa171e%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGVJwMSQ==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLYY1AAA=",
+                "subject": "Morgan:Prachiti",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-04-23T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-04-23T09:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "numbered",
+                        "startDate": "2026-04-23",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 12
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Prachiti Sidhaye",
+                        "address": "prachiti.p.sidhaye@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZmEzOTQ3MDQtYjkwYy00ZjVjLTgyZTAtY2E0ZTk1YTJkYjE2%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%2281bfe270-6a39-4725-ba93-1e3c45a3c677%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR82A==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLYY6AAA=",
+                "subject": "Weekly Digital Transformation - CPU, Digital Twins, Agentic Twins",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-04-28T15:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-04-28T15:45:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday",
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-04-28",
+                        "endDate": "2026-10-13",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_MDg1ZjJmNDYtMjM2NS00YzY3LTkwNzctNjRmYjM1YjNmZWM1%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%221b705fe4-8612-4fb7-afe5-ec04c4f5e686%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR7uQ==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAVLLZOYAAA=",
+                "subject": null,
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2026-05-01T12:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-05-01T17:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-05-01",
+                        "endDate": "2026-10-12",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR8oA==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAVIHVXfAAA=",
+                "subject": "Architecture Governance - EM & DP Tech ",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-05-06T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-05-06T09:50:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "wednesday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-05-06",
+                        "endDate": "2026-12-16",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Rashitha Jayasekara",
+                        "address": "rashitha.x.jayasekara@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZmEzOThiYzctYzhlYi00MTFiLTkwOWMtOTcxNWY0NWUyMGUz%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%2284d15d78-bac9-4f63-b016-806d56aa171e%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGVJwLvw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAVZAxBxAAA=",
+                "subject": "Let’s solve it together: ServiceNow VR drop‑in session",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-05-08T13:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-05-08T13:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-05-08",
+                        "endDate": "2026-06-26",
+                        "recurrenceTimeZone": "Central European Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Michalina Kawka-Slomczynska",
+                        "address": "michalina.x.kawka-slomczynska@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZjhiOWM3ZmUtMDUyNy00OTllLWJlZjUtMzMyMTA5MDM3OTZh%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%224ffa28b5-af81-49d5-a9fa-3c2b7cec4ba8%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR8mA==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAWejPflAAA=",
+                "subject": "OOO",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2026-05-18T15:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-05-18T20:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-05-18",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "Romance Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGVJwMRA==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLWF0AAA=",
+                "subject": "Weekly Digital Manager Connect",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-05-19T10:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-05-19T10:55:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "numbered",
+                        "startDate": "2026-05-19",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 44
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Hamzah Farhad",
+                        "address": "hamzah.x.farhad@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_N2E2Y2NkODQtNDdhMC00NjRmLWIxYTctZDgwZmQ3MTA1OTA5%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%2240e6d422-8fd9-4eae-8dc4-850609a30dec%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGVJwNJA==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAWejPfmAAA=",
+                "subject": "OOO",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2026-05-19T16:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-05-19T20:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-05-19",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "Romance Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR7xw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAWejPfnAAA=",
+                "subject": "OOO",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2026-05-20T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-05-20T20:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "wednesday",
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-05-20",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "Romance Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR8yg==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAXrKnK6AAA=",
+                "subject": "My Agentic Twin Dev Weekly Sync - Test",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-05-28T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-05-28T14:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-05-28",
+                        "endDate": "2026-12-31",
+                        "recurrenceTimeZone": "Central European Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Governance Pilot",
+                        "address": "GovernancePilot@gsk.onmicrosoft.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3aSYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1%40thread.tacv2/1779699558424?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22420a2572-f2f7-4c85-80dc-ea6478de394b%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR88w==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAXU6xQxAAA=",
+                "subject": "Weekly - Team End of Week Check-in",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-05-29T08:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-05-29T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-05-29",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Performance and Smart Manufacturing Team",
+                        "address": "PerformanceandSmartManufacturingTeam@gsk.onmicrosoft.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3a4b3628e9a2b44811906f7f2e842c666d%40thread.tacv2/1779979494892?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%221b705fe4-8612-4fb7-afe5-ec04c4f5e686%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGd+cHmg==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLYa1AAA=",
+                "subject": "Next Week Priorities",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2026-05-29T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-05-29T09:25:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-05-29",
+                        "endDate": "2026-11-13",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR9CA==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAWOgezhAAA=",
+                "subject": "Weekly Performance and Smart Manufacturing Team Meeting- Tier 2",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-06-02T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-06-02T09:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-06-02",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Performance and Smart Manufacturing Team",
+                        "address": "PerformanceandSmartManufacturingTeam@gsk.onmicrosoft.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3a4b3628e9a2b44811906f7f2e842c666d%40thread.tacv2/1778847844930?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%221b705fe4-8612-4fb7-afe5-ec04c4f5e686%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR9IQ==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAXrKnLGAAA=",
+                "subject": "Accenture Test Recurring Meeting",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-06-04T08:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-06-04T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-06-04",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Performance and Smart Manufacturing Team",
+                        "address": "PerformanceandSmartManufacturingTeam@gsk.onmicrosoft.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3a07c5f4f5cf9048f896580dd99d75ae8e%40thread.tacv2/1780388783276?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%226b2e79fe-b541-41ad-b868-31da205ced0d%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR9IA==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLYa7AAA=",
+                "subject": "TEST MEETING MK",
+                "isOrganizer": true,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-06-04T10:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-06-04T10:25:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-06-04",
+                        "endDate": "2026-11-19",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Morgan Kasiera",
+                        "address": "morgan.m.kasiera@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YTU1ZmIwNWItMjdhZS00YTAyLWJiMGQtNTRjMjdhYmZmODZl%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%226b2e79fe-b541-41ad-b868-31da205ced0d%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR89g==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAVLE8uTAAA=",
+                "subject": "SCR EM | 🔁 Weekly Stakeholder Partnership Sync ",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-06-04T14:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-06-04T15:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-06-04",
+                        "endDate": "2026-10-23",
+                        "recurrenceTimeZone": "Mountain Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Teale Cresswell",
+                        "address": "teale.x.cresswell@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_Zjc1YzUxMjUtNTFhZi00YWMyLTkzYzMtMzkzYjZhMGVlMDZi%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%227f41b376-b157-4cfa-821a-5c9bd2cfa73c%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGd+cHnw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAXU6xQsAAA=",
+                "subject": "Sprint Review - EM PowerApps",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-06-05T07:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-06-05T08:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-06-05",
+                        "endDate": "2026-07-31",
+                        "recurrenceTimeZone": "India Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Queen Ghosh",
+                        "address": "queen.8.ghosh@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZTJhY2Q5YjEtN2Y1MS00NzBiLThmZDYtOTU3MzZjM2Y0MDU1%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%228ed0b302-a0f4-410e-a838-15099a691ae9%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGkpR8yw==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAXNBSpMAAA=",
+                "subject": "EM Monthly Performance Test ",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-06-05T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-06-05T14:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2026-06-05",
+                        "endDate": "2026-10-03",
+                        "recurrenceTimeZone": "Central European Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Governance Pilot",
+                        "address": "GovernancePilot@gsk.onmicrosoft.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3aSYrI53FHoUqr9lgEI_8_1LJAIkh4oDLwodsWvXs-GgU1%40thread.tacv2/1779789869208?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22420a2572-f2f7-4c85-80dc-ea6478de394b%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"dNkMKd85yUu771z5Kr0lJQAGM+ZlUQ==\"",
+                "id": "AAMkADZlYTFhZTc5LWYxYmEtNDQwNC05ZmUxLTA1NzM4OWIxNjcyMgBGAAAAAAAwPg4DIziEQoqHzr41SEPEBwB02Qwp3znJS7vvXPkqvSUlAAAAAAENAAB02Qwp3znJS7vvXPkqvSUlAAQkLYaBAAA=",
+                "subject": "Jess/Morgan/Chi/Nadine connect on CP",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2026-06-09T09:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2026-06-09T10:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2026-06-09",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Nadine Schaefer",
+                        "address": "nadine.n.schaefer@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZGI4OGIzNWQtN2ExYi00YWU5LTllYjUtNzU4MWZkNGM5NDBh%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%223b6e44fa-f9d7-40ce-bc07-d3b2e3575884%22%7d"
+                }
+            }
+        ]
+    }
+}

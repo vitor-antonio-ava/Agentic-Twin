@@ -1,0 +1,232 @@
+# ═══════════════════════════════════════════════════════════════════
+# FLOW: Get Latest Recording Transcript via Graph API
+# PURPOSE: Gets the most recent meeting recording from SharePoint,
+#          then fetches its transcript via Microsoft Graph API
+# ═══════════════════════════════════════════════════════════════════
+# PREREQUISITES:
+#   - An App Registration with permissions:
+#       OnlineMeetingTranscript.Read.All (Application) OR
+#       OnlineMeetings.Read (Delegated)
+#   - OR use the "Office 365 Groups" / "HTTP with Azure AD" connector
+# ═══════════════════════════════════════════════════════════════════
+
+# ───────────────────────────────────────────────────────────────────
+# TRIGGER: Manually trigger a flow
+# ───────────────────────────────────────────────────────────────────
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 1: List files in the Recordings folder
+# ───────────────────────────────────────────────────────────────────
+# Action: SharePoint → "List files in folder"
+# Parameters:
+#   Site Address:  https://myteams.gsk.com/sites/MyMeetingTwinUAT
+#   File Path:     /Shared Documents/Daily Stand-up/Recordings
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 2: Filter array — keep only .mp4 files
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Filter array"
+# Parameters:
+#   From:   outputs('List_files_in_folder')?['body/value']
+#   Condition (Advanced mode):
+#     @endsWith(item()?['Name'], '.mp4')
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 3: Compose — Get the latest recording
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Compose"
+# Rename to: "Get_Latest_Recording"
+# Inputs (expression):
+#   last(sort(body('Filter_array'), 'LastModified'))
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 4: Compose — Extract meeting date from filename
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Compose"
+# Rename to: "Recording_Name"
+# Inputs (expression):
+#   outputs('Get_Latest_Recording')?['Name']
+#
+# Example output: "Daily stand-up- TEST-20260608_095254UTC-Meeting Recording.mp4"
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 4b: Compose — Extract the date portion from filename
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Compose"
+# Rename to: "Meeting_DateTime"
+# Inputs (expression):
+#   The filename pattern is: <Subject>-<YYYYMMDD>_<HHMMSS>UTC-Meeting Recording.mp4
+#   We need to extract the date to search calendar events around that time.
+#
+#   concat(
+#     substring(outputs('Recording_Name'), add(lastIndexOf(outputs('Recording_Name'), '-20'), 1), 4),
+#     '-',
+#     substring(outputs('Recording_Name'), add(lastIndexOf(outputs('Recording_Name'), '-20'), 5), 2),
+#     '-',
+#     substring(outputs('Recording_Name'), add(lastIndexOf(outputs('Recording_Name'), '-20'), 7), 2),
+#     'T',
+#     substring(outputs('Recording_Name'), add(lastIndexOf(outputs('Recording_Name'), '-20'), 10), 2),
+#     ':',
+#     substring(outputs('Recording_Name'), add(lastIndexOf(outputs('Recording_Name'), '-20'), 12), 2),
+#     ':00Z'
+#   )
+#
+#   Result example: "2026-06-08T09:52:00Z"
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 5: Office 365 Outlook → "Get events (V4)"
+# ───────────────────────────────────────────────────────────────────
+# Action: Office 365 Outlook → "Get events (V4)"
+# Parameters:
+#   Calendar id:    Calendar (your default calendar)
+#   Filter Query:   start/dateTime ge '@{addHours(outputs('Meeting_DateTime'), -1)}' and start/dateTime le '@{addHours(outputs('Meeting_DateTime'), 1)}'
+#   Top:            10
+#   Order By:       start/dateTime desc
+#
+# This finds calendar events around the time the recording started.
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 5b: Filter array — Find the event with isOnlineMeeting = true
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Filter array"
+# Rename to: "Filter_Online_Meetings"
+# Parameters:
+#   From:   outputs('Get_events_(V4)')?['body/value']
+#   Condition (Advanced mode):
+#     @equals(item()?['isOnlineMeeting'], true)
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 5c: Compose — Get the joinWebUrl
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Compose"
+# Rename to: "Join_Web_Url"
+# Inputs (expression):
+#   first(body('Filter_Online_Meetings'))?['onlineMeeting']?['joinUrl']
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 6: Send a Microsoft Graph HTTP request — Get online meeting by joinWebUrl
+# ───────────────────────────────────────────────────────────────────
+# Action: "Send a Microsoft Graph HTTP request" (or HTTP with Azure AD)
+# Parameters:
+#   Method:  GET
+#   URL:     https://graph.microsoft.com/v1.0/me/onlineMeetings?$filter=JoinWebUrl eq '@{outputs('Join_Web_Url')}'
+#
+# NOTE: JoinWebUrl is the ONLY supported $filter for /me/onlineMeetings
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 6b: Compose — Extract the meeting ID
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Compose"
+# Rename to: "Online_Meeting_Id"
+# Inputs (expression):
+#   first(body('Send_a_Microsoft_Graph_HTTP_request')?['value'])?['id']
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 7: Send a Microsoft Graph HTTP request — List transcripts
+# ───────────────────────────────────────────────────────────────────
+# Action: "Send a Microsoft Graph HTTP request"
+# Rename to: "Get_Transcripts"
+# Parameters:
+#   Method:  GET
+#   URL:     https://graph.microsoft.com/v1.0/me/onlineMeetings/@{outputs('Online_Meeting_Id')}/transcripts
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 8: Compose — Get the transcript ID
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Compose"
+# Rename to: "Transcript_Id"
+# Inputs (expression):
+#   first(body('Get_Transcripts')?['value'])?['id']
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 9: Send a Microsoft Graph HTTP request — Download transcript
+# ───────────────────────────────────────────────────────────────────
+# Action: "Send a Microsoft Graph HTTP request"
+# Rename to: "Get_Transcript_Content"
+# Parameters:
+#   Method:  GET
+#   URL:     https://graph.microsoft.com/v1.0/me/onlineMeetings/@{outputs('Online_Meeting_Id')}/transcripts/@{outputs('Transcript_Id')}/content?$format=text/vtt
+#
+# NOTE: For plain text format use: $format=text/vtt
+#       For .docx format use:      $format=application/vnd.openxmlformats-officedocument.wordprocessingml.document
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 10: Compose — Store the transcript text
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Compose"
+# Rename to: "Transcript_Text"
+# Inputs:
+#   body('Get_Transcript_Content')
+#
+# This contains the full VTT transcript text with timestamps and speakers.
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 11 (OPTIONAL): Filter — Strip timestamps for clean text
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Filter array"
+# Rename to: "Filter_Text_Lines"
+# Parameters:
+#   From (expression):
+#     split(string(outputs('Transcript_Text')), decodeUriComponent('%0A'))
+#   Condition (Advanced mode):
+#     @and(not(startsWith(item(), 'WEBVTT')), not(contains(item(), '-->')), not(equals(trim(item()), '')), not(startsWith(trim(item()), 'NOTE')))
+
+# ───────────────────────────────────────────────────────────────────
+# STEP 12 (OPTIONAL): Compose — Join into clean text
+# ───────────────────────────────────────────────────────────────────
+# Action: Data Operations → "Compose"
+# Rename to: "Final_Clean_Transcript"
+# Inputs (expression):
+#   join(body('Filter_Text_Lines'), decodeUriComponent('%0A'))
+
+# ═══════════════════════════════════════════════════════════════════
+# RESULTS:
+#   outputs('Transcript_Text')         → Full VTT with timestamps + speakers
+#   outputs('Final_Clean_Transcript')  → Clean text only
+#   outputs('Get_Latest_Recording')    → Latest recording file metadata
+# ═══════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════
+# APPROACH B: Using Calendar Events (more reliable than subject filter)
+# ═══════════════════════════════════════════════════════════════════
+# If filtering by subject doesn't work (special characters, duplicates),
+# use this approach after Step 3:
+#
+# B1. Extract the date from filename:
+#     Compose "Meeting_Date" (expression):
+#       formatDateTime(concat(
+#         substring(outputs('Get_Latest_Recording')?['Name'],
+#           add(indexOf(outputs('Get_Latest_Recording')?['Name'], '-20'), 1), 8),
+#         'T',
+#         substring(outputs('Get_Latest_Recording')?['Name'],
+#           add(indexOf(outputs('Get_Latest_Recording')?['Name'], '-20'), 10), 6)
+#       ), 'yyyy-MM-ddTHH:mm:ssZ')
+#
+# B2. Office 365 Outlook → "Get events (V4)"
+#     Calendar: your calendar
+#     Filter Query: start/dateTime ge '@{outputs('Meeting_Date')}'
+#     Top: 5
+#
+# B3. Filter to find the matching event (by subject)
+#
+# B4. Use the event's onlineMeeting/joinUrl to call:
+#     GET https://graph.microsoft.com/v1.0/me/onlineMeetings?$filter=joinWebUrl eq '{joinUrl}'
+#     Then continue from Step 6 above.
+# ═══════════════════════════════════════════════════════════════════
+
+# ═══════════════════════════════════════════════════════════════════
+# PERMISSIONS NEEDED:
+# ─────────────────────────────────────────────────────────────────
+# For "HTTP with Azure AD" connector:
+#   - Base Resource URL: https://graph.microsoft.com
+#   - Azure AD Resource URI: https://graph.microsoft.com
+#
+# Graph API Permissions (Delegated):
+#   - OnlineMeetings.Read
+#   - OnlineMeetingTranscript.Read.All
+#
+# OR Application permissions (if running unattended):
+#   - OnlineMeetings.Read.All
+#   - OnlineMeetingTranscript.Read.All
+#   - (Requires admin consent)
+# ═══════════════════════════════════════════════════════════════════

@@ -1,0 +1,272 @@
+# ============================================================
+# REUSABLE CHOICE CARD PATTERN — Teams/M365 fix for Question node 3-option limit
+#
+# WHY: Question nodes with ClosedListEntity render as Suggested Action buttons in
+#      Teams. Teams caps these at 3 visible buttons. This pattern replaces them
+#      with an AdaptiveCardPrompt + Input.ChoiceSet which shows ALL options.
+#
+# QUICK PATH: Copy the block that matches your case, change the prompt text,
+#             the choices list, and the output variable name. Done.
+# ============================================================
+
+
+# ============================================================
+# CASE 1 — Static choices (small, fixed set — e.g. Yes/No, DIA type, etc.)
+#
+# BEFORE (hits 3-button limit in Teams):
+#
+#   - kind: Question
+#     id: question_XYZ
+#     variable: init:Topic.myAnswer
+#     prompt: "How would you like to proceed?"
+#     entity:
+#       kind: EmbeddedEntity
+#       definition:
+#         kind: ClosedListEntity
+#         items:
+#           - id: Option A
+#             displayName: Option A
+#           - id: Option B
+#             displayName: Option B
+#           - id: Option C
+#             displayName: Option C
+#           - id: Option D           ← invisible in Teams
+#             displayName: Option D
+#           - id: Option E           ← invisible in Teams
+#             displayName: Option E
+#
+# AFTER (all options visible in Teams):
+# ============================================================
+
+- kind: AdaptiveCardPrompt
+  id: card_myAnswer
+  card: |-
+    ={
+      '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+      type: "AdaptiveCard",
+      version: "1.5",
+      body: [
+        {
+          type: "TextBlock",
+          text: "How would you like to proceed?",
+          weight: "Bolder",
+          wrap: true
+        },
+        {
+          type: "Input.ChoiceSet",
+          id: "myAnswer",
+          style: "compact",
+          isRequired: true,
+          errorMessage: "Please select an option.",
+          placeholder: "Select an option...",
+          choices: [
+            { title: "Option A", value: "Option A" },
+            { title: "Option B", value: "Option B" },
+            { title: "Option C", value: "Option C" },
+            { title: "Option D", value: "Option D" },
+            { title: "Option E", value: "Option E" }
+          ]
+        }
+      ],
+      actions: [
+        {
+          type: "Action.Submit",
+          title: "Confirm",
+          style: "positive"
+        }
+      ]
+    }
+  output:
+    binding:
+      myAnswer: Topic.myAnswer       # ← maps card input id → topic variable
+  outputType:
+    properties:
+      myAnswer: String
+
+
+# ============================================================
+# CASE 2 — Dynamic choices from a table variable
+#           (e.g. meetings list, KPIs, MS Projects pulled from a flow)
+#
+# Power Fx to build choices from Topic.myItemsList (a table with .DisplayName & .Value columns):
+# ============================================================
+
+- kind: SetVariable
+  id: setVariable_BuildChoiceCard
+  variable: Topic.choiceCardJson
+  value: |-
+    ={
+      '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+      type: "AdaptiveCard",
+      version: "1.5",
+      body: [
+        {
+          type: "TextBlock",
+          text: "Select an item:",
+          weight: "Bolder",
+          wrap: true
+        },
+        {
+          type: "Input.ChoiceSet",
+          id: "selectedItem",
+          style: "compact",
+          isRequired: true,
+          errorMessage: "Please select an item.",
+          placeholder: "Select...",
+          choices: ForAll(
+            Topic.myItemsList,
+            { title: DisplayName, value: Value }
+          )
+        }
+      ],
+      actions: [
+        {
+          type: "Action.Submit",
+          title: "Confirm",
+          style: "positive"
+        }
+      ]
+    }
+
+- kind: AdaptiveCardPrompt
+  id: card_SelectItem
+  card: =Topic.choiceCardJson
+  output:
+    binding:
+      selectedItem: Topic.selectedItem
+  outputType:
+    properties:
+      selectedItem: String
+
+
+# ============================================================
+# CASE 3 — Dynamic choices from a DynamicClosedListEntity variable
+#           (the pattern used in dia_data_capture.yaml with Topic.Var3)
+#
+# These already work correctly BUT still show only 3 buttons in Teams.
+# Same fix — replace the Question node with an AdaptiveCardPrompt.
+#
+# Original pattern:
+#   - kind: SetVariable
+#     variable: Topic.Var3
+#     value: =["Fill manually", "Auto‑fill from available data", "Nothing to contribute"]
+#
+#   - kind: Question
+#     variable: init:Topic.Var1
+#     prompt: "How would you like to complete the DIA?"
+#     entity:
+#       kind: DynamicClosedListEntity
+#       items: =Topic.Var3
+#
+# Replacement:
+# ============================================================
+
+- kind: SetVariable
+  id: setVariable_BuildDIAChoiceCard
+  variable: Topic.diaChoiceCardJson
+  value: |-
+    ={
+      '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+      type: "AdaptiveCard",
+      version: "1.5",
+      body: [
+        {
+          type: "TextBlock",
+          text: "How would you like to complete the DIA?",
+          weight: "Bolder",
+          wrap: true
+        },
+        {
+          type: "Input.ChoiceSet",
+          id: "diaFillChoice",
+          style: "compact",
+          isRequired: true,
+          errorMessage: "Please select an option.",
+          placeholder: "Select...",
+          choices: ForAll(
+            Topic.Var3,
+            { title: Value, value: Value }    // Var3 is a simple string array
+          )
+        }
+      ],
+      actions: [
+        {
+          type: "Action.Submit",
+          title: "Confirm",
+          style: "positive"
+        }
+      ]
+    }
+
+- kind: AdaptiveCardPrompt
+  id: card_DIAFillChoice
+  card: =Topic.diaChoiceCardJson
+  output:
+    binding:
+      diaFillChoice: Topic.Var1           # keep same variable name as the original Question
+  outputType:
+    properties:
+      diaFillChoice: String
+
+
+# ============================================================
+# CASE 4 — Multi-select (e.g. select multiple meetings or KPIs)
+#
+# Add isMultiSelect: true — result is a comma-separated string.
+# Use style: "filtered" for long lists (typeahead search).
+# ============================================================
+
+- kind: AdaptiveCardPrompt
+  id: card_MultiSelect
+  card: |-
+    ={
+      '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+      type: "AdaptiveCard",
+      version: "1.5",
+      body: [
+        {
+          type: "TextBlock",
+          text: "Select all that apply:",
+          weight: "Bolder",
+          wrap: true
+        },
+        {
+          type: "Input.ChoiceSet",
+          id: "multiSelection",
+          style: "filtered",              // typeahead search — best for 10+ items
+          isMultiSelect: true,
+          isRequired: true,
+          errorMessage: "Please select at least one option.",
+          placeholder: "Type to search or scroll...",
+          choices: ForAll(
+            Topic.myItemsList,
+            { title: DisplayName, value: Value }
+          )
+        }
+      ],
+      actions: [
+        {
+          type: "Action.Submit",
+          title: "Confirm",
+          style: "positive"
+        }
+      ]
+    }
+  output:
+    binding:
+      multiSelection: Topic.multiSelection   # comma-separated string e.g. "val1,val2,val3"
+  outputType:
+    properties:
+      multiSelection: String
+
+# After capture, split the comma-separated result back into a table if needed:
+# =Split(Topic.multiSelection, ",")
+
+
+# ============================================================
+# STYLE REFERENCE
+#
+# compact   → dropdown list           best for 4–15 options
+# expanded  → radio / checkboxes      best for ≤5 options (all visible at once)
+# filtered  → typeahead dropdown      best for 15+ options (with isMultiSelect too)
+# ============================================================

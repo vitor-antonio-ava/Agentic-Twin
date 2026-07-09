@@ -1,0 +1,37 @@
+[
+  {
+    "DATE": "Jan-26",
+    "VALUE": 0.9,
+    "ON_TARGET": 1,
+    "TARGET": 0.9,
+    "UOM": "%"
+  },
+  {
+    "DATE": "Feb-26",
+    "VALUE": 0.7,
+    "ON_TARGET": 0,
+    "TARGET": 0.9,
+    "UOM": "%"
+  },
+  {
+    "DATE": "Mar-26",
+    "VALUE": 0.8,
+    "ON_TARGET": 0,
+    "TARGET": 0.9,
+    "UOM": "%"
+  },
+  {
+    "DATE": "Apr-26",
+    "VALUE": 0.6,
+    "ON_TARGET": 0,
+    "TARGET": 0.9,
+    "UOM": "%"
+  },
+  {
+    "DATE": "May-26",
+    "VALUE": 0.5,
+    "ON_TARGET": 0,
+    "TARGET": 0.9,
+    "UOM": "%"
+  }
+]

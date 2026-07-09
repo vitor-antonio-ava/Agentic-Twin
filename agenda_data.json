@@ -1,0 +1,43 @@
+{
+  "action": "confirm_preread",
+  "additionalItems": [
+    {
+      "time": "16:40",
+      "topic": "TEst topic 1"
+    },
+    {
+      "time": "16:50",
+      "topic": "TEst topic 2"
+    }
+  ],
+  "agendaItems": [
+    {
+      "AssignedOwnerName": "Vitor Antonio",
+      "DIATaskName": "DIA - GPS Maturity",
+      "DIATaskType": "KPI",
+      "time": "16:00"
+    },
+    {
+      "AssignedOwnerName": "",
+      "DIATaskName": "DIA - Regular Attendee Default (Optional)",
+      "DIATaskType": "Optional",
+      "time": "16:10"
+    },
+    {
+      "AssignedOwnerName": "Vitor Antonio",
+      "DIATaskName": "DIA - Nucala 2nd Source Program - Patheon GRV Tech Transfer",
+      "DIATaskType": "MSProject",
+      "time": "16:20"
+    },
+    {
+      "AssignedOwnerName": "Sumit Kaura",
+      "DIATaskName": "DIA - COW (Cost Of Waste)",
+      "DIATaskType": "KPI",
+      "time": "16:30"
+    }
+  ],
+  "meetingAttendees": "dilawar.x.mansoori@gsk.com,vitor.x.antonio@gsk.com,sukant.x.sondhi@gsk.com,sumit.x.kaura@gsk.com,ana.x.ocarizsanchez@gsk.com,morgan.m.kasiera@gsk.com,antonino.x.sistacplaza@gsk.com",
+  "meetingInputs": "KPI Dashboard (Power Bi)\nMPR Report (Power Bi)\nSD/SiP Report (Power Bi)\nDecisions Required & SPADM",
+  "meetingOutputs": "D - MPR Decisions\nI - Interventions / Actions / Help Required\nI - Problem Solve Focus Areas\nA - KPI + critical programme status (Projects and SD Initiatives)\nA - Successes, Recognition",
+  "meetingPurpose": "A holistic performance review across EM of Business area KPIs, status of critical projects and annual programmes to ensure alignment across LT on priorities and focus area for the next 30-90 days"
+}

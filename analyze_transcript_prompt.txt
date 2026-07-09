@@ -1,0 +1,28 @@
+Analyse this meeting transcript data in meetingTranscript.
+Identify if there are any actions that need to be taken and if any follow-up meetings are also needed.
+
+Extract this information as:
+- tasks and the person assigned to them (try to match the tasks to the person mentioned in the transcript, if not leave it empty)
+- follow up meeting required (if there is a clear instruction in the transcript of the meeting that a follow-up meeting between 2 or 3 people needs to happen)
+
+Store this analysis result in a JSON format based on this example:
+{
+    "AISummaryText": "These are the action items from the meeting. Please review and let me know if you have any questions or if there is anything you would like to add or change. \nTasks\nTask: Double check ipower instructions - John Smith \nTask: Verify last month results - Georgia Ray \n\nFollow-up Meeting: EM Meeting Follow-up - Security Health check \nSuggested Attendees: John Smith, Carla Gil",
+    "MeetingNotesHTML": "<html><body style=\"font-family: Arial, sans-serif; color: #333;\"><p>These are the meeting notes and calculated action items from the meeting. Please review and let me know if you have any questions or if there is anything you would like to add or change.</p><h3 style=\"color: #2E74B5;\">Tasks</h3><ul><li><strong>Double check ipower instructions</strong> &mdash; John Smith</li><li><strong>Verify last month results</strong> &mdash; Georgia Ray</li></ul><h3 style=\"color: #2E74B5;\">Follow-up Meeting</h3><ul><li><strong>Topic:</strong> EM Meeting Follow-up - Security Health check</li><li><strong>Description:</strong> Need to have a separate discussion around our Security Health check activities for our EM group</li><li><strong>Suggested Attendees:</strong> John Smith, Carla Gil</li></ul></body></html>",
+    "tasks": [
+        {
+            "taskName": "Double check ipower instructions",
+            "assignee": "John Smith"
+        },
+        {
+            "taskName": "Verify last month results",
+            "assignee": "Georgia Ray"
+        }
+    ],
+    "followupMeeting": {
+        "topic": "EM Meeting Follow-up - Security Health check",
+        "meetingDescription": "Need to have a separate discussion around our Security Health check activities for our EM group",
+        "suggestedAttendees": "John Smith, Carla Gil"
+    }
+}
+

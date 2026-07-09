@@ -1,0 +1,629 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"/><meta name="viewport" content="width=device-width,initial-scale=1.0"/><title>MPR KPI Slides — June 2026</title><style>    :root {
+      --gsk-orange: #ff6a00;
+      --text: #1d1d1d;
+      --muted: #6b6b6b;
+      --page-bg: #ffffff;
+      --page-border: #e9e9e9;
+      --soft-bg: #fafafa;
+      --line: #e5e5e5;
+
+      --dia-d: #d0021b;
+      --dia-i: #f5a623;
+      --dia-a: #2b7cd3;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", SegoeUI, Calibri, Arial, sans-serif;
+      background: #f5f5f5;
+      color: var(--text);
+    }
+
+    /* =========================================
+       GLOBAL SLIDE LAYOUT
+       ========================================= */
+    .slide {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      margin: 20px auto;
+      padding: 36px 40px 64px;
+      background: var(--page-bg);
+      border: 1px solid var(--page-border);
+      page-break-after: always;
+      overflow: hidden;
+    }
+
+    .slide-header {
+      margin: 0 0 18px;
+    }
+
+    .slide-title {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+      color: var(--gsk-orange);
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 16px 0 6px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gsk-orange);
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .slide-footer {
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      bottom: 18px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-left {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .slide-number {
+      min-width: 18px;
+    }
+
+    .footer-logo img {
+      display: block;
+      width: auto;
+      height: 22px;
+    }
+
+    /* =========================================
+       COMMON CARDS / META / BADGES
+       ========================================= */
+    .card {
+      padding: 14px 14px 12px;
+      background: var(--soft-bg);
+      border: 1px solid var(--line);
+    }
+
+    .card.white {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .card.white.exec {
+      background: #fffdfb;
+      border-left: 4px solid var(--gsk-orange);
+      min-height: 74px;
+    }
+
+    .meta-strip {
+      display: block;
+      margin-bottom: 0;
+    }
+
+    .meta-block {
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+
+    .meta-label {
+      margin-bottom: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .meta-value {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .mini-title {
+      margin: 0 0 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--gsk-orange);
+    }
+
+    .note {
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .bullets {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .bullets li {
+      margin: 4px 0;
+    }
+
+    .dia-badge {
+      position: absolute;
+      top: 36px;
+      right: 40px;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .dia-awareness {
+      background-color: var(--dia-a);
+    }
+
+    .dia-input {
+      background-color: var(--dia-i);
+    }
+
+    .dia-decision {
+      background-color: var(--dia-d);
+    }
+
+    /* =========================================
+       KPI SLIDE LAYOUT
+       ========================================= */
+    .content {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      gap: 30px;
+    }
+
+    .chart-box {
+      padding: 16px;
+      border: 1px solid #ddd;
+    }
+
+    .chart-title {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .text-box {
+      padding-left: 16px;
+      border-left: 4px solid var(--dia-d);
+    }
+
+    /* =========================================
+       AGENDA SLIDE
+       ========================================= */
+    .agenda-layout {
+      display: grid;
+      grid-template-columns: 64% 36%;
+      gap: 22px;
+      height: calc(720px - 36px - 64px - 18px - 40px);
+    }
+
+    .agenda-list {
+      padding: 0;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .agenda-head,
+    .agenda-item {
+      display: grid;
+      grid-template-columns: 84px 90px 1fr;
+      gap: 10px;
+      padding: 10px 12px;
+      align-items: start;
+    }
+
+    .agenda-head {
+      background: #fff3ea;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 600;
+      color: #7a3a14;
+    }
+
+    .agenda-item {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .agenda-item:last-child {
+      border-bottom: none;
+    }
+
+    .time {
+      padding-top: 2px;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .agenda-topic {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .agenda-outcome {
+      font-size: 12.5px;
+      line-height: 1.35;
+      color: #3a3a3a;
+    }
+
+    .right-stack {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .dia-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 78px;
+      height: 22px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .pill-d {
+      background: var(--dia-d);
+    }
+
+    .pill-i {
+      background: var(--dia-i);
+    }
+
+    .pill-a {
+      background: var(--dia-a);
+    }
+
+    .outputs-grid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr;
+    }
+
+    .output-pill {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .output-letter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .letter-d {
+      background: var(--dia-d);
+    }
+
+    .letter-i {
+      background: var(--dia-i);
+    }
+
+    .letter-a {
+      background: var(--dia-a);
+    }
+
+    .output-text {
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+
+    /* =========================================
+       TABLES
+       ========================================= */
+    .actions-table,
+    .projects-table,
+    .milestone-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .actions-table,
+    .projects-table {
+      font-size: 14px;
+    }
+
+    .actions-table th,
+    .projects-table th,
+    .milestone-table th {
+      padding: 10px 8px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--gsk-orange);
+      border-bottom: 2px solid #ddd;
+    }
+
+    .actions-table td,
+    .projects-table td {
+      padding: 9px 8px;
+      vertical-align: top;
+      border-bottom: 1px solid #eee;
+    }
+
+    .actions-table tr:last-child td,
+    .projects-table tr:last-child td,
+    .milestone-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .dia-cell,
+    .status-cell {
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .dia-pill-table {
+      display: inline-block;
+      min-width: 72px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .dia-d {
+      background-color: var(--dia-d);
+    }
+
+    .dia-i {
+      background-color: var(--dia-i);
+    }
+
+    .dia-a {
+      background-color: var(--dia-a);
+    }
+
+    .status-cell {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .status-red {
+      color: var(--dia-d);
+    }
+
+    .status-amber {
+      color: var(--dia-i);
+    }
+
+    .status-green {
+      color: var(--dia-a);
+    }
+
+    .overdue {
+      color: var(--dia-d);
+      font-weight: 600;
+    }
+
+    /* =========================================
+       ONE-PAGER
+       ========================================= */
+    .onepager-layout {
+      display: grid;
+      grid-template-columns: 58% 42%;
+      gap: 20px;
+    }
+
+    .onepager-left {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 12px;
+    }
+
+    .onepager-right {
+      display: grid;
+      grid-template-rows: auto auto auto auto;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .onepager-right .card.white {
+      padding: 14px 16px;
+    }
+
+    .onepager-bottom {
+      margin-top: 16px;
+      background: #fff7f2;
+      border-left: 6px solid var(--gsk-orange);
+    }
+
+    .status-row-inline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .status-tile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 44px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tile-red {
+      background: var(--dia-d);
+    }
+
+    .tile-amber {
+      background: var(--dia-i);
+    }
+
+   .tile-green {
+  background: #2e7d32; /* proper green */
+}
+
+    .milestone-table {
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
+    .milestone-table th,
+    .milestone-table td {
+      padding: 8px 6px;
+    }
+
+    .milestone-table th {
+      border-bottom: 2px solid var(--line);
+    }
+
+    .milestone-table td {
+      border-bottom: 1px solid #eee;
+    }
+
+    .milestone-risk {
+      color: var(--dia-d);
+      font-weight: 600;
+    }
+.project-details-card {
+  padding: 10px 12px 12px;
+}
+
+.project-details-grid.compact {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px 20px;
+  margin-top: 4px;
+}
+
+.project-detail {
+  min-width: 0;
+}
+
+.project-detail-label {
+  margin-bottom: 2px;
+  font-size: 9.5px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.45px;
+  line-height: 1.2;
+}
+
+.project-detail-value {
+  font-size: 12.5px;
+  line-height: 1.25;
+  color: var(--text);
+  font-weight: 600;
+}
+.project-link {
+  color: var(--text);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.project-link:hover {
+  color: var(--gsk-orange);
+  text-decoration: underline;
+}
+.exec-large {
+  min-height: 180px;
+}
+
+.onepager-right {
+  display: grid;
+  grid-template-rows: auto auto auto;
+  gap: 12px;
+  align-content: start;
+}</style></head><body><div class="slide">
+  <div class="slide-header">
+    <h1 class="slide-title">Off-Track KPI – GPS Maturity</h1>
+  </div>
+  <div class="dia-badge dia-input">Input Required</div>
+  <div class="content">
+    <div class="chart-box">
+      <div class="chart-title">Monthly Performance Trend (%)</div>
+      <svg width="100%" height="260" viewBox="0 0 500 260" aria-label="Monthly performance trend">
+        <line x1="50" y1="20" x2="50" y2="220" stroke="#333"/>
+        <line x1="50" y1="220" x2="480" y2="220" stroke="#333"/>
+        <text x="10" y="30" font-size="12">100%</text>
+        <text x="10" y="90" font-size="12">80%</text>
+        <text x="10" y="150" font-size="12">60%</text>
+        <text x="10" y="210" font-size="12">40%</text>
+        <line x1="50" y1="53.3" x2="480" y2="53.3" stroke="#999" stroke-dasharray="5,5"/>
+        <text x="380" y="43.3" font-size="12">Target 90%</text>
+        <polyline fill="none" stroke="#d0021b" stroke-width="3" points="70,53.3 160,120.0 250,86.7 340,153.3 430,186.7"/>
+        <circle cx="70" cy="53.3" r="4" fill="#2e7d32"/>
+        <circle cx="160" cy="120.0" r="4" fill="#d0021b"/>
+        <circle cx="250" cy="86.7" r="4" fill="#d0021b"/>
+        <circle cx="340" cy="153.3" r="4" fill="#d0021b"/>
+        <circle cx="430" cy="186.7" r="4" fill="#d0021b"/>
+        <text x="58" y="245" font-size="12">Jan-26</text>
+        <text x="148" y="245" font-size="12">Feb-26</text>
+        <text x="238" y="245" font-size="12">Mar-26</text>
+        <text x="328" y="245" font-size="12">Apr-26</text>
+        <text x="418" y="245" font-size="12">May-26</text>
+      </svg>
+    </div>
+    <div class="text-box" style="border-left: 4px solid #f5a623; padding-left:16px; overflow:hidden;">
+      <h2 style="margin:10px 0 4px; font-size:14px;">Situation</h2><p style="font-size:12px; line-height:1.3;">Due to variations in how RFT is calculated across suppliers, a single deviation can lead to the DS RFT metric presenting as red.<br />For example, in January 2028 there was one final batch from Aplora with a single deviation, resulting in 0% RFT.</p>
+      <h2 style="margin:10px 0 4px; font-size:14px;">Current Response</h2><p style="font-size:12px; line-height:1.3;">The deviation is being managed through the standard DMAIC process with appropriate corrective actions identified.<br />This is not a repeat occurrence.<br />The RFT calculation methodology will be discussed at the next Quality Council meeting with a proposal to count all process steps at Aplora to align with other DS CMOs.</p>
+      <h2 style="margin:10px 0 4px; font-size:14px;">Patient Impact</h2><p style="font-size:12px; line-height:1.3;">There is no impact to patients.</p>
+      <h2 style="margin:10px 0 4px; font-size:14px;">Balanced Scorecard</h2><p style="font-size:12px; line-height:1.3;">Updating the calculation methodology will allow for a more accurate representation of the RFT metric within EM DS.</p>
+      <h2 style="margin:10px 0 4px; font-size:14px;">DIA</h2><p style="font-size:12px; line-height:1.3;">EM DS Quality Council to confirm the proposed RFT calculation approach. Need input from Vitor Antonio and Dilawar Mansoori.</p>
+      <h2 style="margin:10px 0 4px; font-size:14px;">Recommendation</h2><p style="font-size:12px; line-height:1.3;">Align Aplora RFT calculation methodology with other DS CMOs to ensure consistent reporting.</p>
+      <h2 style="margin:10px 0 4px; font-size:14px;">Next Steps</h2><p style="font-size:12px; line-height:1.3;">Discuss and confirm the RFT calculation approach</p>
+    </div>
+  </div>
+  <div class="slide-footer">
+    <div class="footer-left">
+      <span class="slide-number">1</span>
+      <span class="slide-date">June 2026</span>
+    </div>
+    <div class="footer-logo" aria-label="GSK logo">
+      <img src="https://companieslogo.com/img/orig/GSK_BIG-04d5c41c.png?t=1669451926&download=true" alt="GSK" style="height:22px"/>
+    </div>
+  </div>
+</div></body></html>

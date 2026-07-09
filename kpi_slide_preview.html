@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KPI Slide Preview — Dynamic Generation Sample</title>
+
+  <!--
+    ============================================================
+    PREVIEW: what the Power Automate flow generates for one KPI
+
+    DATA SOURCES USED:
+      • graph_points_example.json  →  SVG chart
+      • Dataverse DIA Task record  →  text content (simulated below)
+
+    SVG SCALE COMPUTATION (done by PA flow):
+      yMin      = min(0.9, 0.7, 0.8, 0.6, 0.5) - 0.05 = 0.45
+      yMax      = 1.0
+      yRange    = 0.55
+      xSpacing  = 360 / (5-1) = 90
+      targetY   = 220 - ((0.9-0.45)/0.55)*200 ≈ 56
+
+    POINTS:
+      Jan-26  VALUE=0.9  ON_TARGET=1  → x=70,  y=56,  green
+      Feb-26  VALUE=0.7  ON_TARGET=0  → x=160, y=129, red
+      Mar-26  VALUE=0.8  ON_TARGET=0  → x=250, y=93,  red
+      Apr-26  VALUE=0.6  ON_TARGET=0  → x=340, y=166, red
+      May-26  VALUE=0.5  ON_TARGET=0  → x=430, y=202, red
+    ============================================================
+  -->
+
+  <style>
+    :root {
+      --gsk-orange: #ff6a00;
+      --text: #1d1d1d;
+      --muted: #6b6b6b;
+      --page-bg: #ffffff;
+      --page-border: #e9e9e9;
+      --soft-bg: #fafafa;
+      --line: #e5e5e5;
+      --dia-d: #d0021b;
+      --dia-i: #f5a623;
+      --dia-a: #2b7cd3;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", SegoeUI, Calibri, Arial, sans-serif;
+      background: #f5f5f5;
+      color: var(--text);
+    }
+
+    .slide {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      margin: 20px auto;
+      padding: 36px 40px 64px;
+      background: var(--page-bg);
+      border: 1px solid var(--page-border);
+      overflow: hidden;
+    }
+
+    .slide-header { margin: 0 0 18px; }
+
+    .slide-title {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+      color: var(--gsk-orange);
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 16px 0 6px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gsk-orange);
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .slide-footer {
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      bottom: 18px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-left {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .footer-logo img {
+      display: block;
+      width: auto;
+      height: 22px;
+    }
+
+    .dia-badge {
+      position: absolute;
+      top: 36px;
+      right: 40px;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .dia-decision { background-color: var(--dia-d); }
+    .dia-input    { background-color: var(--dia-i); }
+    .dia-awareness{ background-color: var(--dia-a); }
+
+    .content {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      gap: 30px;
+    }
+
+    .chart-box {
+      padding: 16px;
+      border: 1px solid #ddd;
+    }
+
+    .chart-title {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .text-box {
+      padding-left: 16px;
+      border-left: 4px solid var(--dia-d);
+    }
+
+    /* annotation banner */
+    .dev-note {
+      width: 1280px;
+      margin: 0 auto 4px;
+      padding: 6px 12px;
+      background: #fff3e0;
+      border: 1px solid #ff6a00;
+      font-size: 12px;
+      color: #7a3a00;
+      font-family: monospace;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="dev-note">
+    PREVIEW — generated from <strong>graph_points_example.json</strong> + simulated Dataverse DIA Task record.
+    In Power Automate this entire &lt;div class="slide"&gt; block is built dynamically inside a Compose action.
+  </div>
+
+  <!-- =========================================
+       GENERATED SLIDE: KPI — On-Time Delivery Rate
+       This is exactly what the PA flow outputs for one KPI task.
+
+       Dataverse fields (myagtwin_*) mapped:
+         myagtwin_kpiname         → slide title
+         myagtwin_diatype         → badge (0=Decision)
+         myagtwin_situation       → Situation section
+         myagtwin_currentresponse → Current Response section
+         myagtwin_patient         → Patient Impact section
+         myagtwin_dia             → DIA section
+         myagtwin_recommendation  → Recommendation section
+         myagtwin_nextsteps       → Next Steps section
+       ========================================= -->
+  <div class="slide">
+    <div class="slide-header">
+      <!-- myagtwin_kpiname -->
+      <h1 class="slide-title">Off-Track KPI – On-Time Delivery Rate</h1>
+    </div>
+
+    <!-- myagtwin_diatype = 0  →  dia-decision / "Decision Required" -->
+    <div class="dia-badge dia-decision">Decision Required</div>
+
+    <div class="content">
+
+      <!-- ===== CHART BOX — built from graph_points_example.json ===== -->
+      <div class="chart-box">
+        <!-- first(graphPoints)?['UOM'] = "%" -->
+        <div class="chart-title">Monthly Performance Trend (%)</div>
+
+        <!--
+          SVG coordinate derivation (PA computes these):
+            yMin=0.45  yMax=1.0  yRange=0.55
+            Y labels at y=24/74/124/174 → 100%/86%/72%/58%
+            targetY = 56  (0.9 target)
+            xSpacing = 90  (360 / 4 gaps)
+        -->
+        <svg width="100%" height="260" viewBox="0 0 500 260" aria-label="Monthly performance trend">
+
+          <!-- Axes -->
+          <line x1="50" y1="20" x2="50" y2="220" stroke="#333" />
+          <line x1="50" y1="220" x2="480" y2="220" stroke="#333" />
+
+          <!-- Y-axis labels (computed dynamically: yMin + fraction * yRange) -->
+          <!-- y=24  → int((yMin + yRange*1.00) * 100) = 100% -->
+          <text x="10" y="24"  font-size="12">100%</text>
+          <!-- y=74  → int((yMin + yRange*0.75) * 100) = 86% -->
+          <text x="10" y="74"  font-size="12">86%</text>
+          <!-- y=124 → int((yMin + yRange*0.50) * 100) = 72% -->
+          <text x="10" y="124" font-size="12">72%</text>
+          <!-- y=174 → int((yMin + yRange*0.25) * 100) = 58% -->
+          <text x="10" y="174" font-size="12">58%</text>
+
+          <!-- Target dashed line: targetY=56  (first(graphPoints)?['TARGET']=0.9) -->
+          <line x1="50" y1="56" x2="480" y2="56" stroke="#999" stroke-dasharray="5,5" />
+          <!-- targetLabel = concat(string(int(0.9*100)), '%') = "90%" -->
+          <text x="390" y="50" font-size="12">Target 90%</text>
+
+          <!--
+            Polyline — svgPolyline variable built in inner Apply to Each loop:
+              concat(xPos, ',', yPos, ' ') per point
+            Points: 70,56 160,129 250,93 340,166 430,202
+          -->
+          <polyline
+            fill="none"
+            stroke="#d0021b"
+            stroke-width="3"
+            points="70,56 160,129 250,93 340,166 430,202"
+          />
+
+          <!--
+            Circles — svgCircles variable:
+              ON_TARGET=1 → green (#2e7d32)
+              ON_TARGET=0 → red (#d0021b)
+          -->
+          <!-- Jan-26: VALUE=0.9, ON_TARGET=1 → green -->
+          <circle cx="70"  cy="56"  r="4" fill="#2e7d32" />
+          <!-- Feb-26: VALUE=0.7, ON_TARGET=0 → red -->
+          <circle cx="160" cy="129" r="4" fill="#d0021b" />
+          <!-- Mar-26: VALUE=0.8, ON_TARGET=0 → red -->
+          <circle cx="250" cy="93"  r="4" fill="#d0021b" />
+          <!-- Apr-26: VALUE=0.6, ON_TARGET=0 → red -->
+          <circle cx="340" cy="166" r="4" fill="#d0021b" />
+          <!-- May-26: VALUE=0.5, ON_TARGET=0 → red -->
+          <circle cx="430" cy="202" r="4" fill="#d0021b" />
+
+          <!--
+            X-axis labels — svgXLabels variable:
+              x = xPos - 12, y = 245
+          -->
+          <text x="58"  y="245" font-size="12">Jan-26</text>
+          <text x="148" y="245" font-size="12">Feb-26</text>
+          <text x="238" y="245" font-size="12">Mar-26</text>
+          <text x="328" y="245" font-size="12">Apr-26</text>
+          <text x="418" y="245" font-size="12">May-26</text>
+
+        </svg>
+      </div>
+
+      <!-- ===== TEXT BOX — built from Dataverse DIA Task fields ===== -->
+      <div class="text-box">
+
+        <!-- myagtwin_situation -->
+        <h2>Situation</h2>
+        <p>On-time delivery rate declined from 90% in January to 50% in May, driven by
+           API availability delays and increased schedule pressure at key CMOs.</p>
+
+        <!-- myagtwin_currentresponse -->
+        <h2>Current Response</h2>
+        <p>Expedite programme initiated with Logistics and CMO teams.
+           Weekly delivery review cadence established with site leads.</p>
+
+        <!-- myagtwin_patient -->
+        <h2>Patient Impact</h2>
+        <p>Risk of supply interruption to two markets if May performance is not recovered.</p>
+
+        <!-- myagtwin_dia -->
+        <h2>DIA</h2>
+        <p>Decision required on prioritisation of API allocation across affected products.</p>
+
+        <!-- myagtwin_recommendation -->
+        <h2>Recommendation</h2>
+        <p>Reallocate API buffer stock to highest-risk markets and establish a 72-hour
+           escalation trigger when delivery rate falls below 70%.</p>
+
+        <!-- myagtwin_nextsteps (newlines replaced with <br /> by PA) -->
+        <h2>Next Steps</h2>
+        <p>
+          • Confirm API reallocation plan – Supply Chain Lead – 19 Jun<br />
+          • Agree escalation trigger threshold – EM LT – 25 Jun<br />
+          • Update CMO delivery scorecard – Site Logistics – 30 Jun
+        </p>
+
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-left">
+        <!-- slideNumber variable -->
+        <span class="slide-number">4</span>
+        <!-- formatDateTime(utcNow(), 'MMMM yyyy') -->
+        <span class="slide-date">June 2026</span>
+      </div>
+      <div class="footer-logo" aria-label="GSK logo">
+        <img
+          src="https://companieslogo.com/img/orig/GSK_BIG-04d5c41c.png?t=1669451926&download=true"
+          alt="GSK"
+        />
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

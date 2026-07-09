@@ -1,0 +1,21 @@
+[
+        {
+            "DIATaskName": "DIA - GPS Maturity",
+            "DIATaskType": "KPI",
+            "AssignedOwnerName": "Vitor Antonio",
+            "AssignedOwnerEmail": "vitor.x.antonio@gsk.com",
+            "Situation": "Due to variations in how RFT is calculated across suppliers, a single deviation can lead to the DS RFT metric presenting as red.\nFor example, in January 2028 there was one final batch from Aplora with a single deviation, resulting in 0% RFT.",
+            "CurrentResponse": "The deviation is being managed through the standard DMAIC process with appropriate corrective actions identified.\nThis is not a repeat occurrence.\nThe RFT calculation methodology will be discussed at the next Quality Council meeting with a proposal to count all process steps at Aplora to align with other DS CMOs.",
+            "PatientImpact": "There is no impact to patients.",
+            "BalancedScorecard": "Updating the calculation methodology will allow for a more accurate representation of the RFT metric within EM DS.",
+            "DIAType": "Input",
+            "DIAUserInput": "Vitor Antonio (vitor.x.antonio@gsk.com); Dilawar Mansoori (dilawar.x.mansoori@gsk.com)",
+            "DIA": "EM DS Quality Council to confirm the proposed RFT calculation approach. Need input from Vitor Antonio and Dilawar Mansoori.",
+            "Recommendation": "Align Aplora RFT calculation methodology with other DS CMOs to ensure consistent reporting.",
+            "NextSteps": "Discuss and confirm the RFT calculation approach",
+            "KPIName": "GPS Maturity",
+            "KPIId": "KPI_EM_017",
+            "KPIDataPoints": "[\n  {\n    \"DATE\": \"Jan-26\",\n    \"VALUE\": 0.9,\n    \"ON_TARGET\": 1,\n    \"TARGET\": 0.9,\n    \"UOM\": \"%\"\n  },\n  {\n    \"DATE\": \"Feb-26\",\n    \"VALUE\": 0.7,\n    \"ON_TARGET\": 0,\n    \"TARGET\": 0.9,\n    \"UOM\": \"%\"\n  },\n  {\n    \"DATE\": \"Mar-26\",\n    \"VALUE\": 0.8,\n    \"ON_TARGET\": 0,\n    \"TARGET\": 0.9,\n    \"UOM\": \"%\"\n  },\n  {\n    \"DATE\": \"Apr-26\",\n    \"VALUE\": 0.6,\n    \"ON_TARGET\": 0,\n    \"TARGET\": 0.9,\n    \"UOM\": \"%\"\n  },\n  {\n    \"DATE\": \"May-26\",\n    \"VALUE\": 0.5,\n    \"ON_TARGET\": 0,\n    \"TARGET\": 0.9,\n    \"UOM\": \"%\"\n  }\n]"
+        }
+    ]
+

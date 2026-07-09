@@ -1,0 +1,75 @@
+{
+  '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+  type: "AdaptiveCard",
+  version: "1.5",
+  body: [
+    {
+      type: "TextBlock",
+      text: "Step 5 of 7",
+      size: "Small",
+      weight: "Lighter",
+      color: "Accent",
+      spacing: "None"
+    },
+    {
+      type: "TextBlock",
+      text: "DIA",
+      size: "Large",
+      weight: "Bolder",
+      wrap: true
+    },
+    {
+      type: "TextBlock",
+      text: "Provide the DIA details.",
+      wrap: true,
+      spacing: "Small",
+      color: "Default"
+    },
+    {
+      type: "Input.ChoiceSet",
+      id: "diaType",
+      label: "DIA Type",
+      isRequired: true,
+      errorMessage: "Please select a DIA type before continuing.",
+      placeholder: "Select a type...",
+      choices: [
+        { title: "Decision", value: "Decision" },
+        { title: "Input", value: "Input" },
+        { title: "Awareness", value: "Awareness" }
+      ],
+      style: "compact"
+    },
+    {
+      type: "Input.Text",
+      id: "dia",
+      placeholder: "Enter DIA details here...",
+      isMultiline: true,
+      isRequired: true,
+      errorMessage: "Please provide DIA details before continuing.",
+      label: "DIA",
+      value: Topic.diaData
+    },
+    {
+      type: "Input.ChoiceSet",
+      id: "inputPeoplePicker",
+      label: "Who do we need the inputs from?",
+      isMultiSelect: true,
+      isRequired: false,
+      placeholder: "Search for people...",
+      style: "filtered",
+      "choices.data": {
+        type: "Data.Query",
+        dataset: "graph.microsoft.com/users"
+      }
+    }
+  ],
+  actions: [
+    {
+      type: "Action.Submit",
+      title: "Next →",
+      data: {
+        step: "capture_dia"
+      }
+    }
+  ]
+}

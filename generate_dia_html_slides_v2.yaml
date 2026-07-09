@@ -1,0 +1,239 @@
+kind: AdaptiveDialog
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: meetingEventId
+    description: The meeting event id
+    shouldPromptUser: true
+
+  - kind: AutomaticTaskInput
+    propertyName: eventConfigurationId
+    description: The event configuration id
+    shouldPromptUser: true
+
+  - kind: AutomaticTaskInput
+    propertyName: meetingEventAgendaSlideData
+    description: The data to populate the meeting event agenda slide.
+    shouldPromptUser: true
+
+  - kind: AutomaticTaskInput
+    propertyName: meetingEventCalendarId
+    description: The meeting event calendar id
+    shouldPromptUser: true
+
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_5DuMyB
+      input:
+        binding:
+          text: =Topic.meetingEventId
+
+      output:
+        binding:
+          deckfilelocation: Topic.deckFileLocation
+
+      flowId: 451a7acd-7169-f111-a826-000d3a33da71
+
+    - kind: ConditionGroup
+      id: conditionGroup_5otBHa
+      conditions:
+        - id: conditionItem_D1eQUT
+          condition: =!IsBlank(Topic.deckFileLocation)
+          actions:
+            - kind: Question
+              id: question_QcSAg3
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var3
+              prompt: |-
+                This meeting even already has a deck generated which can be found here:
+
+                {Topic.deckFileLocation}
+
+                Are you happy with using this meeting deck or you want me to generate a new meeting deck? 
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Will use current one
+                      displayName: Will use current one
+
+                    - id: Generate new deck
+                      displayName: Generate new deck
+
+            - kind: ConditionGroup
+              id: conditionGroup_YUHRZS
+              conditions:
+                - id: conditionItem_jX7asu
+                  condition: =Topic.Var3 = 'cr1d7_agenttIFALA.topic.GenerateDIAHTMLSlidesV2.main.question_QcSAg3'.'Will use current one'
+                  actions:
+                    - kind: SendActivity
+                      id: sendActivity_lixMCy
+                      activity: Have a nice meeting!
+
+                    - kind: ClearAllVariables
+                      id: XVaKAs
+
+                    - kind: BeginDialog
+                      id: w3vHu6
+                      dialog: cr1d7_agenttIFALA.topic.InitialTopic
+
+                - id: conditionItem_xNNpsZ
+                  condition: =Topic.Var3 = 'cr1d7_agenttIFALA.topic.GenerateDIAHTMLSlidesV2.main.question_QcSAg3'.'Generate new deck'
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_1rwQtD
+      input:
+        binding:
+          text: =Topic.meetingEventCalendarId
+
+      output:
+        binding:
+          submitteddiadata: Topic.submittedDIAData
+
+      flowId: 004909cf-a568-f111-a826-000d3a3690d9
+
+    - kind: SetVariable
+      id: AeBikY
+      variable: Topic.meetingSubmittedDIAs
+      value: |-
+        =ForAll(
+            ParseJSON(Topic.submittedDIAData),
+            {
+                DIATaskName: Text(ThisRecord.DIATaskName),
+                DIATaskType: Text(ThisRecord.DIATaskType),
+                AssignedOwnerName: Text(ThisRecord.AssignedOwnerName),
+                AssignedOwnerEmail: Text(ThisRecord.AssignedOwnerEmail),
+                Situation: Text(ThisRecord.Situation),
+                CurrentResponse: Text(ThisRecord.CurrentResponse),
+                PatientImpact: Text(ThisRecord.PatientImpact),
+                BalancedScorecard: Text(ThisRecord.BalancedScorecard),
+                DIAType: Text(ThisRecord.DIAType),
+                DIAUserInput: Text(ThisRecord.DIAUserInput),
+                DIA: Text(ThisRecord.DIA),
+                Recommendation: Text(ThisRecord.Recommendation),
+                NextSteps: Text(ThisRecord.NextSteps),
+                KPIName: Text(ThisRecord.KPIName),
+                KPIId: Text(ThisRecord.KPIId),
+                KPIDataPoints: Text(ThisRecord.KPIDataPoints)
+            }
+        )
+
+    - kind: SendActivity
+      id: sendActivity_RdZ2bH
+      activity: Generating meetings slides..
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_Pn9TAW
+      input:
+        binding:
+          agendaData: =JSON(Topic.meetingEventAgendaSlideData)
+          diaList: =JSON(Topic.meetingSubmittedDIAs)
+
+      output:
+        binding:
+          predictionOutput: Topic.generatedSlides
+
+      aIModelId: bbbf816a-23da-415e-a1c9-93331818520a
+
+    - kind: SetVariable
+      id: setVariable_VcHRfv
+      variable: Topic.htmlSlides
+      value: =Topic.generatedSlides.structuredOutput.slides
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_Yb2zQx
+      input:
+        binding:
+          text: =JSON(Topic.htmlSlides)
+          text_1: =Topic.meetingEventId
+          text_2: =Topic.eventConfigurationId
+
+      output:
+        binding:
+          documentlocation: Topic.documentLocation
+
+      flowId: 14be42e1-ba68-f111-a826-000d3a33da71
+
+    - kind: Question
+      id: question_x2Td7D
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.Var1
+      prompt: |-
+        The meeting deck was successfully generated, you can download and access it here:
+
+        {Topic.documentLocation}
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Ok
+              displayName: Ok
+
+        displayName: EmbeddedEntity-HlUYpK
+
+    - kind: ConditionGroup
+      id: conditionGroup_QNyzWg
+      conditions:
+        - id: conditionItem_1v7dmK
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.GenerateDIAHTMLSlidesV2.main.question_x2Td7D'.Ok
+
+    - kind: ClearAllVariables
+      id: cZYsr5
+
+    - kind: BeginDialog
+      id: MyJ7BI
+      dialog: cr1d7_agenttIFALA.topic.InitialTopic
+
+inputType:
+  properties:
+    eventConfigurationId:
+      displayName: eventConfigurationId
+      description: The event configuration id
+      type: String
+
+    meetingEventAgendaSlideData:
+      displayName: meetingEventAgendaSlideData
+      type:
+        kind: Record
+        properties:
+          action: String
+          additionalItems:
+            type:
+              kind: Table
+              properties:
+                time: String
+                topic: String
+
+          agendaItems:
+            type:
+              kind: Table
+              properties:
+                AssignedOwnerName: String
+                DIATaskName: String
+                DIATaskType: String
+                time: String
+
+          meetingAttendees: String
+          meetingInputs: String
+          meetingOutputs: String
+          meetingPurpose: String
+
+    meetingEventCalendarId:
+      displayName: meetingEventCalendarId
+      description: The meeting event calendar id
+      type: String
+
+    meetingEventId:
+      displayName: meetingEventId
+      description: The meeting event id
+      type: String
+
+outputType: {}

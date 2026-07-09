@@ -20,6 +20,9 @@ beginDialog:
           DIAResponseReceived: Number
           DIATaskId: String
           DisplayName: String
+          ExecutiveSummary: String
+          KeyNextSteps: String
+          KeyUpdates: String
           KpiId: Blank
           OwnerId: String
           PlannerTaskId: String
@@ -36,6 +39,38 @@ beginDialog:
       variable: Global.DiaDocAnalysis
       value: =""
 
+    - kind: SetVariable
+      id: setVariable_ZGYK9m
+      variable: Topic.Var3
+      value: =["Fill manually"]
+
+    - kind: ConditionGroup
+      id: conditionGroup_Et5jC5
+      conditions:
+        - id: conditionItem_6qoM5t
+          condition: =Topic.selectedDIATask.TaskType = 3
+          actions:
+            - kind: SetVariable
+              id: setVariable_SRzdlq
+              variable: Topic.Var3
+              value: =["Fill manually", "Auto‑fill from available data", "Nothing to contribute to this DIA"]
+
+        - id: conditionItem_5hj2cW
+          condition: =Topic.selectedDIATask.TaskType = 2
+          actions:
+            - kind: SetVariable
+              id: Cpr8DG
+              variable: Topic.Var3
+              value: =["Fill manually", "Draft DIA from available data"]
+
+        - id: conditionItem_F3lNie
+          condition: =Topic.selectedDIATask.TaskType = 1
+          actions:
+            - kind: SetVariable
+              id: T5FqjD
+              variable: Topic.Var3
+              value: =["Fill manually", "Auto‑fill from available data"]
+
     - kind: Question
       id: question_uu0MaH
       interruptionPolicy:
@@ -44,21 +79,14 @@ beginDialog:
       variable: init:Topic.Var1
       prompt: How would you like to complete the DIA?
       entity:
-        kind: EmbeddedEntity
-        definition:
-          kind: ClosedListEntity
-          items:
-            - id: Fill manually
-              displayName: Fill manually
-
-            - id: Auto‑fill from files
-              displayName: Auto‑fill from files
+        kind: DynamicClosedListEntity
+        items: =Topic.Var3
 
     - kind: ConditionGroup
       id: conditionGroup_x8kfR5
       conditions:
         - id: conditionItem_m8oYWE
-          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.DIADataCapture.main.question_uu0MaH'.'Fill manually'
+          condition: =Topic.Var1 = "Fill manually"
           actions:
             - kind: SetVariable
               id: setVariable_7yA4Qk
@@ -66,12 +94,132 @@ beginDialog:
               value: =false
 
         - id: conditionItem_TrbsGs
-          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.DIADataCapture.main.question_uu0MaH'.'Auto‑fill from files'
+          condition: =Topic.Var1 = "Auto‑fill from available data"
           actions:
+            - kind: SetMultipleVariables
+              id: xYv13M
+              assignments:
+                - variable: Topic.situationData
+                  value: |-
+                    ="Due to variations in how RFT is calculated across suppliers, a single deviation can lead to the DS RFT metric presenting as red.
+                    For example, in January 2028 there was one final batch from Aplora with a single deviation, resulting in 0% RFT."
+
+                - variable: Topic.currentResponseData
+                  value: |-
+                    ="The deviation is being managed through the standard DMAIC process with appropriate corrective actions identified.
+                    This is not a repeat occurrence.
+                    The RFT calculation methodology will be discussed at the next Quality Council meeting with a proposal to count all process steps at Aplora to align with other DS CMOs."
+
+                - variable: Topic.patientImpactData
+                  value: ="There is no impact to patients."
+
+                - variable: Topic.balancedScorecardData
+                  value: ="Updating the calculation methodology will allow for a more accurate representation of the RFT metric within EM DS."
+
+                - variable: Topic.diaData
+                  value: ="EM DS Quality Council to confirm the proposed RFT calculation approach. Need input from Vitor Antonio and Dilawar Mansoori."
+
+                - variable: Topic.recommendationData
+                  value: ="Align Aplora RFT calculation methodology with other DS CMOs to ensure consistent reporting."
+
+                - variable: Topic.nextStepsData
+                  value: ="Discuss and confirm the RFT calculation approach"
+
+                - variable: Topic.diaType
+                  value: Input
+
+                - variable: Topic.diaUserInput
+                  value: vitor.x.antonio@gsk.com;dilawar.x.mansoori@gsk.com
+
+                - variable: Topic.EmailIds
+                  value: vitor.x.antonio@gsk.com;dilawar.x.mansoori@gsk.com
+
             - kind: SetVariable
               id: setVariable_SxLGNL
               variable: Topic.pullFromPreRead
+              value: =false
+
+            - kind: GotoAction
+              id: dCqpnt
+              actionId: question_QThqKj
+
+        - id: conditionItem_A6vS7c
+          condition: =Topic.Var1 = "Nothing to contribute to this DIA"
+          actions:
+            - kind: SetVariable
+              id: setVariable_WldbzK
+              variable: Topic.skipDIAData
               value: =true
+
+            - kind: GotoAction
+              id: xj8ZR2
+              actionId: invokeFlowAction_bVP51Z
+
+        - id: conditionItem_S0nXPJ
+          condition: =Topic.Var1 = "Draft DIA from available data"
+          actions:
+            - kind: InvokeAIBuilderModelAction
+              id: invokeAIBuilderModelAction_p5NWU4
+              input:
+                binding:
+                  EntityName: =Topic.selectedDIATask.TaskName
+                  EntityType: |-
+                    =Switch(
+                        Topic.selectedDIATask.TaskType,
+                        0, "Planner",
+                        1, "KPI",
+                        2, "MSProject",
+                        3, "Optional",
+                        "Unknown"
+                    )
+                  ExecutiveSummary: =Topic.selectedDIATask.ExecutiveSummary
+                  KeyNextSteps: =Topic.selectedDIATask.KeyNextSteps
+                  KeyUpdates: =Topic.selectedDIATask.KeyUpdates
+                  OwnerEmail: =Topic.selectedDIATask.AssignedToEmail
+                  RAG: Red
+
+              output:
+                binding:
+                  predictionOutput: Topic.draftedDIAData
+
+              aIModelId: eeaf9def-2cbf-4351-9dd2-6dd7cd81528b
+
+            - kind: SetMultipleVariables
+              id: uBxcoa
+              assignments:
+                - variable: Topic.situationData
+                  value: =Topic.draftedDIAData.structuredOutput.situationData
+
+                - variable: Topic.currentResponseData
+                  value: =Topic.draftedDIAData.structuredOutput.currentResponseData
+
+                - variable: Topic.patientImpactData
+                  value: =Topic.draftedDIAData.structuredOutput.patientImpactData
+
+                - variable: Topic.balancedScorecardData
+                  value: =Topic.draftedDIAData.structuredOutput.balancedScorecardData
+
+                - variable: Topic.diaData
+                  value: =Topic.draftedDIAData.structuredOutput.diaData
+
+                - variable: Topic.recommendationData
+                  value: =Topic.draftedDIAData.structuredOutput.recommendationData
+
+                - variable: Topic.nextStepsData
+                  value: =Topic.draftedDIAData.structuredOutput.nextStepsData
+
+                - variable: Topic.diaType
+                  value: =Topic.draftedDIAData.structuredOutput.diaType
+
+                - variable: Topic.diaUserInput
+                  value: =Topic.draftedDIAData.structuredOutput.diaUserInput
+
+                - variable: Topic.EmailIds
+                  value: =Topic.draftedDIAData.structuredOutput.diaUserInput
+
+            - kind: GotoAction
+              id: THvexi
+              actionId: question_QThqKj
 
     - kind: ConditionGroup
       id: conditionGroup_MilMOY
@@ -429,11 +577,11 @@ beginDialog:
               actionId: question_QThqKj
 
     - kind: AdaptiveCardPrompt
-      id: bULLYz
+      id: 9s92k2
       card: |-
         ={
-          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
           type: "AdaptiveCard",
+          '$schema': "http://adaptivecards.io/schemas/adaptive-card.json",
           version: "1.5",
           body: [
             {
@@ -457,6 +605,20 @@ beginDialog:
               wrap: true,
               spacing: "Small",
               color: "Default"
+            },
+            {
+              type: "Input.ChoiceSet",
+              id: "diaType",
+              label: "DIA Type",
+              isRequired: true,
+              errorMessage: "Please select a DIA type before continuing.",
+              placeholder: "Select a type...",
+              choices: [
+                { title: "Decision", value: "Decision" },
+                { title: "Input", value: "Input" },
+                { title: "Awareness", value: "Awareness" }
+              ],
+              style: "compact"
             },
             {
               type: "Input.Text",
@@ -483,13 +645,79 @@ beginDialog:
         binding:
           actionSubmitId: Topic.actionSubmitId
           dia: Topic.diaData
+          diaType: Topic.diaType
           step: Topic.step
 
       outputType:
         properties:
           actionSubmitId: String
           dia: String
+          diaType: String
           step: String
+
+    - kind: ConditionGroup
+      id: conditionGroup_tPbBp4
+      conditions:
+        - id: conditionItem_7gjDSV
+          condition: =Topic.diaType = "Input"
+          actions:
+            - kind: AdaptiveCardPrompt
+              id: 8mB5Gf
+              card: |-
+                ={
+                  type: "AdaptiveCard",
+                  '$schema': "http://adaptivecards.io/schemas/adaptive-card.json",
+                  version: "1.5",
+                  body: [
+                    { type: "TextBlock", text: "DIA User Input", weight: "Bolder", size: "Medium" },
+                    {
+                      type: "Input.ChoiceSet",
+                      id: "people-picker",
+                      label: "DIA User for Input", 
+                      isRequired: false,
+                      errorMessage: "A user is required",      
+                      isMultiSelect: true,
+                      'choices.data': {
+                        type: "Data.Query",
+                        dataset: "graph.microsoft.com/users"
+                      }      
+                    },
+
+                    {
+                      type: "ActionSet",
+                      actions: [
+                        { type: "Action.Submit", id: "submitDIAUsers", title: "Submit user(s)" },
+                        { type: "Action.Submit", id: "skipDIAUser", title: "Skip", style: "destructive" }
+                      ]
+                    }
+                  ]
+                }
+              output:
+                binding:
+                  actionSubmitId: Topic.actionSubmitId
+                  people-picker: Topic.Var4
+
+              outputType:
+                properties:
+                  actionSubmitId: String
+                  people-picker: String
+
+            - kind: InvokeFlowAction
+              id: invokeFlowAction_pPe5VQ
+              input:
+                binding:
+                  text: =Topic.Var4
+
+              output:
+                binding:
+                  emailid: Topic.EmailIds
+
+              flowId: 2f85de3d-595b-f111-bec7-000d3a3690d9
+
+    - kind: SetVariable
+      id: setVariable_87jozZ
+      variable: Topic.diaUserInput
+      value: =If(!IsBlank(Topic.EmailIds), Topic.EmailIds,"")
 
     - kind: ConditionGroup
       id: conditionGroup_7c6DmF
@@ -662,9 +890,17 @@ beginDialog:
 
         {Topic.balancedScorecardData}
 
+        **DIA Type:**
+
+        {Topic.diaType}
+
         **DIA:**
 
         {Topic.diaData}
+
+        **DIA Required Inputs:**
+
+        {Topic.EmailIds}
 
         **Recommendation:**
 
@@ -681,8 +917,8 @@ beginDialog:
             - id: Make some changes
               displayName: Make some changes
 
-            - id: Looks good, let's continue
-              displayName: Looks good, let's continue
+            - id: Looks good, let's submit
+              displayName: Looks good, let's submit
 
     - kind: ConditionGroup
       id: conditionGroup_d5Vlaq
@@ -755,8 +991,8 @@ beginDialog:
                   condition: =Topic.userSelectedStep.StepNumber = 5
                   actions:
                     - kind: GotoAction
-                      id: goto_step5_card
-                      actionId: bULLYz
+                      id: MraWFY
+                      actionId: 9s92k2
 
                 - id: conditionItem_step6
                   condition: =Topic.userSelectedStep.StepNumber = 6
@@ -773,75 +1009,62 @@ beginDialog:
                       actionId: IxshjM
 
         - id: conditionItem_tGwl1b
-          condition: =Topic.userChoice = 'cr1d7_agenttIFALA.topic.DIADataCapture.main.question_QThqKj'.'Looks good, let''s continue'
+          condition: =Topic.userChoice = 'cr1d7_agenttIFALA.topic.DIADataCapture.main.question_QThqKj'.'Looks good, let''s submit'
 
     - kind: InvokeFlowAction
       id: invokeFlowAction_bVP51Z
       input:
         binding:
+          boolean: =!Topic.skipDIAData
           text: |-
-            =JSON({
-                situationData: Topic.situationData,
-                currentResponseData: Topic.currentResponseData,
-                patientImpactData: Topic.patientImpactData,
-                balancedScorecardData: Topic.balancedScorecardData,
-                diaData: Topic.diaData,
-                recommendationData: Topic.recommendationData,
-                nextStepsData: Topic.nextStepsData
-            })
+            =If(Topic.skipDIAData,
+                JSON({
+                    situationData: "N/A",
+                    currentResponseData: "N/A",
+                    patientImpactData: "N/A",
+                    balancedScorecardData: "N/A",
+                    diaData: "N/A",
+                    recommendationData: "N/A",
+                    nextStepsData: "N/A",
+                    diaTypeData: "N/A",
+                    diaUserInput: "N/A"
+                }),
+                JSON({
+                    situationData: Topic.situationData,
+                    currentResponseData: Topic.currentResponseData,
+                    patientImpactData: Topic.patientImpactData,
+                    balancedScorecardData: Topic.balancedScorecardData,
+                    diaData: Topic.diaData,
+                    recommendationData: Topic.recommendationData,
+                    nextStepsData: Topic.nextStepsData,
+                    diaTypeData: Topic.diaType,
+                    diaUserInputData: If(!IsBlank(Topic.diaUserInput), Topic.diaUserInput, "")
+                })
+            )
           text_1: =Topic.selectedDIATask.DIATaskId
 
       output: {}
       flowId: e3211915-8353-f111-bec7-000d3a33da71
 
-    - kind: InvokeAIBuilderModelAction
-      id: invokeAIBuilderModelAction_20Pyw3
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_CjE0zt
       input:
         binding:
-          balancedScorecardData: =Topic.balancedScorecardData
-          currentResponse_200bData: =Topic.currentResponseData
-          dia_sample: "Hi Team, Please find below a summary of the current situation and proposed actions related to the RFT metric deviation.  1. Situation Due to variations in how RFT is calculated across suppliers, a single deviation can lead to the DS RFT metric For example, in January 2026 there was one final batch from Axlpora with a single deviation, resulting in 0%   2. Current Response - The deviation is being managed through the standard DMAIC process with appropriate corrective actions - This is not a repeat occurrence. - The RFT calculation methodology will be discussed at the next Quality Council meeting with a proposal to   3. Patient Impact There is no impact to patients.  4. Balanced Scorecard Impact Updating the calculation methodology will allow for a more accurate representation of the RFT metric within 5. D.I.A (Decision / Information / Awareness) - Decision: EM DS Quality Council to confirm the proposed RFT calculation approach. - Awareness: EMLT informed regarding the expected impact on the RFT metric.  6. Recommendation Align Axplora RFT calculation methodology with other DS CMOs to ensure consistent reporting.  7. Next Steps Action: Discuss and confirm the RFT calculation approach Owner: Vincent Pourbaix Timeline: March 2026 Quality Council meeting  Please let me know if further clarification or additional information is required."
-          diaData: =Topic.diaData
-          nextStepsData: =Topic.nextStepsData
-          patientImpactData_200b: =Topic.patientImpactData
-          recommendationData: =Topic.recommendationData
-          situation_200bData: =Topic.situationData
+          text: =Topic.selectedDIATask.PlannerTaskId
 
-      output:
-        binding:
-          predictionOutput: Topic.aiReportOutput
+      output: {}
+      flowId: ed532838-ca55-f111-bec6-7c1e528d4fea
 
-      aIModelId: 3ee7436f-fcc1-4db7-8608-3100fd22cb4e
+    - kind: SendActivity
+      id: sendActivity_sdDOGD
+      activity: Your **- {Topic.selectedDIATask.DisplayName} -** was sucessfully submitted, thank you!
 
-    - kind: SetMultipleVariables
-      id: setVariable_oIdMPz
-      assignments:
-        - variable: Topic.diaReportOutput
-          value: =Topic.aiReportOutput.structuredOutput.emailBody
+    - kind: ClearAllVariables
+      id: 7tMmdJ
 
-        - variable: Topic.diaReportSubjectOutput
-          value: =Topic.aiReportOutput.structuredOutput.decisionSummary
-
-        - variable: Topic.reportRecordOutput
-          value: |
-            ={
-                situation: Topic.situationData,
-                currentResponse: Topic.currentResponseData,
-                patientImpact: Topic.patientImpactData,
-                balancedScorecard: Topic.balancedScorecardData,
-                dia: Topic.diaData,
-                recommendation: Topic.recommendationData,
-                nextSteps: Topic.nextStepsData
-            }
-
-    - kind: Question
-      id: question_BogNzg
-      interruptionPolicy:
-        allowInterruption: true
-
-      variable: init:Topic.Var2
-      prompt: Happy with the result?
-      entity: StringPrebuiltEntity
+    - kind: BeginDialog
+      id: 5oVmSL
+      dialog: cr1d7_agenttIFALA.topic.ConversationStart
 
 inputType:
   properties:

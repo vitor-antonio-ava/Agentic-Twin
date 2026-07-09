@@ -1,0 +1,772 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_QkLnF0
+      input:
+        binding:
+          text: =System.User.Email
+
+      output:
+        binding:
+          meetingsfound: Topic.meetingsFound
+
+      flowId: 7fdb6997-9b47-f111-bec6-000d3a3690d9
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_P0uDQa
+      input:
+        binding:
+          text: =System.User.Email
+
+      output:
+        binding:
+          configuredmeetings: Topic.eventsFound
+
+      flowId: bcba1f85-9a4f-f111-bec6-002248048965
+
+    - kind: SetVariable
+      id: 0EzHOB
+      variable: Topic.userMeetings
+      value: |-
+        =ForAll(
+            ParseJSON(Topic.eventsFound),
+            {
+                EventName: Text(ThisRecord.EventName),
+                DisplayName: Text(ThisRecord.EventName) & "(" & Text(DateTimeValue(ThisRecord.EventDate), "yyyy-mm-dd") & ")",
+                EventDate: Text(ThisRecord.EventDate),
+                EventMeetingType: Text(ThisRecord.EventMeetingType),
+                MandatoryAttendees: Text(ThisRecord.MandatoryAttendees),
+                OptionalAttendees: Text(ThisRecord.OptionalAttendees),
+                EventMeetingValue: Text(ThisRecord.EventMeetingValue),
+                EventId: Text(ThisRecord.EventId),
+                EventStatus: Text(ThisRecord.EventStatus),
+                DIAStatus: Text(ThisRecord.DIAStatus),
+                PostEventStatus: Text(ThisRecord.PostEventStatus),
+                EventConfigurationId: Text(ThisRecord.EventConfigurationId),
+                MeetingSetupJson: Text(ThisRecord.MeetingSetupJson),
+                MeetingKpis: ThisRecord.MeetingKpis,
+                MeetingMsProjects: ThisRecord.MeetingMsProjects,
+                MeetingPlannerId: Text(ThisRecord.MeetingPlannerId),
+                MeetingTierCode: Text(ThisRecord.MeetingTierCode),
+                MeetingTierDescription: Text(ThisRecord.MeetingTierDescription),
+                MeetingTierId: Text(ThisRecord.MeetingTierId),
+                MeetingConfigurationId: Text(ThisRecord.MeetingConfigurationId),
+                MeetingGroupId: Text(ThisRecord.MeetingGroupId),
+                MeetingFrequency: Value(ThisRecord.MeetingFrequency),
+                MeetingEventId: Text(ThisRecord.MeetingEventId)
+            }
+        )
+
+    - kind: ConditionGroup
+      id: conditionGroup_f4daz7
+      conditions:
+        - id: conditionItem_XuaUML
+          condition: =!IsEmpty(Topic.userMeetings)
+          actions:
+            - kind: Question
+              id: vMQe5c
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.userSelectedMeeting
+              prompt: "Which meeting do you want check? "
+              entity:
+                kind: DynamicClosedListEntity
+                items: =Topic.userMeetings
+
+            - kind: SetVariable
+              id: setVariable_YJmFL5
+              variable: Topic.selectedMeetingOnlineUrl
+              value: |-
+                =Text(
+                    Index(
+                        Table(ParseJSON(Topic.userSelectedMeeting.MeetingSetupJson).preferences),
+                        1
+                    ).Value.onlineMeetingUrl
+                )
+
+            - kind: Question
+              id: question_BN3Xp6
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var6
+              prompt: "{\"Just to confirm, was the meeting \" & Topic.userSelectedMeeting.DisplayName & \" was completed?\"}"
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Yes
+                      displayName: Yes
+
+                    - id: No
+                      displayName: No
+
+            - kind: ConditionGroup
+              id: conditionGroup_xpmWMn
+              conditions:
+                - id: conditionItem_vuUNFY
+                  condition: =Topic.Var6 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.question_BN3Xp6'.Yes
+                  actions:
+                    - kind: InvokeFlowAction
+                      id: invokeFlowAction_hXEr85
+                      input:
+                        binding:
+                          text: =Topic.userSelectedMeeting.EventId
+
+                      output: {}
+                      flowId: d2d94816-7565-f111-a825-70a8a5b1c926
+
+                - id: conditionItem_cLdSde
+                  condition: =Topic.Var6 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.question_BN3Xp6'.No
+                  actions:
+                    - kind: SendActivity
+                      id: sendActivity_Z2l3xA
+                      activity: The meeting was not yet completed, going back to the start.
+
+                    - kind: ClearAllVariables
+                      id: 8sJ7J8
+
+                    - kind: BeginDialog
+                      id: OOGF2s
+                      dialog: cr1d7_agenttIFALA.topic.InitialTopic
+
+      elseActions:
+        - kind: Question
+          id: 0V3mSA
+          interruptionPolicy:
+            allowInterruption: true
+
+          variable: Topic.Var2
+          prompt: "I couldn't find any records of configured meetings, do you want to configure one? "
+          entity:
+            kind: EmbeddedEntity
+            sensitivityLevel: None
+            definition:
+              kind: ClosedListEntity
+              items:
+                - id: Yes
+                  displayName: Yes
+
+                - id: No
+                  displayName: No
+
+        - kind: ConditionGroup
+          id: conditionGroup_LjKobf
+          conditions:
+            - id: conditionItem_USo2Pa
+              condition: =Topic.Var2 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.0V3mSA'.Yes
+              actions:
+                - kind: BeginDialog
+                  id: oKstlv
+                  dialog: cr1d7_agenttIFALA.topic.MeetingSelectionTopic
+
+          elseActions:
+            - kind: BeginDialog
+              id: GJ6dyL
+              dialog: cr1d7_agenttIFALA.topic.InitialTopic
+
+        - kind: EndDialog
+          id: e1hZMw
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_YVqhej
+      input:
+        binding:
+          text: =Topic.selectedMeetingOnlineUrl
+
+      output:
+        binding:
+          meetingtranscript: Topic.meetingTranscript
+
+      flowId: d1e0dc40-0a6a-e700-7080-8f654bf46bf9
+
+    - kind: ConditionGroup
+      id: conditionGroup_OPbgbF
+      conditions:
+        - id: conditionItem_bwLKUo
+          condition: =IsBlank(Topic.meetingTranscript)
+          actions:
+            - kind: Question
+              id: question_2hZt9s
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var3
+              prompt: I couldn't find any meeting transcripts. Please double check the selected meeting and if any recordings/transcripts exist.
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Go to beginning
+                      displayName: Go to beginning
+
+                    - id: Complete the meeting and go to beginning.
+                      displayName: Complete the meeting and go to beginning.
+
+            - kind: ConditionGroup
+              id: conditionGroup_SmdD0e
+              conditions:
+                - id: conditionItem_d2ODTv
+                  condition: =Topic.Var3 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.question_2hZt9s'.'Go to beginning'
+
+                - id: conditionItem_OrHPyl
+                  condition: =Topic.Var3 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.question_2hZt9s'.'Complete the meeting and go to beginning.'
+                  actions:
+                    - kind: InvokeFlowAction
+                      id: Qi5bOy
+                      input:
+                        binding:
+                          text: =Topic.userSelectedMeeting.EventId
+
+                      output: {}
+                      flowId: d89a3864-3f66-f111-a826-000d3a33da71
+
+            - kind: ClearAllVariables
+              id: NT47NQ
+
+            - kind: BeginDialog
+              id: jM6Rmn
+              dialog: cr1d7_agenttIFALA.topic.InitialTopic
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_7tTeKW
+      input:
+        binding:
+          meetingTranscript: =Topic.meetingTranscript
+
+      output:
+        binding:
+          predictionOutput: Topic.transcriptAnalysisOutput
+
+      aIModelId: 50bbb6d7-c88a-42e4-8da7-79788e128a10
+
+    - kind: Question
+      id: question_hFqQyE
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.Var1
+      prompt: |-
+        This is the result of the transcript analysis:
+
+
+        {Topic.transcriptAnalysisOutput.structuredOutput.AISummaryText}
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Continue
+              displayName: Continue
+
+            - id: Go Back
+              displayName: Go Back
+
+    - kind: ConditionGroup
+      id: conditionGroup_PghHGO
+      conditions:
+        - id: conditionItem_T69rQI
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.question_hFqQyE'.Continue
+          actions:
+            - kind: ConditionGroup
+              id: conditionGroup_AglMDT
+              conditions:
+                - id: conditionItem_MIaIFK
+                  condition: =IsEmpty(Topic.transcriptAnalysisOutput.structuredOutput.tasks)
+
+              elseActions:
+                - kind: Question
+                  id: question_T8ssIG
+                  interruptionPolicy:
+                    allowInterruption: true
+
+                  variable: init:Topic.Var5
+                  prompt: "Should I send the meeting notes to the meeting attendees? "
+                  entity:
+                    kind: EmbeddedEntity
+                    definition:
+                      kind: ClosedListEntity
+                      items:
+                        - id: Yes
+                          displayName: Yes
+
+                        - id: No, skip
+                          displayName: No, skip
+
+                - kind: ConditionGroup
+                  id: conditionGroup_ckNmLl
+                  conditions:
+                    - id: conditionItem_Jxtsxe
+                      condition: =Topic.Var5 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.question_T8ssIG'.Yes
+                      actions:
+                        - kind: InvokeFlowAction
+                          id: invokeFlowAction_lfiJO4
+                          input:
+                            binding:
+                              text: =Topic.transcriptAnalysisOutput.structuredOutput.MeetingNotesHTML
+                              text_1: =Topic.userSelectedMeeting.MandatoryAttendees
+                              text_2: =Coalesce(Topic.userSelectedMeeting.OptionalAttendees, "")
+                              text_3: ="Meeting Notes for " & Topic.userSelectedMeeting.DisplayName & " - " & Left(Topic.userSelectedMeeting.EventDate, 10)
+
+                          output:
+                            binding:
+                              postemailmessage: Topic.postEmailMessage
+
+                          flowId: 8ae6ca0b-ca2d-f111-88b4-7c1e528d4fea
+
+                        - kind: SendActivity
+                          id: sendActivity_FQRQu2
+                          activity: Post meeting notes sent to the meetings attendees!
+
+                    - id: conditionItem_ZRPuc3
+                      condition: =Topic.Var5 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.question_T8ssIG'.'No, skip'
+
+                - kind: SendActivity
+                  id: sendActivity_ObH9eQ
+                  activity: These are the identified tasks from the meeting transcript.
+
+                - kind: AdaptiveCardPrompt
+                  id: bb3Mbn
+                  card: |-
+                    ={
+                      type: "AdaptiveCard",
+                      '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+                      version: "1.5",
+                      body: [
+                        {
+                          type: "TextBlock",
+                          text: "Post Meeting Tasks",
+                          weight: "Bolder",
+                          size: "Medium",
+                          wrap: true
+                        },
+                        {
+                          type: "TextBlock",
+                          text: "Edit task names below if needed. Assignees are read-only.",
+                          wrap: true,
+                          spacing: "Small",
+                          isSubtle: true
+                        },
+                        {
+                          type: "Container",
+                          separator: true,
+                          spacing: "Medium",
+                          items: ForAll(
+                            Sequence(CountRows(Topic.transcriptAnalysisOutput.structuredOutput.tasks)),
+                            {
+                              type: "Container",
+                              separator: If(Value > 1, true, false),
+                              spacing: "Medium",
+                              items: [
+                                {
+                                  type: "Input.Text",
+                                  id: "taskName_" & Text(Value - 1),
+                                  value: Text(Index(Topic.transcriptAnalysisOutput.structuredOutput.tasks, Value).taskName),
+                                  label: "Task " & Text(Value)
+                                },
+                                {
+                                  type: "TextBlock",
+                                  text: "👤 " & Text(Index(Topic.transcriptAnalysisOutput.structuredOutput.tasks, Value).assignee),
+                                  wrap: true,
+                                  isSubtle: true,
+                                  spacing: "Small"
+                                }
+                              ]
+                            }
+                          )
+                        },
+                        {
+                          type: "Input.Date",
+                          label: "Due date for these tasks",
+                          isRequired: true,
+                          errorMessage: "A due date value is required",
+                          id: "dueDateValue"
+                        }
+                      ],
+                      actions: [
+                        {
+                          type: "Action.Submit",
+                          title: "Confirm",
+                          data: {
+                            action: "confirmTasks"
+                          }
+                        },
+                        {
+                          type: "Action.Submit",
+                          title: "Skip",
+                          associatedInputs: "none",
+                          data: {
+                            action: "skipTasks"
+                          }
+                        }
+                      ]
+                    }
+                  output:
+                    binding:
+                      action: Topic.tasksAction
+                      actionSubmitId: Topic.actionSubmitId
+                      dueDateValue: Topic.dueDateValue
+                      taskName_0: Topic.taskName_0
+                      taskName_1: Topic.taskName_1
+                      taskName_2: Topic.taskName_2
+                      taskName_3: Topic.taskName_3
+                      taskName_4: Topic.taskName_4
+                      taskName_5: Topic.taskName_5
+                      taskName_6: Topic.taskName_6
+                      taskName_7: Topic.taskName_7
+                      taskName_8: Topic.taskName_8
+                      taskName_9: Topic.taskName_9
+
+                  outputType:
+                    properties:
+                      action: String
+                      actionSubmitId: String
+                      dueDateValue: String
+                      taskName_0: String
+                      taskName_1: String
+                      taskName_2: String
+                      taskName_3: String
+                      taskName_4: String
+                      taskName_5: String
+                      taskName_6: String
+                      taskName_7: String
+                      taskName_8: String
+                      taskName_9: String
+
+            - kind: ConditionGroup
+              id: conditionGroup_V5BZMv
+              conditions:
+                - id: conditionItem_3QSnl8
+                  condition: =!IsBlank(Topic.transcriptAnalysisOutput.structuredOutput.followupMeeting)
+                  actions:
+                    - kind: Question
+                      id: question_Qlwdgq
+                      interruptionPolicy:
+                        allowInterruption: true
+
+                      variable: init:Topic.Var4
+                      prompt: "A follow up meeting was indentified do you want to proceed with creating one? "
+                      entity:
+                        kind: EmbeddedEntity
+                        definition:
+                          kind: ClosedListEntity
+                          items:
+                            - id: Yes
+                              displayName: Yes
+
+                            - id: No
+                              displayName: No
+
+                    - kind: ConditionGroup
+                      id: conditionGroup_sjggRQ
+                      conditions:
+                        - id: conditionItem_zWsxsI
+                          condition: =Topic.Var4 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.question_Qlwdgq'.Yes
+                          actions:
+                            - kind: AdaptiveCardPrompt
+                              id: ClhD1Y
+                              card: |
+                                ={
+                                  '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+                                  type: "AdaptiveCard",
+                                  version: "1.5",
+                                  body: [
+                                    {
+                                      type: "TextBlock",
+                                      text: "Follow-up Meeting",
+                                      size: "Small",
+                                      weight: "Lighter",
+                                      color: "Accent",
+                                      spacing: "None"
+                                    },
+                                    {
+                                      type: "TextBlock",
+                                      text: Topic.transcriptAnalysisOutput.structuredOutput.followupMeeting.topic,
+                                      size: "Large",
+                                      weight: "Bolder",
+                                      wrap: true,
+                                      spacing: "Small"
+                                    },
+                                    {
+                                      type: "TextBlock",
+                                      text: "Please review and confirm the details below before scheduling this meeting.",
+                                      wrap: true,
+                                      isSubtle: true,
+                                      spacing: "Small"
+                                    },
+                                    {
+                                      type: "Container",
+                                      separator: true,
+                                      spacing: "Medium",
+                                      items: [
+                                        {
+                                          type: "TextBlock",
+                                          text: "Meeting Details",
+                                          weight: "Bolder",
+                                          size: "Small",
+                                          color: "Accent",
+                                          spacing: "None"
+                                        },
+                                        {
+                                          type: "Input.Text",
+                                          id: "meetingTopic",
+                                          label: "Meeting Topic",
+                                          value: Topic.transcriptAnalysisOutput.structuredOutput.followupMeeting.topic,
+                                          placeholder: "Enter meeting topic",
+                                          isRequired: true,
+                                          errorMessage: "Meeting topic is required"
+                                        },
+                                        {
+                                          type: "Input.Text",
+                                          id: "meetingDescription",
+                                          label: "Description",
+                                          isMultiline: true,
+                                          value: Topic.transcriptAnalysisOutput.structuredOutput.followupMeeting.meetingDescription,
+                                          placeholder: "Enter meeting description",
+                                          isRequired: false
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      type: "Container",
+                                      separator: true,
+                                      spacing: "Medium",
+                                      items: [
+                                        {
+                                          type: "TextBlock",
+                                          text: "Date & Time",
+                                          weight: "Bolder",
+                                          size: "Small",
+                                          color: "Accent",
+                                          spacing: "None"
+                                        },
+                                        {
+                                          type: "ColumnSet",
+                                          spacing: "Small",
+                                          columns: [
+                                            {
+                                              type: "Column",
+                                              width: "stretch",
+                                              items: [
+                                                {
+                                                  type: "Input.Date",
+                                                  id: "meetingDate",
+                                                  label: "Date",
+                                                  isRequired: true,
+                                                  errorMessage: "Please select a meeting date"
+                                                }
+                                              ]
+                                            },
+                                            {
+                                              type: "Column",
+                                              width: "stretch",
+                                              items: [
+                                                {
+                                                  type: "Input.Time",
+                                                  id: "meetingTime",
+                                                  label: "Time",
+                                                  isRequired: true,
+                                                  errorMessage: "Please select a meeting time"
+                                                }
+                                              ]
+                                            }
+                                          ]
+                                        }
+                                      ]
+                                    },
+                                    {
+                                      type: "Input.ChoiceSet",
+                                      id: "meetingDuration",
+                                      label: "Duration (minutes)",
+                                      isRequired: true,
+                                      style: "compact",
+                                      errorMessage: "Please select a meeting duration",
+                                      placeholder: "Select duration",
+                                      choices: [
+                                        { title: "15 minutes", value: "15" },
+                                        { title: "30 minutes", value: "30" },
+                                        { title: "45 minutes", value: "45" },
+                                        { title: "60 minutes", value: "60" }
+                                      ]
+                                    },
+                                    {
+                                      type: "Container",
+                                      separator: true,
+                                      spacing: "Medium",
+                                      items: [
+                                        {
+                                          type: "TextBlock",
+                                          text: "Attendees",
+                                          weight: "Bolder",
+                                          size: "Small",
+                                          color: "Accent",
+                                          spacing: "None"
+                                        },
+                                        {
+                                          type: "TextBlock",
+                                          text: Concatenate("Suggested: ", Topic.transcriptAnalysisOutput.structuredOutput.followupMeeting.suggestedAttendees),
+                                          size: "Small",
+                                          isSubtle: true,
+                                          wrap: true,
+                                          spacing: "None"
+                                        },
+                                        {
+                                          type: "Input.ChoiceSet",
+                                          id: "meetingAttendees",
+                                          label: "Confirm Attendees",
+                                          isMultiSelect: true,
+                                          isRequired: true,
+                                          errorMessage: "Please select at least one attendee",
+                                          placeholder: "Search for people...",
+                                          style: "filtered",
+                                          'choices.data': {
+                                            type: "Data.Query",
+                                            dataset: "graph.microsoft.com/users"
+                                          }
+                                        }
+                                      ]
+                                    }
+                                  ],
+                                  actions: [
+                                    {
+                                      type: "Action.Submit",
+                                      title: "Confirm & Schedule",
+                                      data: {
+                                        action: "scheduleFollowupMeeting"
+                                      }
+                                    },
+                                    {
+                                      type: "Action.Submit",
+                                      title: "Cancel",
+                                      style: "destructive",
+                                      data: {
+                                        action: "cancelFollowupMeeting"
+                                      }
+                                    }
+                                  ]
+                                }
+                              output:
+                                binding:
+                                  action: Topic.action
+                                  meetingAttendees: Topic.meetingAttendees
+                                  meetingDate: Topic.meetingDate
+                                  meetingDescription: Topic.meetingDescription
+                                  meetingDuration: Topic.meetingDuration
+                                  meetingTime: Topic.meetingTime
+                                  meetingTopic: Topic.meetingTopic
+
+                              outputType:
+                                properties:
+                                  action: String
+                                  meetingAttendees: String
+                                  meetingDate: String
+                                  meetingDescription: String
+                                  meetingDuration: String
+                                  meetingTime: String
+                                  meetingTopic: String
+
+                            - kind: InvokeFlowAction
+                              id: invokeFlowAction_4wwcvj
+                              input:
+                                binding:
+                                  text: =Topic.meetingAttendees
+
+                              output:
+                                binding:
+                                  emailid: Topic.EmailIds
+
+                              flowId: a1b94702-bd2d-f111-88b4-002248048965
+
+                        - id: conditionItem_5k5d4M
+                          condition: =Topic.Var4 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.question_Qlwdgq'.No
+
+                    - kind: ConditionGroup
+                      id: conditionGroup_I5ulI9
+                      conditions:
+                        - id: conditionItem_qdI1Ze
+                          condition: =Topic.tasksAction = "confirmTasks"
+                          actions:
+                            - kind: SetVariable
+                              id: setVariable_ModTasks
+                              variable: Topic.modifiedTasksJson
+                              value: |-
+                                =JSON(
+                                  ForAll(
+                                    Sequence(CountRows(Topic.transcriptAnalysisOutput.structuredOutput.tasks)),
+                                    {
+                                      taskName: Switch(Value,
+                                        1, Topic.taskName_0,
+                                        2, Topic.taskName_1,
+                                        3, Topic.taskName_2,
+                                        4, Topic.taskName_3,
+                                        5, Topic.taskName_4,
+                                        6, Topic.taskName_5,
+                                        7, Topic.taskName_6,
+                                        8, Topic.taskName_7,
+                                        9, Topic.taskName_8,
+                                        10, Topic.taskName_9
+                                      ),
+                                      assignee: Text(Index(Topic.transcriptAnalysisOutput.structuredOutput.tasks, Value).assignee)
+                                    }
+                                  )
+                                )
+
+                            - kind: InvokeFlowAction
+                              id: QDqufk
+                              input:
+                                binding:
+                                  text: =Topic.modifiedTasksJson
+                                  text_1: =Topic.userSelectedMeeting.MeetingPlannerId
+                                  text_2: =Topic.userSelectedMeeting.MeetingGroupId
+                                  text_3: =Topic.dueDateValue
+
+                              output: {}
+                              flowId: cae60126-5867-4a4a-27db-ebd85bff26fb
+
+                            - kind: SendActivity
+                              id: sendActivity_iggcfX
+                              activity: Follow up tasks successfully created!
+
+                    - kind: ConditionGroup
+                      id: conditionGroup_o93sUa
+                      conditions:
+                        - id: conditionItem_daqewN
+                          condition: =Topic.action = "scheduleFollowupMeeting"
+                          actions:
+                            - kind: InvokeFlowAction
+                              id: JRSJWd
+                              input:
+                                binding:
+                                  text: =Topic.EmailIds
+                                  text_1: =Topic.meetingTopic
+                                  text_2: =Topic.meetingDescription
+                                  text_3: =Concatenate(Topic.meetingDate, "T", Topic.meetingTime, ":00")
+                                  text_4: =Topic.meetingDuration
+
+                              output: {}
+                              flowId: fb1a5b9b-9c65-f111-a826-002248048965
+
+                            - kind: SendActivity
+                              id: PS2d6m
+                              activity: Follow up meeting created successfully!
+
+                    - kind: InvokeFlowAction
+                      id: invokeFlowAction_vOwcKZ
+                      input:
+                        binding:
+                          text: =Topic.userSelectedMeeting.EventId
+
+                      output: {}
+                      flowId: d89a3864-3f66-f111-a826-000d3a33da71
+
+        - id: conditionItem_Aiy1rc
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.AnalyseMeetingTranscript.main.question_hFqQyE'.'Go Back'
+
+inputType: {}
+outputType: {}

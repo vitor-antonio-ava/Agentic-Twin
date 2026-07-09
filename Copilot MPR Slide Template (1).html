@@ -1,0 +1,1234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MPR Off-Track KPI Slides</title>
+
+  <style>
+    :root {
+      --gsk-orange: #ff6a00;
+      --text: #1d1d1d;
+      --muted: #6b6b6b;
+      --page-bg: #ffffff;
+      --page-border: #e9e9e9;
+      --soft-bg: #fafafa;
+      --line: #e5e5e5;
+
+      --dia-d: #d0021b;
+      --dia-i: #f5a623;
+      --dia-a: #2b7cd3;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", SegoeUI, Calibri, Arial, sans-serif;
+      background: #f5f5f5;
+      color: var(--text);
+    }
+
+    /* =========================================
+       GLOBAL SLIDE LAYOUT
+       ========================================= */
+    .slide {
+      position: relative;
+      width: 1280px;
+      height: 720px;
+      margin: 20px auto;
+      padding: 36px 40px 64px;
+      background: var(--page-bg);
+      border: 1px solid var(--page-border);
+      page-break-after: always;
+      overflow: hidden;
+    }
+
+    .slide-header {
+      margin: 0 0 18px;
+    }
+
+    .slide-title {
+      margin: 0;
+      font-size: 30px;
+      font-weight: 500;
+      line-height: 1.1;
+      letter-spacing: 0.5px;
+      color: var(--gsk-orange);
+      text-transform: uppercase;
+    }
+
+    h2 {
+      margin: 16px 0 6px;
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--gsk-orange);
+    }
+
+    p {
+      margin: 0;
+      font-size: 14px;
+      line-height: 1.4;
+    }
+
+    .muted {
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .slide-footer {
+      position: absolute;
+      left: 40px;
+      right: 40px;
+      bottom: 18px;
+      display: flex;
+      align-items: flex-end;
+      justify-content: space-between;
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    .footer-left {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+      white-space: nowrap;
+    }
+
+    .slide-number {
+      min-width: 18px;
+    }
+
+    .footer-logo img {
+      display: block;
+      width: auto;
+      height: 22px;
+    }
+
+    /* =========================================
+       COMMON CARDS / META / BADGES
+       ========================================= */
+    .card {
+      padding: 14px 14px 12px;
+      background: var(--soft-bg);
+      border: 1px solid var(--line);
+    }
+
+    .card.white {
+      background: #fff;
+      border-radius: 6px;
+      box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+    }
+
+    .card.white.exec {
+      background: #fffdfb;
+      border-left: 4px solid var(--gsk-orange);
+      min-height: 74px;
+    }
+
+    .meta-strip {
+      display: block;
+      margin-bottom: 0;
+    }
+
+    .meta-block {
+      padding: 12px 14px;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+    }
+
+    .meta-label {
+      margin-bottom: 6px;
+      font-size: 11px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.6px;
+    }
+
+    .meta-value {
+      font-size: 13px;
+      line-height: 1.45;
+    }
+
+    .mini-title {
+      margin: 0 0 8px;
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
+      text-transform: uppercase;
+      color: var(--gsk-orange);
+    }
+
+    .note {
+      font-size: 12px;
+      line-height: 1.35;
+      color: var(--muted);
+    }
+
+    .bullets {
+      margin: 0;
+      padding-left: 18px;
+      font-size: 13px;
+      line-height: 1.4;
+    }
+
+    .bullets li {
+      margin: 4px 0;
+    }
+
+    .dia-badge {
+      position: absolute;
+      top: 36px;
+      right: 40px;
+      padding: 10px 16px;
+      border-radius: 4px;
+      font-size: 14px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .dia-awareness {
+      background-color: var(--dia-a);
+    }
+
+    .dia-input {
+      background-color: var(--dia-i);
+    }
+
+    .dia-decision {
+      background-color: var(--dia-d);
+    }
+
+    /* =========================================
+       KPI SLIDE LAYOUT
+       ========================================= */
+    .content {
+      display: grid;
+      grid-template-columns: 55% 45%;
+      gap: 30px;
+    }
+
+    .chart-box {
+      padding: 16px;
+      border: 1px solid #ddd;
+    }
+
+    .chart-title {
+      margin-bottom: 10px;
+      font-size: 16px;
+    }
+
+    .text-box {
+      padding-left: 16px;
+      border-left: 4px solid var(--dia-d);
+    }
+
+    /* =========================================
+       AGENDA SLIDE
+       ========================================= */
+    .agenda-layout {
+      display: grid;
+      grid-template-columns: 60% 40%;
+      gap: 22px;
+      height: calc(720px - 36px - 64px - 18px - 40px);
+    }
+
+    .agenda-list {
+      padding: 0;
+      overflow: hidden;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .agenda-head,
+    .agenda-item {
+      display: grid;
+      grid-template-columns: 84px 90px 1fr;
+      gap: 10px;
+      padding: 10px 12px;
+      align-items: start;
+    }
+
+    .agenda-head {
+      background: #fff3ea;
+      border-bottom: 1px solid var(--line);
+      font-size: 12px;
+      font-weight: 600;
+      color: #7a3a14;
+    }
+
+    .agenda-item {
+      background: #fff;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .agenda-item:last-child {
+      border-bottom: none;
+    }
+
+    .time {
+      padding-top: 2px;
+      font-size: 12px;
+      color: var(--muted);
+      white-space: nowrap;
+    }
+
+    .agenda-topic {
+      margin: 0 0 4px;
+      font-size: 14px;
+      font-weight: 600;
+    }
+
+    .agenda-outcome {
+      font-size: 12.5px;
+      line-height: 1.35;
+      color: #3a3a3a;
+    }
+
+    .right-stack {
+      display: grid;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .dia-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 78px;
+      height: 22px;
+      border-radius: 999px;
+      font-size: 12px;
+      font-weight: 700;
+      color: #fff;
+    }
+
+    .pill-d {
+      background: var(--dia-d);
+    }
+
+    .pill-i {
+      background: var(--dia-i);
+    }
+
+    .pill-a {
+      background: var(--dia-a);
+    }
+
+    .outputs-grid {
+      display: grid;
+      gap: 8px;
+      grid-template-columns: 1fr;
+    }
+
+    .output-pill {
+      display: grid;
+      grid-template-columns: 26px 1fr;
+      gap: 10px;
+      align-items: start;
+      padding: 8px 10px;
+      background: #fff;
+      border: 1px solid var(--line);
+    }
+
+    .output-letter {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 26px;
+      height: 26px;
+      border-radius: 6px;
+      font-size: 13px;
+      font-weight: 800;
+      color: #fff;
+    }
+
+    .letter-d {
+      background: var(--dia-d);
+    }
+
+    .letter-i {
+      background: var(--dia-i);
+    }
+
+    .letter-a {
+      background: var(--dia-a);
+    }
+
+    .output-text {
+      font-size: 12.5px;
+      line-height: 1.35;
+    }
+
+    /* =========================================
+       TABLES
+       ========================================= */
+    .actions-table,
+    .projects-table,
+    .milestone-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+
+    .actions-table,
+    .projects-table {
+      font-size: 14px;
+    }
+
+    .actions-table th,
+    .projects-table th,
+    .milestone-table th {
+      padding: 10px 8px;
+      text-align: left;
+      font-weight: 600;
+      color: var(--gsk-orange);
+      border-bottom: 2px solid #ddd;
+    }
+
+    .actions-table td,
+    .projects-table td {
+      padding: 9px 8px;
+      vertical-align: top;
+      border-bottom: 1px solid #eee;
+    }
+
+    .actions-table tr:last-child td,
+    .projects-table tr:last-child td,
+    .milestone-table tr:last-child td {
+      border-bottom: none;
+    }
+
+    .dia-cell,
+    .status-cell {
+      text-align: center;
+      font-weight: 600;
+    }
+
+    .dia-pill-table {
+      display: inline-block;
+      min-width: 72px;
+      padding: 4px 8px;
+      border-radius: 999px;
+      font-size: 12px;
+      color: #fff;
+    }
+
+    .dia-d {
+      background-color: var(--dia-d);
+    }
+
+    .dia-i {
+      background-color: var(--dia-i);
+    }
+
+    .dia-a {
+      background-color: var(--dia-a);
+    }
+
+    .status-cell {
+      font-size: 14px;
+      font-weight: 700;
+    }
+
+    .status-red {
+      color: var(--dia-d);
+    }
+
+    .status-amber {
+      color: var(--dia-i);
+    }
+
+    .status-green {
+      color: var(--dia-a);
+    }
+
+    .overdue {
+      color: var(--dia-d);
+      font-weight: 600;
+    }
+
+    /* =========================================
+       ONE-PAGER
+       ========================================= */
+    .onepager-layout {
+      display: grid;
+      grid-template-columns: 58% 42%;
+      gap: 20px;
+    }
+
+    .onepager-left {
+      display: grid;
+      grid-template-rows: auto 1fr;
+      gap: 12px;
+    }
+
+    .onepager-right {
+      display: grid;
+      grid-template-rows: auto auto auto auto;
+      gap: 12px;
+      align-content: start;
+    }
+
+    .onepager-right .card.white {
+      padding: 14px 16px;
+    }
+
+    .onepager-bottom {
+      margin-top: 16px;
+      background: #fff7f2;
+      border-left: 6px solid var(--gsk-orange);
+    }
+
+    .status-row-inline {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 10px;
+      margin-top: 6px;
+    }
+
+    .status-tile {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 44px;
+      border-radius: 6px;
+      color: #fff;
+      font-size: 13px;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .tile-red {
+      background: var(--dia-d);
+    }
+
+    .tile-amber {
+      background: var(--dia-i);
+    }
+
+    .tile-green {
+      background: #2e7d32;
+      /* proper green */
+    }
+
+    .milestone-table {
+      margin-top: 12px;
+      font-size: 13px;
+    }
+
+    .milestone-table th,
+    .milestone-table td {
+      padding: 8px 6px;
+    }
+
+    .milestone-table th {
+      border-bottom: 2px solid var(--line);
+    }
+
+    .milestone-table td {
+      border-bottom: 1px solid #eee;
+    }
+
+    .milestone-risk {
+      color: var(--dia-d);
+      font-weight: 600;
+    }
+
+    .project-details-card {
+      padding: 10px 12px 12px;
+    }
+
+    .project-details-grid.compact {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px 20px;
+      margin-top: 4px;
+    }
+
+    .project-detail {
+      min-width: 0;
+    }
+
+    .project-detail-label {
+      margin-bottom: 2px;
+      font-size: 9.5px;
+      color: var(--muted);
+      text-transform: uppercase;
+      letter-spacing: 0.45px;
+      line-height: 1.2;
+    }
+
+    .project-detail-value {
+      font-size: 12.5px;
+      line-height: 1.25;
+      color: var(--text);
+      font-weight: 600;
+    }
+
+    .project-link {
+      color: var(--text);
+      text-decoration: none;
+      font-weight: 600;
+    }
+
+    .project-link:hover {
+      color: var(--gsk-orange);
+      text-decoration: underline;
+    }
+
+    .exec-large {
+      min-height: 180px;
+    }
+
+    .onepager-right {
+      display: grid;
+      grid-template-rows: auto auto auto;
+      gap: 12px;
+      align-content: start;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- =========================================
+       SLIDE 1: AGENDA
+       ========================================= -->
+  <div class="slide">
+    <div class="slide-header">
+      <h1 class="slide-title">EM MPR — Agenda &amp; Expected Outputs</h1>
+    </div>
+
+    <div class="agenda-layout">
+      <div>
+        <div class="meta-strip">
+          <div class="meta-block">
+            <div class="meta-label">Purpose</div>
+            <div class="meta-value">
+              A holistic performance review across EM to align leadership on priorities and focus areas for the next
+              30–90 days.
+            </div>
+          </div>
+
+          <div class="meta-block" style="margin-top: 12px;">
+            <div class="meta-label">How we’ll run the meeting</div>
+            <div class="meta-value">
+              Pre-reads are evidence. Live time is for clarifying questions, decisions, actions, and escalations.
+            </div>
+          </div>
+        </div>
+
+        <div class="agenda-list" style="margin-top: 12px;">
+          <div class="agenda-head">
+            <div>Time</div>
+            <div>DIA</div>
+            <div>Agenda item (what we must leave with)</div>
+          </div>
+
+          <div class="agenda-item">
+            <div class="time">12:00</div>
+            <div><span class="dia-pill pill-a">A</span></div>
+            <div>
+              <div class="agenda-topic">Transcription on • Roles • Open actions</div>
+              <div class="agenda-outcome">Aligned on outcomes, roles assigned, and any open actions confirmed or closed.
+              </div>
+            </div>
+          </div>
+
+          <div class="agenda-item">
+            <div class="time">12:10</div>
+            <div><span class="dia-pill pill-i">I</span></div>
+            <div>
+              <div class="agenda-topic">Patient of Today — KPI dashboard</div>
+              <div class="agenda-outcome">Clarity on trends and which RED items need intervention or problem solving.
+              </div>
+            </div>
+          </div>
+
+          <div class="agenda-item">
+            <div class="time">12:30</div>
+            <div><span class="dia-pill pill-i">I</span></div>
+            <div>
+              <div class="agenda-topic">Patient of Tomorrow — Critical projects / campaigns</div>
+              <div class="agenda-outcome">Confirm what must be monitored weekly and any escalations needed.</div>
+            </div>
+          </div>
+
+          <div class="agenda-item">
+            <div class="time">12:40</div>
+            <div><span class="dia-pill pill-d">D</span></div>
+            <div>
+              <div class="agenda-topic">Annual programmes / improvement plan</div>
+              <div class="agenda-outcome">Decisions and leadership help required; confirm next 30–90 day focus areas.
+              </div>
+            </div>
+          </div>
+
+          <div class="agenda-item">
+            <div class="time">13:20</div>
+            <div><span class="dia-pill pill-a">A</span></div>
+            <div>
+              <div class="agenda-topic">Wrap-up — Decisions • Actions • Process confirmation</div>
+              <div class="agenda-outcome">Actions recapped with owners; meeting effectiveness improvements captured.
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top: 12px;">
+          <div class="note">
+            Tip: If a topic is not tagged as D/I/A on this slide, it should not become live discussion. Park it for
+            follow-up.
+          </div>
+        </div>
+      </div>
+
+      <div class="right-stack">
+        <div class="card white">
+          <div class="mini-title">Inputs (pre-read evidence)</div>
+          <ul class="bullets">
+            <li>KPI dashboard / MPR report / SD–SiP views (Power BI)</li>
+            <li>Known RED items with concise “so what” narrative</li>
+            <li>Planner / action tracker for carry-over items</li>
+          </ul>
+          <div class="note" style="margin-top: 8px;">
+            Pre-read discipline keeps live time for decisions, escalations and actions.
+          </div>
+        </div>
+
+        <div class="card white">
+          <div class="mini-title">Outputs (what we leave with)</div>
+          <div class="outputs-grid">
+            <div class="output-pill">
+              <div class="output-letter letter-d">D</div>
+              <div class="output-text"><b>Decisions</b> taken or explicitly deferred with an owner and next step.</div>
+            </div>
+            <div class="output-pill">
+              <div class="output-letter letter-i">I</div>
+              <div class="output-text"><b>Interventions</b> / actions / help required with named owners.</div>
+            </div>
+            <div class="output-pill">
+              <div class="output-letter letter-a">A</div>
+              <div class="output-text"><b>Awareness</b> of KPI and programme status, plus key successes and recognition.
+              </div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-left">
+        <span class="slide-number">1</span>
+        <span class="slide-date">March 2026</span>
+      </div>
+      <div class="footer-logo" aria-label="GSK logo">
+        <img src="https://companieslogo.com/img/orig/GSK_BIG-04d5c41c.png?t=1669451926&download=true" alt="GSK" />
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       SLIDE 2: ACTIONS
+       ========================================= -->
+  <div class="slide">
+    <div class="slide-header">
+      <h1 class="slide-title">Actions — EM MPR</h1>
+    </div>
+
+    <table class="actions-table">
+      <thead>
+        <tr>
+          <th style="width: 36%;">Action</th>
+          <th style="width: 12%;">Due Date</th>
+          <th style="width: 18%;">Owner</th>
+          <th style="width: 12%;">DIA</th>
+          <th style="width: 22%;">Comments</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Define SLA and escalation logic for PO → PR lead time</td>
+          <td class="overdue">31 Mar</td>
+          <td>Morgan Kasiera</td>
+          <td class="dia-cell">
+            <span class="dia-pill-table dia-d">DECISION</span>
+          </td>
+          <td>Confirm 5-day SLA and exception handling approach</td>
+        </tr>
+
+        <tr>
+          <td>Confirm governance changes with Procurement</td>
+          <td>05 Apr</td>
+          <td>Procurement Lead</td>
+          <td class="dia-cell">
+            <span class="dia-pill-table dia-i">INPUT</span>
+          </td>
+          <td>Align on ownership and escalation thresholds</td>
+        </tr>
+
+        <tr>
+          <td>Review investigation capacity for aged deviations</td>
+          <td>02 Apr</td>
+          <td>Quality Head</td>
+          <td class="dia-cell">
+            <span class="dia-pill-table dia-i">INPUT</span>
+          </td>
+          <td>Capacity rebalance proposal required</td>
+        </tr>
+
+        <tr>
+          <td>Agree escalation rules for &gt;30-day open deviations</td>
+          <td>10 Apr</td>
+          <td>EM LT</td>
+          <td class="dia-cell">
+            <span class="dia-pill-table dia-d">DECISION</span>
+          </td>
+          <td>Decision required at EM LT</td>
+        </tr>
+
+        <tr>
+          <td>Carbon Emissions KPI — confirm target methodology</td>
+          <td>Apr MPR</td>
+          <td>EM Digital / Sustainability</td>
+          <td class="dia-cell">
+            <span class="dia-pill-table dia-a">AWARENESS</span>
+          </td>
+          <td>Proposal to use cumulative monthly glidepath</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="slide-footer">
+      <div class="footer-left">
+        <span class="slide-number">2</span>
+        <span class="slide-date">March 2026</span>
+      </div>
+      <div class="footer-logo">
+        <img src="https://companieslogo.com/img/orig/GSK_BIG-04d5c41c.png?t=1669451926&download=true" alt="GSK" />
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       SLIDE 3: OFF-TRACK PROJECTS SUMMARY
+       ========================================= -->
+  <div class="slide">
+    <div class="slide-header">
+      <h1 class="slide-title">EM Projects Off-Track — Summary</h1>
+    </div>
+
+    <table class="projects-table">
+      <thead>
+        <tr>
+          <th style="width: 6%;">RAG</th>
+          <th style="width: 18%;">Project Name</th>
+          <th style="width: 16%;">Next Milestone</th>
+          <th style="width: 10%;">Milestone End Date</th>
+          <th style="width: 8%;">Schedule</th>
+          <th style="width: 8%;">Cost</th>
+          <th style="width: 8%;">Risk</th>
+          <th style="width: 26%;">Executive Summary</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td class="status-cell status-red">✖</td>
+          <td>
+            <a href="#low-carbon-ventolin-kite" class="project-link">Low Carbon Ventolin</a><br />
+            <span class="muted">CMP – Product &amp; Process Validation</span>
+          </td>
+          <td>CMP Process Validation</td>
+          <td>29 May 26</td>
+          <td class="status-cell status-red">✖</td>
+          <td class="status-cell status-green">✔</td>
+          <td class="status-cell status-green">✔</td>
+          <td>
+            Regulatory readiness risk due to delayed E&amp;L file and subsequent impact to EU markets.
+            Mitigation actions ongoing but schedule remains under pressure.
+          </td>
+        </tr>
+
+        <tr>
+          <td class="status-cell status-red">✖</td>
+          <td>
+            M-Rev – aBR4<br />
+            <span class="muted">PPQ Preparation</span>
+          </td>
+          <td>PPQ Completion</td>
+          <td>10 Apr 26</td>
+          <td class="status-cell status-green">✔</td>
+          <td class="status-cell status-green">✔</td>
+          <td class="status-cell status-red">✖</td>
+          <td>
+            Additional PPQ batches required due to assay variability.
+            Risk to April milestone if repeat PPQ fails.
+          </td>
+        </tr>
+
+        <tr>
+          <td class="status-cell status-red">✖</td>
+          <td>
+            RRx-75487-H3<br />
+            <span class="muted">Master Schedule</span>
+          </td>
+          <td>PPQ Initiation</td>
+          <td>05 May 26</td>
+          <td class="status-cell status-red">✖</td>
+          <td class="status-cell status-green">✔</td>
+          <td class="status-cell status-red">✖</td>
+          <td>
+            Resource constraints in API readiness and delayed engineering runs
+            impacting downstream PPQ start.
+          </td>
+        </tr>
+
+        <tr>
+          <td class="status-cell status-amber">●</td>
+          <td>
+            RRx-75487-H3<br />
+            <span class="muted">MLSB Received</span>
+          </td>
+          <td>MLSB Receipt</td>
+          <td>30 Sep 26</td>
+          <td class="status-cell status-amber">●</td>
+          <td class="status-cell status-green">✔</td>
+          <td class="status-cell status-red">✖</td>
+          <td>
+            Overall programme remains Amber due to engineering delay,
+            although PPQ timing recovery options are being explored.
+          </td>
+        </tr>
+
+        <tr>
+          <td class="status-cell status-red">✖</td>
+          <td>
+            MMR-IV-New<br />
+            <span class="muted">Transfer &amp; Tech Prep</span>
+          </td>
+          <td>Tech Transfer Completion</td>
+          <td>15 May 26</td>
+          <td class="status-cell status-red">✖</td>
+          <td class="status-cell status-amber">●</td>
+          <td class="status-cell status-red">✖</td>
+          <td>
+            Packaging proposal cannot proceed due to unresolved API availability
+            and late equipment qualification at CMO.
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="slide-footer">
+      <div class="footer-left">
+        <span class="slide-number">3</span>
+        <span class="slide-date">March 2026</span>
+      </div>
+      <div class="footer-logo">
+        <img src="https://companieslogo.com/img/orig/GSK_BIG-04d5c41c.png?t=1669451926&download=true" alt="GSK" />
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       SLIDE 4: KPI - PO TO PR LEAD TIME
+       ========================================= -->
+  <div class="slide">
+    <div class="slide-header">
+      <h1 class="slide-title">Off-Track KPI – PO Request to PR Within Lead Time</h1>
+    </div>
+
+    <div class="dia-badge dia-decision">Decision Required</div>
+
+    <div class="content">
+      <div class="chart-box">
+        <div class="chart-title">Monthly Performance Trend (%)</div>
+
+        <svg width="100%" height="260" viewBox="0 0 500 260" aria-label="Monthly performance trend">
+          <line x1="50" y1="20" x2="50" y2="220" stroke="#333" />
+          <line x1="50" y1="220" x2="480" y2="220" stroke="#333" />
+
+          <text x="10" y="30" font-size="12">100%</text>
+          <text x="10" y="90" font-size="12">90%</text>
+          <text x="10" y="150" font-size="12">80%</text>
+          <text x="10" y="210" font-size="12">70%</text>
+
+          <text x="70" y="245" font-size="12">Nov</text>
+          <text x="160" y="245" font-size="12">Dec</text>
+          <text x="250" y="245" font-size="12">Jan</text>
+          <text x="340" y="245" font-size="12">Feb</text>
+          <text x="430" y="245" font-size="12">Mar</text>
+
+          <line x1="50" y1="90" x2="480" y2="90" stroke="#999" stroke-dasharray="5,5" />
+          <text x="380" y="80" font-size="12">Target 90%</text>
+
+          <polyline fill="none" stroke="#d0021b" stroke-width="3" points="70,70 160,80 250,95 340,120 430,130" />
+
+          <circle cx="70" cy="70" r="4" fill="#d0021b" />
+          <circle cx="160" cy="80" r="4" fill="#d0021b" />
+          <circle cx="250" cy="95" r="4" fill="#d0021b" />
+          <circle cx="340" cy="120" r="4" fill="#d0021b" />
+          <circle cx="430" cy="130" r="4" fill="#d0021b" />
+        </svg>
+      </div>
+
+      <div class="text-box">
+        <h2>Situation</h2>
+        <p>Performance has declined over the last three months, closing February at 82% versus a 90% target.</p>
+
+        <h2>Current Response</h2>
+        <p>Weekly reviews introduced and shared mailbox established to triage urgent approvals.</p>
+
+        <h2>Patient Impact</h2>
+        <p>None identified.</p>
+
+        <h2>DIA</h2>
+        <p>Decision required on SLA definition and escalation thresholds.</p>
+
+        <h2>Recommendation</h2>
+        <p>Move to a 5-business-day SLA and formalise exception handling.</p>
+
+        <h2>Next Steps</h2>
+        <p>
+          • Update SLA logic – Morgan Kasiera – 31 Mar<br />
+          • Confirm governance changes – Procurement Lead – 05 Apr
+        </p>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-left">
+        <span class="slide-number">4</span>
+        <span class="slide-date">March 2026</span>
+      </div>
+      <div class="footer-logo" aria-label="GSK logo">
+        <img src="https://companieslogo.com/img/orig/GSK_BIG-04d5c41c.png?t=1669451926&download=true" alt="GSK" />
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+       SLIDE 5: KPI - DEVIATIONS CLOSED ON TIME
+       ========================================= -->
+  <div class="slide">
+    <div class="slide-header">
+      <h1 class="slide-title">Off-Track KPI – Deviations Closed On-Time</h1>
+    </div>
+
+    <div class="dia-badge dia-input">Input Required</div>
+
+    <div class="content">
+      <div class="chart-box">
+        <div class="chart-title">On-Time Closure Rate (%) by Month</div>
+
+        <svg width="100%" height="260" viewBox="0 0 500 260" aria-label="Deviation closure rate by month">
+          <line x1="50" y1="20" x2="50" y2="220" stroke="#333" />
+          <line x1="50" y1="220" x2="480" y2="220" stroke="#333" />
+
+          <text x="10" y="30" font-size="12">100%</text>
+          <text x="10" y="90" font-size="12">85%</text>
+          <text x="10" y="150" font-size="12">70%</text>
+
+          <text x="90" y="245" font-size="12">Jan</text>
+          <text x="200" y="245" font-size="12">Feb</text>
+          <text x="310" y="245" font-size="12">Mar</text>
+
+          <line x1="50" y1="90" x2="480" y2="90" stroke="#999" stroke-dasharray="5,5" />
+          <text x="360" y="80" font-size="12">Target 85%</text>
+
+          <rect x="80" y="110" width="50" height="110" fill="#d0021b" />
+          <rect x="190" y="95" width="50" height="125" fill="#f5a623" />
+          <rect x="300" y="80" width="50" height="140" fill="#2b7cd3" />
+        </svg>
+      </div>
+
+      <div class="text-box">
+        <h2>Situation</h2>
+        <p>Deviation closure performance improved in March but remains below target overall.</p>
+
+        <h2>Current Response</h2>
+        <p>Quality teams prioritised aged deviations and re-balanced investigator workload.</p>
+
+        <h2>Patient Impact</h2>
+        <p>Potential risk if sustained backlog is not addressed.</p>
+
+        <h2>DIA</h2>
+        <p>Input required on resource allocation and investigation prioritisation.</p>
+
+        <h2>Recommendation</h2>
+        <p>Introduce a monthly capacity review and tighten escalation for &gt;30-day open deviations.</p>
+
+        <h2>Next Steps</h2>
+        <p>
+          • Review investigation capacity – Quality Head – 02 Apr<br />
+          • Agree escalation rules – EM LT – 10 Apr
+        </p>
+      </div>
+    </div>
+
+    <div class="slide-footer">
+      <div class="footer-left">
+        <span class="slide-number">5</span>
+        <span class="slide-date">March 2026</span>
+      </div>
+      <div class="footer-logo" aria-label="GSK logo">
+        <img src="https://companieslogo.com/img/orig/GSK_BIG-04d5c41c.png?t=1669451926&download=true" alt="GSK" />
+      </div>
+    </div>
+  </div>
+
+  <!-- =========================================
+     SLIDE 6: RED PROJECT ONE-PAGER
+     ========================================= -->
+  <div class="slide" id="low-carbon-ventolin-kite">
+    <div class="slide-header">
+      <h1 class="slide-title">Red Project One-Pager — Low Carbon Ventolin (Kite)</h1>
+    </div>
+
+    <div class="dia-badge dia-decision">Decision Required</div>
+
+    <div class="onepager-layout">
+      <div class="onepager-left">
+        <div class="meta-block project-details-card">
+          <div class="meta-label">Project Details</div>
+
+          <div class="project-details-grid compact">
+            <div class="project-detail">
+              <div class="project-detail-label">Project</div>
+              <div class="project-detail-value">Low Carbon Ventolin – Kite</div>
+            </div>
+
+            <div class="project-detail">
+              <div class="project-detail-label">Project Benefit</div>
+              <div class="project-detail-value">DP Alternative Source</div>
+            </div>
+
+            <div class="project-detail">
+              <div class="project-detail-label">Project Owner</div>
+              <div class="project-detail-value">Jenny Farnsworth</div>
+            </div>
+
+            <div class="project-detail">
+              <div class="project-detail-label">Project Sponsor</div>
+              <div class="project-detail-value">Bessma Ben Madhkour</div>
+            </div>
+
+            <div class="project-detail">
+              <div class="project-detail-label">Supply Chain &amp; Strategy Lead</div>
+              <div class="project-detail-value">Susan Severino</div>
+            </div>
+
+            <div class="project-detail">
+              <div class="project-detail-label">CMO</div>
+              <div class="project-detail-value">Kindeva</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card white">
+          <div class="mini-title">Delivery Status</div>
+
+          <div class="status-row-inline">
+            <div class="status-tile tile-red">
+              <span>Schedule</span>
+            </div>
+            <div class="status-tile tile-green">
+              <span>Cost</span>
+            </div>
+            <div class="status-tile tile-amber">
+              <span>Risk</span>
+            </div>
+            <div class="status-tile tile-green">
+              <span>Benefit</span>
+            </div>
+          </div>
+
+          <table class="milestone-table">
+            <thead>
+              <tr>
+                <th>Upcoming Milestone</th>
+                <th>Baseline</th>
+                <th>Forecast</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>EU Filing Submission</td>
+                <td>Dec 2025</td>
+                <td class="milestone-risk">May 2026</td>
+              </tr>
+              <tr>
+                <td>PPQ Start</td>
+                <td>Jan 2026</td>
+                <td>Feb 2026</td>
+              </tr>
+              <tr>
+                <td>Site Readiness Review</td>
+                <td>Feb 2026</td>
+                <td>Mar 2026</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="onepager-right">
+        <div class="card white exec exec-large">
+          <div class="mini-title">Executive Summary</div>
+          <p>
+            Project remains red due to delayed EU filing, which is now forecast for May 2026
+            versus the original December 2025 baseline. The delay pushes launch beyond the
+            approved commercial window, creates ongoing risk to EU market entry timing, and
+            reduces confidence in delivery of 2026 carbon-reduction targets. The current
+            outlook is driven by conditional regulatory dependencies and late confirmation of
+            manufacturing readiness at Kindeva. Without intervention, the programme remains
+            exposed to further timing pressure and potential erosion of strategic and
+            sustainability benefits.
+          </p>
+        </div>
+
+        <div class="card white">
+          <div class="mini-title">Patient Impact</div>
+          <p>
+            Risk to EU market entry timing and reduced confidence in delivery of
+            2026 carbon-reduction targets.
+          </p>
+        </div>
+
+        <div class="card white">
+          <div class="mini-title">Decisions or Asks Needed</div>
+          <p>
+            Approve revised launch phasing and confirm additional regulatory
+            resourcing to protect 2026 market entry.
+          </p>
+        </div>
+      </div>
+
+      <div class="card white onepager-bottom">
+        <div class="mini-title">Next Steps</div>
+        <ul class="bullets">
+          <li><strong>Confirm revised EU filing plan</strong> — Regulatory Lead — 05 Apr 2026</li>
+          <li><strong>Approve additional regulatory resourcing</strong> — EM LT — 12 Apr 2026</li>
+          <li><strong>Reconfirm launch assumptions</strong> — Sustainability Lead — Apr MPR</li>
+        </ul>
+      </div>
+
+      <div class="slide-footer">
+        <div class="footer-left">
+          <span class="slide-number">6</span>
+          <span class="slide-date">March 2026</span>
+        </div>
+        <div class="footer-logo">
+          <img src="https://companieslogo.com/img/orig/GSK_BIG-04d5c41c.png?t=1669451926&download=true" alt="GSK" />
+        </div>
+      </div>
+    </div>
+</body>
+
+</html>

@@ -1,0 +1,1098 @@
+kind: AdaptiveDialog
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: diaTaskRecord
+    description: DIA Task record data
+
+modelDescription: Helps capture data for a DIA summary.
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: ParseValue
+      id: 79C094
+      variable: Topic.selectedDIATask
+      valueType:
+        kind: Record
+        properties:
+          AssignedToEmail: String
+          AssignedToUsername: String
+          DIAResponseReceived: Number
+          DIATaskId: String
+          DisplayName: String
+          ExecutiveSummary: String
+          KeyNextSteps: String
+          KeyUpdates: String
+          KpiId: Blank
+          OwnerId: String
+          PlannerTaskId: String
+          Status: Number
+          TaskDueDate: String
+          TaskName: String
+          TaskStartDate: String
+          TaskType: Number
+
+      value: =Topic.diaTaskRecord
+
+    - kind: SetVariable
+      id: setVariable_huesOJ
+      variable: Global.DiaDocAnalysis
+      value: =""
+
+    - kind: SetVariable
+      id: setVariable_ZGYK9m
+      variable: Topic.Var3
+      value: =["Fill manually"]
+
+    - kind: ConditionGroup
+      id: conditionGroup_Et5jC5
+      conditions:
+        - id: conditionItem_6qoM5t
+          condition: =Topic.selectedDIATask.TaskType = 3
+          actions:
+            - kind: SetVariable
+              id: setVariable_SRzdlq
+              variable: Topic.Var3
+              value: =["Fill manually", "Auto‑fill from available data", "Nothing to contribute to this DIA"]
+
+        - id: conditionItem_5hj2cW
+          condition: =Topic.selectedDIATask.TaskType = 2
+          actions:
+            - kind: SetVariable
+              id: Cpr8DG
+              variable: Topic.Var3
+              value: =["Fill manually", "Draft DIA from available data"]
+
+        - id: conditionItem_F3lNie
+          condition: =Topic.selectedDIATask.TaskType = 1
+          actions:
+            - kind: SetVariable
+              id: T5FqjD
+              variable: Topic.Var3
+              value: =["Fill manually", "Auto‑fill from available data"]
+
+    - kind: Question
+      id: question_uu0MaH
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.Var1
+      prompt: How would you like to complete the DIA?
+      entity:
+        kind: DynamicClosedListEntity
+        items: =Topic.Var3
+
+    - kind: ConditionGroup
+      id: conditionGroup_x8kfR5
+      conditions:
+        - id: conditionItem_m8oYWE
+          condition: =Topic.Var1 = "Fill manually"
+          actions:
+            - kind: SetVariable
+              id: setVariable_7yA4Qk
+              variable: Topic.pullFromPreRead
+              value: =false
+
+        - id: conditionItem_TrbsGs
+          condition: =Topic.Var1 = "Auto‑fill from available data"
+          actions:
+            - kind: SetMultipleVariables
+              id: xYv13M
+              assignments:
+                - variable: Topic.situationData
+                  value: |-
+                    ="Due to variations in how RFT is calculated across suppliers, a single deviation can lead to the DS RFT metric presenting as red.
+                    For example, in January 2028 there was one final batch from Aplora with a single deviation, resulting in 0% RFT."
+
+                - variable: Topic.currentResponseData
+                  value: |-
+                    ="The deviation is being managed through the standard DMAIC process with appropriate corrective actions identified.
+                    This is not a repeat occurrence.
+                    The RFT calculation methodology will be discussed at the next Quality Council meeting with a proposal to count all process steps at Aplora to align with other DS CMOs."
+
+                - variable: Topic.patientImpactData
+                  value: ="There is no impact to patients."
+
+                - variable: Topic.balancedScorecardData
+                  value: ="Updating the calculation methodology will allow for a more accurate representation of the RFT metric within EM DS."
+
+                - variable: Topic.diaData
+                  value: ="EM DS Quality Council to confirm the proposed RFT calculation approach. Need input from Vitor Antonio and Dilawar Mansoori."
+
+                - variable: Topic.recommendationData
+                  value: ="Align Aplora RFT calculation methodology with other DS CMOs to ensure consistent reporting."
+
+                - variable: Topic.nextStepsData
+                  value: ="Discuss and confirm the RFT calculation approach"
+
+                - variable: Topic.diaType
+                  value: Input
+
+                - variable: Topic.diaUserInput
+                  value: vitor.x.antonio@gsk.com;dilawar.x.mansoori@gsk.com
+
+                - variable: Topic.EmailIds
+                  value: vitor.x.antonio@gsk.com;dilawar.x.mansoori@gsk.com
+
+            - kind: SetVariable
+              id: setVariable_SxLGNL
+              variable: Topic.pullFromPreRead
+              value: =false
+
+            - kind: GotoAction
+              id: dCqpnt
+              actionId: question_QThqKj
+
+        - id: conditionItem_A6vS7c
+          condition: =Topic.Var1 = "Nothing to contribute to this DIA"
+          actions:
+            - kind: SetVariable
+              id: setVariable_WldbzK
+              variable: Topic.skipDIAData
+              value: =true
+
+            - kind: GotoAction
+              id: xj8ZR2
+              actionId: invokeFlowAction_bVP51Z
+
+        - id: conditionItem_S0nXPJ
+          condition: =Topic.Var1 = "Draft DIA from available data"
+          actions:
+            - kind: InvokeAIBuilderModelAction
+              id: invokeAIBuilderModelAction_p5NWU4
+              input:
+                binding:
+                  EntityName: =Topic.selectedDIATask.TaskName
+                  EntityType: |-
+                    =Switch(
+                        Topic.selectedDIATask.TaskType,
+                        0, "Planner",
+                        1, "KPI",
+                        2, "MSProject",
+                        3, "Optional",
+                        "Unknown"
+                    )
+                  ExecutiveSummary: =Topic.selectedDIATask.ExecutiveSummary
+                  KeyNextSteps: =Topic.selectedDIATask.KeyNextSteps
+                  KeyUpdates: =Topic.selectedDIATask.KeyUpdates
+                  OwnerEmail: =Topic.selectedDIATask.AssignedToEmail
+                  RAG: Red
+
+              output:
+                binding:
+                  predictionOutput: Topic.draftedDIAData
+
+              aIModelId: eeaf9def-2cbf-4351-9dd2-6dd7cd81528b
+
+            - kind: SetMultipleVariables
+              id: uBxcoa
+              assignments:
+                - variable: Topic.situationData
+                  value: =Topic.draftedDIAData.structuredOutput.situationData
+
+                - variable: Topic.currentResponseData
+                  value: =Topic.draftedDIAData.structuredOutput.currentResponseData
+
+                - variable: Topic.patientImpactData
+                  value: =Topic.draftedDIAData.structuredOutput.patientImpactData
+
+                - variable: Topic.balancedScorecardData
+                  value: =Topic.draftedDIAData.structuredOutput.balancedScorecardData
+
+                - variable: Topic.diaData
+                  value: =Topic.draftedDIAData.structuredOutput.diaData
+
+                - variable: Topic.recommendationData
+                  value: =Topic.draftedDIAData.structuredOutput.recommendationData
+
+                - variable: Topic.nextStepsData
+                  value: =Topic.draftedDIAData.structuredOutput.nextStepsData
+
+                - variable: Topic.diaType
+                  value: =Topic.draftedDIAData.structuredOutput.diaType
+
+                - variable: Topic.diaUserInput
+                  value: =Topic.draftedDIAData.structuredOutput.diaUserInput
+
+                - variable: Topic.EmailIds
+                  value: =Topic.draftedDIAData.structuredOutput.diaUserInput
+
+            - kind: GotoAction
+              id: THvexi
+              actionId: question_QThqKj
+
+    - kind: ConditionGroup
+      id: conditionGroup_MilMOY
+      conditions:
+        - id: conditionItem_lg01CO
+          condition: =Topic.pullFromPreRead = true
+          actions:
+            - kind: BeginDialog
+              id: iuPemk
+              input: {}
+              dialog: cr1d7_agenttIFALA.agent.Agent_Jb7
+              output:
+                binding:
+                  docAnalysisOutput: Topic.docAnalysisOutput
+
+            - kind: SetVariable
+              id: setVariable_0V2nL4
+              variable: Topic.agentOutput
+              value: =Topic.docAnalysisOutput
+
+            - kind: SetMultipleVariables
+              id: setVariable_6ewGfZ
+              assignments:
+                - variable: Topic.situationData
+                  value: =Topic.agentOutput.situationData
+
+                - variable: Topic.currentResponseData
+                  value: =Topic.agentOutput.currentResponseData
+
+                - variable: Topic.patientImpactData
+                  value: =Topic.agentOutput.patientImpactData
+
+                - variable: Topic.balancedScorecardData
+                  value: =Topic.agentOutput.balancedScorecardData
+
+                - variable: Topic.diaData
+                  value: =Topic.agentOutput.diaData
+
+                - variable: Topic.recommendationData
+                  value: =Topic.agentOutput.recommendationData
+
+                - variable: Topic.nextStepsData
+                  value: =Topic.agentOutput.nextStepsData
+
+    - kind: SetVariable
+      id: setVariable_uVW4XG
+      variable: Topic.hasPrePopullatedFields
+      value: =!IsBlank(Topic.agentOutput)
+
+    - kind: ConditionGroup
+      id: conditionGroup_rOJmWI
+      conditions:
+        - id: conditionItem_Sms3YE
+          condition: =Topic.hasPrePopullatedFields = true
+          actions:
+            - kind: GotoAction
+              id: 9X7IAm
+              actionId: question_QThqKj
+
+    - kind: SetVariable
+      id: setVariable_lyuy25
+      variable: Topic.skipToSummary
+      value: =false
+
+    - kind: AdaptiveCardPrompt
+      id: HDldMb
+      card: |-
+        ={
+          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+          type: "AdaptiveCard",
+          version: "1.5",
+          body: [
+            {
+              type: "TextBlock",
+              text: "Step 1 of 7",
+              size: "Small",
+              weight: "Lighter",
+              color: "Accent",
+              spacing: "None"
+            },
+            {
+              type: "TextBlock",
+              text: "Situation",
+              size: "Large",
+              weight: "Bolder",
+              wrap: true
+            },
+            {
+              type: "TextBlock",
+              text: "Please describe the current situation.",
+              wrap: true,
+              spacing: "Small",
+              color: "Default"
+            },
+            {
+              type: "Input.Text",
+              id: "situation",
+              placeholder: "Enter the situation here...",
+              isMultiline: true,
+              isRequired: true,
+              errorMessage: "Please provide the situation before continuing.",
+              label: "Situation",
+              value: Topic.situationData
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Next →",
+              data: {
+                step: "capture_situation"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          actionSubmitId: Topic.actionSubmitId
+          situation: Topic.situationData
+          step: Topic.step
+
+      outputType:
+        properties:
+          actionSubmitId: String
+          situation: String
+          step: String
+
+    - kind: ConditionGroup
+      id: conditionGroup_n26UhC
+      conditions:
+        - id: conditionItem_peeGPz
+          condition: =Topic.skipToSummary = true
+          actions:
+            - kind: GotoAction
+              id: VhWaaC
+              actionId: question_QThqKj
+
+    - kind: AdaptiveCardPrompt
+      id: hN4fWJ
+      card: |-
+        ={
+          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+          type: "AdaptiveCard",
+          version: "1.5",
+          body: [
+            {
+              type: "TextBlock",
+              text: "Step 2 of 7",
+              size: "Small",
+              weight: "Lighter",
+              color: "Accent",
+              spacing: "None"
+            },
+            {
+              type: "TextBlock",
+              text: "Current Response",
+              size: "Large",
+              weight: "Bolder",
+              wrap: true
+            },
+            {
+              type: "TextBlock",
+              text: "What is the current response to the situation?",
+              wrap: true,
+              spacing: "Small",
+              color: "Default"
+            },
+            {
+              type: "Input.Text",
+              id: "current_response",
+              placeholder: "Enter the current response here...",
+              isMultiline: true,
+              isRequired: true,
+              errorMessage: "Please provide the current response before continuing.",
+              label: "Current Response",
+              value: Topic.currentResponseData
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Next →",
+              data: {
+                step: "capture_current_response"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          actionSubmitId: Topic.actionSubmitId
+          current_response: Topic.currentResponseData
+          step: Topic.step
+
+      outputType:
+        properties:
+          actionSubmitId: String
+          current_response: String
+          step: String
+
+    - kind: ConditionGroup
+      id: conditionGroup_sJqkIs
+      conditions:
+        - id: conditionItem_csh031
+          condition: =Topic.skipToSummary = true
+          actions:
+            - kind: GotoAction
+              id: tNFyeT
+              actionId: question_QThqKj
+
+    - kind: AdaptiveCardPrompt
+      id: LEDzaf
+      card: |-
+        ={
+          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+          type: "AdaptiveCard",
+          version: "1.5",
+          body: [
+            {
+              type: "TextBlock",
+              text: "Step 3 of 7",
+              size: "Small",
+              weight: "Lighter",
+              color: "Accent",
+              spacing: "None"
+            },
+            {
+              type: "TextBlock",
+              text: "Patient Impact",
+              size: "Large",
+              weight: "Bolder",
+              wrap: true
+            },
+            {
+              type: "TextBlock",
+              text: "Describe the impact on patients.",
+              wrap: true,
+              spacing: "Small",
+              color: "Default"
+            },
+            {
+              type: "Input.Text",
+              id: "patient_impact",
+              placeholder: "Enter the patient impact here...",
+              isMultiline: true,
+              isRequired: true,
+              errorMessage: "Please provide the patient impact before continuing.",
+              label: "Patient Impact",
+              value: Topic.patientImpactData
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Next →",
+              data: {
+                step: "capture_patient_impact"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          actionSubmitId: Topic.actionSubmitId
+          patient_impact: Topic.patientImpactData
+          step: Topic.step
+
+      outputType:
+        properties:
+          actionSubmitId: String
+          patient_impact: String
+          step: String
+
+    - kind: ConditionGroup
+      id: conditionGroup_66STG5
+      conditions:
+        - id: conditionItem_sDpGFI
+          condition: =Topic.skipToSummary = true
+          actions:
+            - kind: GotoAction
+              id: wWzxc9
+              actionId: question_QThqKj
+
+    - kind: AdaptiveCardPrompt
+      id: IU6Qez
+      card: |-
+        ={
+          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+          type: "AdaptiveCard",
+          version: "1.5",
+          body: [
+            {
+              type: "TextBlock",
+              text: "Step 4 of 7",
+              size: "Small",
+              weight: "Lighter",
+              color: "Accent",
+              spacing: "None"
+            },
+            {
+              type: "TextBlock",
+              text: "Balanced Scorecard​",
+              size: "Large",
+              weight: "Bolder",
+              wrap: true
+            },
+            {
+              type: "TextBlock",
+              text: "Please provide the balanced scorecard details for this situation.",
+              wrap: true,
+              spacing: "Small",
+              color: "Default"
+            },
+            {
+              type: "Input.Text",
+              id: "balanced_scorecard",
+              placeholder: "Enter balanced scorecard details...",
+              isMultiline: true,
+              isRequired: true,
+              errorMessage: "Please provide the balanced scorecard​ before continuing.",
+              label: "Balanced Scorecard​",
+              value: Topic.balancedScorecardData
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Next →",
+              data: {
+                step: "capture_balanced_scorecard​"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          actionSubmitId: Topic.actionSubmitId
+          balanced_scorecard: Topic.balancedScorecardData
+          step: Topic.step
+
+      outputType:
+        properties:
+          actionSubmitId: String
+          balanced_scorecard: String
+          step: String
+
+    - kind: ConditionGroup
+      id: conditionGroup_FpHCab
+      conditions:
+        - id: conditionItem_Y7E23w
+          condition: =Topic.skipToSummary = true
+          actions:
+            - kind: GotoAction
+              id: NMTeZx
+              actionId: question_QThqKj
+
+    - kind: AdaptiveCardPrompt
+      id: 9s92k2
+      card: |-
+        ={
+          type: "AdaptiveCard",
+          '$schema': "http://adaptivecards.io/schemas/adaptive-card.json",
+          version: "1.5",
+          body: [
+            {
+              type: "TextBlock",
+              text: "Step 5 of 7",
+              size: "Small",
+              weight: "Lighter",
+              color: "Accent",
+              spacing: "None"
+            },
+            {
+              type: "TextBlock",
+              text: "DIA",
+              size: "Large",
+              weight: "Bolder",
+              wrap: true
+            },
+            {
+              type: "TextBlock",
+              text: "Provide the DIA details.",
+              wrap: true,
+              spacing: "Small",
+              color: "Default"
+            },
+            {
+              type: "Input.ChoiceSet",
+              id: "diaType",
+              label: "DIA Type",
+              isRequired: true,
+              errorMessage: "Please select a DIA type before continuing.",
+              placeholder: "Select a type...",
+              choices: [
+                { title: "Decision", value: "Decision" },
+                { title: "Input", value: "Input" },
+                { title: "Awareness", value: "Awareness" }
+              ],
+              style: "compact"
+            },
+            {
+              type: "Input.Text",
+              id: "dia",
+              placeholder: "Enter DIA details here...",
+              isMultiline: true,
+              isRequired: true,
+              errorMessage: "Please provide DIA details before continuing.",
+              label: "DIA",
+              value: Topic.diaData
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Next →",
+              data: {
+                step: "capture_dia"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          actionSubmitId: Topic.actionSubmitId
+          dia: Topic.diaData
+          diaType: Topic.diaType
+          step: Topic.step
+
+      outputType:
+        properties:
+          actionSubmitId: String
+          dia: String
+          diaType: String
+          step: String
+
+    - kind: ConditionGroup
+      id: conditionGroup_tPbBp4
+      conditions:
+        - id: conditionItem_7gjDSV
+          condition: =Topic.diaType = "Input"
+          actions:
+            - kind: AdaptiveCardPrompt
+              id: 8mB5Gf
+              card: |-
+                ={
+                  type: "AdaptiveCard",
+                  '$schema': "http://adaptivecards.io/schemas/adaptive-card.json",
+                  version: "1.5",
+                  body: [
+                    { type: "TextBlock", text: "DIA User Input", weight: "Bolder", size: "Medium" },
+                    {
+                      type: "Input.ChoiceSet",
+                      id: "people-picker",
+                      label: "DIA User for Input", 
+                      isRequired: false,
+                      errorMessage: "A user is required",      
+                      isMultiSelect: true,
+                      'choices.data': {
+                        type: "Data.Query",
+                        dataset: "graph.microsoft.com/users"
+                      }      
+                    },
+
+                    {
+                      type: "ActionSet",
+                      actions: [
+                        { type: "Action.Submit", id: "submitDIAUsers", title: "Submit user(s)" },
+                        { type: "Action.Submit", id: "skipDIAUser", title: "Skip", style: "destructive" }
+                      ]
+                    }
+                  ]
+                }
+              output:
+                binding:
+                  actionSubmitId: Topic.actionSubmitId
+                  people-picker: Topic.Var4
+
+              outputType:
+                properties:
+                  actionSubmitId: String
+                  people-picker: String
+
+            - kind: InvokeFlowAction
+              id: invokeFlowAction_pPe5VQ
+              input:
+                binding:
+                  text: =Topic.Var4
+
+              output:
+                binding:
+                  emailid: Topic.EmailIds
+
+              flowId: 2f85de3d-595b-f111-bec7-000d3a3690d9
+
+    - kind: SetVariable
+      id: setVariable_87jozZ
+      variable: Topic.diaUserInput
+      value: =If(!IsBlank(Topic.EmailIds), Topic.EmailIds,"")
+
+    - kind: ConditionGroup
+      id: conditionGroup_7c6DmF
+      conditions:
+        - id: conditionItem_tJ7Nao
+          condition: =Topic.skipToSummary = true
+          actions:
+            - kind: GotoAction
+              id: zG1vnV
+              actionId: question_QThqKj
+
+    - kind: AdaptiveCardPrompt
+      id: iQx0kU
+      card: |-
+        ={
+          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+          type: "AdaptiveCard",
+          version: "1.5",
+          body: [
+            {
+              type: "TextBlock",
+              text: "Step 6 of 7",
+              size: "Small",
+              weight: "Lighter",
+              color: "Accent",
+              spacing: "None"
+            },
+            {
+              type: "TextBlock",
+              text: "Recommendation",
+              size: "Large",
+              weight: "Bolder",
+              wrap: true
+            },
+            {
+              type: "TextBlock",
+              text: "Provide your recommendation.",
+              wrap: true,
+              spacing: "Small",
+              color: "Default"
+            },
+            {
+              type: "Input.Text",
+              id: "recommendation",
+              placeholder: "Enter your recommendation here...",
+              isMultiline: true,
+              isRequired: true,
+              errorMessage: "Please provide a recommendation before continuing.",
+              label: "Recommendation",
+              value: Topic.recommendationData
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Next →",
+              data: {
+                step: "capture_recommendation"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          actionSubmitId: Topic.actionSubmitId
+          recommendation: Topic.recommendationData
+          step: Topic.step
+
+      outputType:
+        properties:
+          actionSubmitId: String
+          recommendation: String
+          step: String
+
+    - kind: ConditionGroup
+      id: conditionGroup_Eq0Yq4
+      conditions:
+        - id: conditionItem_YimylE
+          condition: =Topic.skipToSummary = true
+          actions:
+            - kind: GotoAction
+              id: COkiui
+              actionId: question_QThqKj
+
+    - kind: AdaptiveCardPrompt
+      id: IxshjM
+      card: |-
+        ={
+          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+          type: "AdaptiveCard",
+          version: "1.5",
+          body: [
+            {
+              type: "TextBlock",
+              text: "Step 7 of 7",
+              size: "Small",
+              weight: "Lighter",
+              color: "Accent",
+              spacing: "None"
+            },
+            {
+              type: "TextBlock",
+              text: "Next Steps",
+              size: "Large",
+              weight: "Bolder",
+              wrap: true
+            },
+            {
+              type: "TextBlock",
+              text: "Outline the next steps.",
+              wrap: true,
+              spacing: "Small",
+              color: "Default"
+            },
+            {
+              type: "Input.Text",
+              id: "next_steps",
+              placeholder: "Enter next steps here...",
+              isMultiline: true,
+              isRequired: true,
+              errorMessage: "Please provide the next steps before submitting.",
+              label: "Next Steps",
+              value: Topic.nextStepsData
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Submit",
+              data: {
+                step: "capture_next_steps"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          actionSubmitId: Topic.actionSubmitId
+          next_steps: Topic.nextStepsData
+          step: Topic.step
+
+      outputType:
+        properties:
+          actionSubmitId: String
+          next_steps: String
+          step: String
+
+    - kind: Question
+      id: question_QThqKj
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.userChoice
+      prompt: |-
+        This is what I have so far:
+
+        **Situation:**
+
+        {Topic.situationData}
+
+        **Current Response:**
+
+        {Topic.currentResponseData}
+
+        **Patient Impact:**
+
+        {Topic.patientImpactData}
+
+        **Balanced Scorecard:**
+
+        {Topic.balancedScorecardData}
+
+        **DIA Type:**
+
+        {Topic.diaType}
+
+        **DIA:**
+
+        {Topic.diaData}
+
+        **DIA Required Inputs:**
+
+        {Topic.EmailIds}
+
+        **Recommendation:**
+
+        {Topic.recommendationData}
+
+        **Next Steps:**
+
+        {Topic.nextStepsData}
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Make some changes
+              displayName: Make some changes
+
+            - id: Looks good, let's submit
+              displayName: Looks good, let's submit
+
+    - kind: ConditionGroup
+      id: conditionGroup_d5Vlaq
+      conditions:
+        - id: conditionItem_EB6Pry
+          condition: =Topic.userChoice = 'cr1d7_agenttIFALA.topic.DIADataCapture.main.question_QThqKj'.'Make some changes'
+          actions:
+            - kind: SetVariable
+              id: setVariable_45V2fT
+              variable: Topic.skipToSummary
+              value: =true
+
+            - kind: SetVariable
+              id: p94ysa
+              variable: Topic.diaStepsList
+              value: |-
+                =    Table(
+                        { StepNumber: 1, DisplayName: "Situation" },
+                        { StepNumber: 2, DisplayName: "Current Response" },
+                        { StepNumber: 3, DisplayName: "Patient Impact" },
+                        { StepNumber: 4, DisplayName: "Balanced Scorecard" },
+                        { StepNumber: 5, DisplayName: "DIA" },
+                        { StepNumber: 6, DisplayName: "Recommendation" },
+                        { StepNumber: 7, DisplayName: "Next Steps" }
+                    )
+
+            - kind: Question
+              id: 1VXIh5
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: Topic.userSelectedStep
+              prompt: Which step do you want to correct?
+              entity:
+                kind: DynamicClosedListEntity
+                items: =Topic.diaStepsList
+
+            - kind: ConditionGroup
+              id: conditionGroup_5BWLhM
+              conditions:
+                - id: conditionItem_step1
+                  condition: =Topic.userSelectedStep.StepNumber = 1
+                  actions:
+                    - kind: GotoAction
+                      id: goto_step1_card
+                      actionId: HDldMb
+
+                - id: conditionItem_step2
+                  condition: =Topic.userSelectedStep.StepNumber = 2
+                  actions:
+                    - kind: GotoAction
+                      id: goto_step2_card
+                      actionId: hN4fWJ
+
+                - id: conditionItem_step3
+                  condition: =Topic.userSelectedStep.StepNumber = 3
+                  actions:
+                    - kind: GotoAction
+                      id: goto_step3_card
+                      actionId: LEDzaf
+
+                - id: conditionItem_step4
+                  condition: =Topic.userSelectedStep.StepNumber = 4
+                  actions:
+                    - kind: GotoAction
+                      id: goto_step4_card
+                      actionId: IU6Qez
+
+                - id: conditionItem_step5
+                  condition: =Topic.userSelectedStep.StepNumber = 5
+                  actions:
+                    - kind: GotoAction
+                      id: MraWFY
+                      actionId: 9s92k2
+
+                - id: conditionItem_step6
+                  condition: =Topic.userSelectedStep.StepNumber = 6
+                  actions:
+                    - kind: GotoAction
+                      id: goto_step6_card
+                      actionId: iQx0kU
+
+                - id: conditionItem_step7
+                  condition: =Topic.userSelectedStep.StepNumber = 7
+                  actions:
+                    - kind: GotoAction
+                      id: goto_step7_card
+                      actionId: IxshjM
+
+        - id: conditionItem_tGwl1b
+          condition: =Topic.userChoice = 'cr1d7_agenttIFALA.topic.DIADataCapture.main.question_QThqKj'.'Looks good, let''s submit'
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_bVP51Z
+      input:
+        binding:
+          boolean: =!Topic.skipDIAData
+          text: |-
+            =If(Topic.skipDIAData,
+                JSON({
+                    situationData: "N/A",
+                    currentResponseData: "N/A",
+                    patientImpactData: "N/A",
+                    balancedScorecardData: "N/A",
+                    diaData: "N/A",
+                    recommendationData: "N/A",
+                    nextStepsData: "N/A",
+                    diaTypeData: "N/A",
+                    diaUserInput: "N/A"
+                }),
+                JSON({
+                    situationData: Topic.situationData,
+                    currentResponseData: Topic.currentResponseData,
+                    patientImpactData: Topic.patientImpactData,
+                    balancedScorecardData: Topic.balancedScorecardData,
+                    diaData: Topic.diaData,
+                    recommendationData: Topic.recommendationData,
+                    nextStepsData: Topic.nextStepsData,
+                    diaTypeData: Topic.diaType,
+                    diaUserInputData: If(!IsBlank(Topic.diaUserInput), Topic.diaUserInput, "")
+                })
+            )
+          text_1: =Topic.selectedDIATask.DIATaskId
+
+      output: {}
+      flowId: e3211915-8353-f111-bec7-000d3a33da71
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_CjE0zt
+      input:
+        binding:
+          text: =Topic.selectedDIATask.PlannerTaskId
+
+      output: {}
+      flowId: ed532838-ca55-f111-bec6-7c1e528d4fea
+
+    - kind: SendActivity
+      id: sendActivity_sdDOGD
+      activity: Your **- {Topic.selectedDIATask.DisplayName} -** was sucessfully submitted, thank you!
+
+    - kind: ClearAllVariables
+      id: 7tMmdJ
+
+    - kind: BeginDialog
+      id: 5oVmSL
+      dialog: cr1d7_agenttIFALA.topic.ConversationStart
+
+inputType:
+  properties:
+    diaTaskRecord:
+      displayName: diaTaskRecord
+      type: String
+
+outputType:
+  properties:
+    diaReportOutput:
+      displayName: diaReportOutput
+      description: The AI generated DIA report based on user input.
+      type: String
+
+    diaReportSubjectOutput:
+      displayName: diaReportSubjectOutput
+      description: "AI generated DIA subject "
+      type: String
+
+    reportRecordOutput:
+      displayName: reportRecordOutput
+      type:
+        kind: Record
+        properties:
+          balancedScorecard: String
+          currentResponse: String
+          dia: String
+          nextSteps: String
+          patientImpact: String
+          recommendation: String
+          situation: String

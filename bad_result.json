@@ -1,0 +1,934 @@
+{
+    "statusCode": 200,
+    "headers": {
+        "Cache-Control": "private",
+        "Transfer-Encoding": "chunked",
+        "Strict-Transport-Security": "max-age=31536000",
+        "request-id": "4eef096a-52f4-4bbb-8c49-a58f0595cd61",
+        "client-request-id": "4eef096a-52f4-4bbb-8c49-a58f0595cd61",
+        "x-ms-ags-diagnostic": "{\"ServerInfo\":{\"DataCenter\":\"West US 3\",\"Slice\":\"E\",\"Ring\":\"2\",\"ScaleUnit\":\"001\",\"RoleInstance\":\"PH2PEPF00021113\"}}",
+        "x-ms-environment-id": "0fdc3e03-cc62-ee4c-b39f-a0b03fd24d1e",
+        "x-ms-tenant-id": "63982aff-fb6c-4c22-973b-70e4acfb63e6",
+        "x-ms-subscription-id": "0fdc3e03-cc62-ee4c-b39f-a0b03fd24d1e",
+        "x-ms-dlp-re": "HttpRequest|False|2026-05-27T10:56:20.9678882+00:00",
+        "x-ms-dlp-gu": "-|-",
+        "x-ms-dlp-ef": "-|-/-|-|-|-|-",
+        "x-ms-mip-sl": "-|-|-|-",
+        "x-ms-au-creator-id": "1b705fe4-8612-4fb7-afe5-ec04c4f5e686",
+        "Timing-Allow-Origin": "*",
+        "x-ms-apihub-cached-response": "false",
+        "x-ms-apihub-obo": "false",
+        "Date": "Mon, 01 Jun 2026 16:37:05 GMT",
+        "Content-Type": "application/json; odata.metadata=minimal; odata.streaming=true; IEEE754Compatible=false; charset=utf-8",
+        "Content-Length": "21361"
+    },
+    "body": {
+        "@odata.context": "https://graph.microsoft.com/v1.0/$metadata#users('1b705fe4-8612-4fb7-afe5-ec04c4f5e686')/events(id,subject,organizer,recurrence,start,end,isOrganizer,onlineMeeting,onlineMeetingProvider,isOnlineMeeting)",
+        "value": [
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAIIspnaw==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAAKy7ghXAAA=",
+                "subject": "Sumit/Charles 1:1",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2022-01-14T11:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2022-01-14T11:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2022-01-14",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Charles Gillham",
+                        "address": "charles.r.gillham@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YWIxMDlhMTctMmUwNS00ZTg1LWE4YTktMzAwNGQwZDAyYWQx%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22e44fae45-dbed-46bd-aedb-60db2aa0681c%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAJBGc2bQ==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAAN3yWoMAAA=",
+                "subject": "Keep Free- No Meetings",
+                "isOrganizer": true,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2022-08-01T07:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2022-08-01T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2022-08-01",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YTkwMzBhODQtZTQzMi00NTEwLTljZjAtMjU4Y2QwNDI3NjJi%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%221b705fe4-8612-4fb7-afe5-ec04c4f5e686%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAIIsph/w==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAAKy7gflAAA=",
+                "subject": "Mentoring Session",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2022-09-20T13:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2022-09-20T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "third"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2022-09-20",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Miranda Willis",
+                        "address": "miranda.x.willis@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ODgzZTA3MWItNGU3Ni00YTJhLTljNTItYTllZGNiODdiM2M4%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%22d8cf0e99-bd10-46de-965c-6f432b15c431%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAIPQtdUw==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAAKy7gZ3AAA=",
+                "subject": "2022 AD Alumni Quarterly catch up",
+                "isOrganizer": true,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2023-02-07T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2023-02-07T10:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 3,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "tuesday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2023-02-07",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YjI3NTExNjItZGJhZC00OGU5LWExMDAtNDM0NWNmZGM5Zjdk%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%221b705fe4-8612-4fb7-afe5-ec04c4f5e686%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAGjb6kKA==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAAKy7jK7AAA=",
+                "subject": "Pick up kids",
+                "isOrganizer": true,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2023-06-26T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2023-06-26T14:45:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2023-06-26",
+                        "endDate": "2025-11-24",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ODZkZDNhZDUtN2UyMy00MGM4LWFmOGUtZjIwZjI2MzgzNzZk%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%221b705fe4-8612-4fb7-afe5-ec04c4f5e686%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAIoAXU9A==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAARoaKTHAAA=",
+                "subject": "Prudhoe plodders ",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2023-07-31T17:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2023-07-31T18:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2023-07-31",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAI1nzBjA==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAARoaKTIAAA=",
+                "subject": "Prudhoe plodders ",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2023-08-09T17:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2023-08-09T18:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "wednesday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2023-08-09",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAG2vB9rQ==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAAPc6fOwAAA=",
+                "subject": "SK, TW Catch Up",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2023-09-07T12:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2023-09-07T13:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 2,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2023-09-07",
+                        "endDate": "2025-11-26",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Tankara Williams",
+                        "address": "tankara.x.williams@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_NGMyODk4OTItYjVmZC00N2M2LTkwYTMtODBmODZmOTg4YzNl%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%222b4206d2-66e5-43ec-887f-27fba361cce8%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAJBGc2Iw==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAARxRQLwAAA=",
+                "subject": "Daily Learning",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2024-01-08T21:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-01-08T22:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2024-01-08",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAJBGc2Ig==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAARxRQMBAAA=",
+                "subject": "Daily PDR",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2024-01-09T16:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-01-09T17:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2024-01-09",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAIoAXYIQ==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAARxRQKtAAA=",
+                "subject": "Placeholder for L&D Sessions",
+                "isOrganizer": false,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2024-01-25T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-01-25T10:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2024-01-25",
+                        "endDate": "2026-12-24",
+                        "recurrenceTimeZone": "Eastern Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Kirk Brown",
+                        "address": "kirk.m.brown@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAGQ11gKw==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAATeQddSAAA=",
+                "subject": "Sumit-Kareem 1:1",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2024-01-25T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-01-25T14:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "absoluteMonthly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 25,
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2024-01-25",
+                        "endDate": "2025-07-25",
+                        "recurrenceTimeZone": "Eastern Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Kareem Mehdi",
+                        "address": "kareem.a.mehdi@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_ZjBkYTU2YTItNDZmMi00MjRmLWE3ZTQtNDkwZDcwOGQ2OTU4%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%224cec61c9-28cf-417b-98d0-8aed396d8d08%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAJBGc2Hg==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAAY1lhMWAAA=",
+                "subject": "Place Holder for L&D sessions",
+                "isOrganizer": false,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2024-01-26T13:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-01-26T14:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2024-01-26",
+                        "endDate": "2026-12-25",
+                        "recurrenceTimeZone": "Eastern Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Kirk Brown",
+                        "address": "kirk.m.brown@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAG48SqCw==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAARxRUZGAAA=",
+                "subject": "Sumit- Nurhan Mentoring",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2024-04-18T10:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-04-18T10:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 3,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "third"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2024-04-18",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "Turkey Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Nurhan Kaya Erol",
+                        "address": "nurhan.x.kaya@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YWFhODZiMjctN2E0Yi00MjU1LTlhNjMtYWY5MmJlZTIyYzlh%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%223a52ed23-71a1-4e7a-8776-7f3b4e7ba0c2%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAI1nzBiQ==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAARxRUXrAAA=",
+                "subject": "Weekly Sumit: Nadine Connect",
+                "isOrganizer": true,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2024-05-02T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-05-02T09:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2024-05-02",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_NTQwNWQ1ZmMtMGQwOS00ZjY4LTkyMTEtNDcwNDYxNjU3NTM3%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%221b705fe4-8612-4fb7-afe5-ec04c4f5e686%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAJBGc35w==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAAXCs9dzAAA=",
+                "subject": "P&OS Monthly Performance Review",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2024-07-11T13:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-07-11T14:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "second"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2024-07-11",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Stephen Moore",
+                        "address": "stephen.2.moore@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_MzhlZDEyNjMtMDFiNS00Y2I3LTllMGYtMjY5OTI0NTY0ZDIz%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%228b6c6505-d9c9-47b4-924e-9e675ad48df0%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAGszmvaQ==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAAa4Tu5XAAA=",
+                "subject": "POS People Meeting",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2024-07-25T12:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-07-25T13:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 3,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "thursday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "fourth"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2024-07-25",
+                        "endDate": "2025-10-23",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Stephen Moore",
+                        "address": "stephen.2.moore@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YjI2ZWNlZGEtYWJlYy00NWIyLWE5YzItYzc0Zjc0NjA1OTcy%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%228b6c6505-d9c9-47b4-924e-9e675ad48df0%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAGZ0ePrg==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAAVxhqIRAAA=",
+                "subject": "OneEM LT-1 Forum - monthly connect across EM & PQTS+ (Option 2)",
+                "isOrganizer": false,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2024-09-30T09:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-09-30T10:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "relativeMonthly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "last"
+                    },
+                    "range": {
+                        "type": "endDate",
+                        "startDate": "2024-09-30",
+                        "endDate": "2025-09-30",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Nadine Schaefer",
+                        "address": "nadine.n.schaefer@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_YjExNzIxZjUtYzU5ZS00NjcxLWIzNTctZDkyZmViZmQ1NDAy%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%223b6e44fa-f9d7-40ce-bc07-d3b2e3575884%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAJBGc4Bg==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAARxRUe5AAA=",
+                "subject": "Weekly Jenny 1:1",
+                "isOrganizer": true,
+                "isOnlineMeeting": true,
+                "onlineMeetingProvider": "teamsForBusiness",
+                "start": {
+                    "dateTime": "2024-10-14T09:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-10-14T10:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday"
+                        ],
+                        "firstDayOfWeek": "monday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2024-10-14",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": {
+                    "joinUrl": "https://teams.microsoft.com/l/meetup-join/19%3ameeting_NDNjNGQxNjktZGM0Zi00OTc0LThmMGUtYmY3OWMyN2JkYmU5%40thread.v2/0?context=%7b%22Tid%22%3a%2263982aff-fb6c-4c22-973b-70e4acfb63e6%22%2c%22Oid%22%3a%221b705fe4-8612-4fb7-afe5-ec04c4f5e686%22%7d"
+                }
+            },
+            {
+                "@odata.etag": "W/\"JhrhP3rM60ijmycVP8T+6gAJBGc2cA==\"",
+                "id": "AAMkAGY4ZGYyMjljLWE2YzAtNDZjYS04MmJmLTg1Nzk4NDA2YmE5NQBGAAAAAADNvMFe0XC6T4_tx3N8mJN8BwAKXZfKvkGtRIwZP1tua5RPAAAAZhx7AAAmGuE-eszrSKObJxU-xP7qAARxRUfIAAA=",
+                "subject": "Kids Drop off",
+                "isOrganizer": true,
+                "isOnlineMeeting": false,
+                "onlineMeetingProvider": "unknown",
+                "start": {
+                    "dateTime": "2024-10-21T07:00:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "end": {
+                    "dateTime": "2024-10-21T07:30:00.0000000",
+                    "timeZone": "UTC"
+                },
+                "recurrence": {
+                    "pattern": {
+                        "type": "weekly",
+                        "interval": 1,
+                        "month": 0,
+                        "dayOfMonth": 0,
+                        "daysOfWeek": [
+                            "monday",
+                            "tuesday",
+                            "wednesday",
+                            "thursday",
+                            "friday"
+                        ],
+                        "firstDayOfWeek": "sunday",
+                        "index": "first"
+                    },
+                    "range": {
+                        "type": "noEnd",
+                        "startDate": "2024-10-21",
+                        "endDate": "0001-01-01",
+                        "recurrenceTimeZone": "GMT Standard Time",
+                        "numberOfOccurrences": 0
+                    }
+                },
+                "organizer": {
+                    "emailAddress": {
+                        "name": "Sumit Kaura",
+                        "address": "sumit.x.kaura@gsk.com"
+                    }
+                },
+                "onlineMeeting": null
+            }
+        ],
+        "@odata.nextLink": "https://graph.microsoft.com/v1.0/me/events?%24filter=type+eq+%27seriesMaster%27&%24select=id%2csubject%2corganizer%2crecurrence%2cstart%2cend%2cisOrganizer%2conlineMeeting%2conlineMeetingProvider%2cisOnlineMeeting&%24orderby=start%2fdateTime+asc&%24top=20&%24skip=20"
+    }
+}

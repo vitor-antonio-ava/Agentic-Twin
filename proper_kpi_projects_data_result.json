@@ -1,0 +1,167 @@
+{
+    "statusCode": 200,
+    "headers": {
+        "Cache-Control": "no-store, must-revalidate, no-cache",
+        "Pragma": "no-cache",
+        "Transfer-Encoding": "chunked",
+        "Strict-Transport-Security": "max-age=31536000; includeSubDomains",
+        "X-Frame-Options": "deny",
+        "X-Content-Type-Options": "nosniff",
+        "RequestId": "68b5be52-2917-474c-a224-600b25885b52",
+        "Access-Control-Expose-Headers": "RequestId",
+        "X-Ms-Workflow-Resourcegroup-Name": "selfhostingresourcegroup",
+        "x-ms-workflow-subscription-id": "0fdc3e03-cc62-ee4c-b39f-a0b03fd24d1e",
+        "x-ms-environment-id": "0fdc3e03-cc62-ee4c-b39f-a0b03fd24d1e",
+        "x-ms-tenant-id": "63982aff-fb6c-4c22-973b-70e4acfb63e6",
+        "x-ms-subscription-id": "0fdc3e03-cc62-ee4c-b39f-a0b03fd24d1e",
+        "x-ms-dlp-re": "ExecuteDatasetQuery|False|2026-05-27T10:56:21.4115989+00:00",
+        "x-ms-dlp-gu": "-|-",
+        "x-ms-dlp-ef": "-|-/-|-|-|-|-",
+        "x-ms-mip-sl": "-|-|-|-",
+        "x-ms-au-creator-id": "420a2572-f2f7-4c85-80dc-ea6478de394b",
+        "Timing-Allow-Origin": "*",
+        "x-ms-apihub-cached-response": "false",
+        "x-ms-apihub-obo": "false",
+        "Date": "Thu, 28 May 2026 18:18:12 GMT",
+        "Content-Type": "application/json",
+        "Content-Length": "11466"
+    },
+    "body": {
+        "informationProtectionLabel": {
+            "id": "0df3522f-8c42-44b0-bea3-7f162a60ea50",
+            "name": "Proprietary"
+        },
+        "results": [
+            {
+                "tables": [
+                    {
+                        "rows": [
+                            {
+                                "[EntityId]": "KPI_EM_007",
+                                "[EntityType]": "KPI",
+                                "[Name]": "OTIF - Supplier",
+                                "[RAG]": "Red"
+                            },
+                            {
+                                "[EntityId]": "KPI_EM_017",
+                                "[EntityType]": "KPI",
+                                "[Name]": "GPS Maturity",
+                                "[RAG]": "Red"
+                            },
+                            {
+                                "[EntityId]": "KPI_EM_011",
+                                "[EntityType]": "KPI",
+                                "[Name]": "COW (Cost Of Waste)",
+                                "[RAG]": "Red"
+                            },
+                            {
+                                "[EntityId]": "05ad9013-a5e6-ee11-8702-00155d11025a",
+                                "[EntityType]": "MS PROJECT",
+                                "[Name]": "Nucala 2nd Source Program - Patheon GRV Tech Transfer",
+                                "[Owner_Email]": "jenny.x.farnsworth@gsk.com",
+                                "[RAG]": "Red",
+                                "[ExecutiveSummary]": "Technical transfer to Patheon in progress. Red OVERALL status due to major quality event regarding rogue input material controls at Patheon Greenville during PPQ 3 and PPQ 4 drug product filling activity. Incorrect syringe component introduced.   Full impact to schedule, cost and risk to be realised by end of May ending deviation impact asessment completion.",
+                                "[KeyUpdates]": "  Two major deviations raised during PPQ 4 manufacture at Patheon and assembly of PPQ 3 at PCI due to introduction of rogue input syringe components at Patheon Greenville prior to filling.    Tech council review and endorsement of PPQ batch disposition recommendation complete Feb 2025. Additional PPQ batch endorsed Apr 2026  AVI PPQ complete Dec 2025. Recipe optimisation in progress.   Registration stability samples set down & release testing of original PPQ campaign complete Dec 2025. PPQ 4 release results due June 2026.",
+                                "[KeyNextSteps]": "  AVI recipe optimisation (Target end of May 26).  AVI of DP PPQ4 (Target June 26)  Validity acceptance decision by EM QA and MSAT DP (Target end of May 26)  US Submission authoring in progress, waves defined and project plan tracking for submission readiness in Aug26 - pending PPQ acceptance."
+                            },
+                            {
+                                "[EntityId]": "bb9df7ca-e9db-f011-86c5-00155d10a305",
+                                "[EntityType]": "MS PROJECT",
+                                "[Name]": "Ris-Rez aB7-H3 (GSK5764227) DP NPI Simtra PPE Line",
+                                "[Owner_Email]": "sofia.x.kajouj@gsk.com",
+                                "[RAG]": "Red",
+                                "[ExecutiveSummary]": "Overall Red because of;  - Manufacturing hold due to release sterility fail on clinical batch (Operational readiness risk); - QA EM Resources focus on clinical manufacturing (deviation closure and batch release), impacting H3 PPE project.",
+                                "[KeyUpdates]": "SCHEDULE:;- Kick-off completed on 22 April.; - Detailed project plan provided : Simtra communicated PPQ start date by mid Nov (cW47) instead of beg Oct (cW40) according to Simtra standard documentation timeline.  OP READINESS;  - Manufacturing hold due to release sterility fail on H3 6C004. Restart Criteria established and shared with Simtra;",
+                                "[KeyNextSteps]": " - H3 PPE Proposal to be provided ;  - Go/no-Go decision for PPQ on PPE vs PPF line drop dead date to be defined;"
+                            },
+                            {
+                                "[EntityId]": "5e80c208-ebdb-f011-86cb-00155d10c50c",
+                                "[EntityType]": "MS PROJECT",
+                                "[Name]": "Ris-Rez aB7-H3 (GSK5764227) DP NPI Simtra PPF Line",
+                                "[Owner_Email]": "sofia.x.kajouj@gsk.com",
+                                "[RAG]": "Red",
+                                "[ExecutiveSummary]": " Overall Red as;- Further delay announced on ER execution due to 20R format qualification delays by Optima;- Manufacturing is on hold due to release\nsterility fail on clinical  batch (Op readiness risk);- PQTS+ is focusing on clinical\nmanufacturing while also continuing PPF\nER readiness (target mid-Jun);- Additionally, AVI readiness for PPQ is at\nrisk to delay PPQ report availability (starting point is collection of\ndefect during ER).;",
+                                "[KeyUpdates]": "SCHEDULE; - Further delay for 20R Commissioning completion by Optima. 10R and 20R commissioning decoupled - Eng. run now schedule on week of 10Aug (7weeks delay); - Media Fill start date not impacted (End Aug/Early Sep) - Impact on PPQ start date TBC; Documentation readiness can be mitigated as synergies between H3 PPE and H3 PPF project. Bottle neck activities : analytical results on ER (Timing TBC); OP READINESS; - Delivery of GMP material for Eng. run (CTM4) this week  DELIVRABLES; - Simtra TT Plan finalised, to be sent for approval; - GSK Tech plan under final review;  - MBR and Sampling Plan reviewed by GSK, pending protocol for finalisation;",
+                                "[KeyNextSteps]": " Next steps:;  - On site workshop ER Readiness and GEMBA, 2-3 June (date TBC due to rescheduling);  - GSK change control AL3 Panel (12 June TBC);  - Completion of the evaluation for i) AVI timeline acceleration ii) decoupling PPQ reports and stability setdown timeline;  - Go, no-Go decision for PPQ on PPE vs PPF line drop dead date to be defined (no later than mid-Aug);"
+                            },
+                            {
+                                "[EntityId]": "07f6db9a-60f4-ef11-9117-00155d18da0f",
+                                "[EntityType]": "MS PROJECT",
+                                "[Name]": "MMR-V new plant",
+                                "[Owner_Email]": "yinan.x.li@gsk.com",
+                                "[RAG]": "Red",
+                                "[ExecutiveSummary]": "Overall status: Red due to a general delay driven by an MMR PPQ Measles potency OOT at TP12M. Additional investigational runs are required to confirm the root cause. As a result, the V transfer is postponed. To mitigate supply risk, the current line will be extended (risk logged in Veeva).",
+                                "[KeyUpdates]": "Schedule Red/ driven by delays to the MMR submission following a PPQ Measles stability OOT at 12 months. While subsequent T16M results appear stabilized, investigational runs planned to support DMAIC may be impacted by LVV media supply constraints, and the Varilrix tech transfer remains on hold pending investigation outcome. Cost impact is Red, with incremental activities for MMR and Varilrix estimated at ~£1m. There is an associated supply risk from extended use of the current line, captured under RE‑014483 and actively monitored in EM‑DP RMCB.",
+                                "[KeyNextSteps]": " MMR investigational runs & associated accelerated stability.  VTC in Sep to endorse if initial PPQ can be used for RA submission.  Negotiation with Fidia for eventual cost sharing."
+                            }
+                        ]
+                    }
+                ]
+            }
+        ],
+        "firstTableRows": [
+            {
+                "[EntityId]": "KPI_EM_007",
+                "[EntityType]": "KPI",
+                "[Name]": "OTIF - Supplier",
+                "[RAG]": "Red"
+            },
+            {
+                "[EntityId]": "KPI_EM_017",
+                "[EntityType]": "KPI",
+                "[Name]": "GPS Maturity",
+                "[RAG]": "Red"
+            },
+            {
+                "[EntityId]": "KPI_EM_011",
+                "[EntityType]": "KPI",
+                "[Name]": "COW (Cost Of Waste)",
+                "[RAG]": "Red"
+            },
+            {
+                "[EntityId]": "05ad9013-a5e6-ee11-8702-00155d11025a",
+                "[EntityType]": "MS PROJECT",
+                "[Name]": "Nucala 2nd Source Program - Patheon GRV Tech Transfer",
+                "[Owner_Email]": "jenny.x.farnsworth@gsk.com",
+                "[RAG]": "Red",
+                "[ExecutiveSummary]": "Technical transfer to Patheon in progress. Red OVERALL status due to major quality event regarding rogue input material controls at Patheon Greenville during PPQ 3 and PPQ 4 drug product filling activity. Incorrect syringe component introduced.   Full impact to schedule, cost and risk to be realised by end of May ending deviation impact asessment completion.",
+                "[KeyUpdates]": "  Two major deviations raised during PPQ 4 manufacture at Patheon and assembly of PPQ 3 at PCI due to introduction of rogue input syringe components at Patheon Greenville prior to filling.    Tech council review and endorsement of PPQ batch disposition recommendation complete Feb 2025. Additional PPQ batch endorsed Apr 2026  AVI PPQ complete Dec 2025. Recipe optimisation in progress.   Registration stability samples set down & release testing of original PPQ campaign complete Dec 2025. PPQ 4 release results due June 2026.",
+                "[KeyNextSteps]": "  AVI recipe optimisation (Target end of May 26).  AVI of DP PPQ4 (Target June 26)  Validity acceptance decision by EM QA and MSAT DP (Target end of May 26)  US Submission authoring in progress, waves defined and project plan tracking for submission readiness in Aug26 - pending PPQ acceptance."
+            },
+            {
+                "[EntityId]": "bb9df7ca-e9db-f011-86c5-00155d10a305",
+                "[EntityType]": "MS PROJECT",
+                "[Name]": "Ris-Rez aB7-H3 (GSK5764227) DP NPI Simtra PPE Line",
+                "[Owner_Email]": "sofia.x.kajouj@gsk.com",
+                "[RAG]": "Red",
+                "[ExecutiveSummary]": "Overall Red because of;  - Manufacturing hold due to release sterility fail on clinical batch (Operational readiness risk); - QA EM Resources focus on clinical manufacturing (deviation closure and batch release), impacting H3 PPE project.",
+                "[KeyUpdates]": "SCHEDULE:;- Kick-off completed on 22 April.; - Detailed project plan provided : Simtra communicated PPQ start date by mid Nov (cW47) instead of beg Oct (cW40) according to Simtra standard documentation timeline.  OP READINESS;  - Manufacturing hold due to release sterility fail on H3 6C004. Restart Criteria established and shared with Simtra;",
+                "[KeyNextSteps]": " - H3 PPE Proposal to be provided ;  - Go/no-Go decision for PPQ on PPE vs PPF line drop dead date to be defined;"
+            },
+            {
+                "[EntityId]": "5e80c208-ebdb-f011-86cb-00155d10c50c",
+                "[EntityType]": "MS PROJECT",
+                "[Name]": "Ris-Rez aB7-H3 (GSK5764227) DP NPI Simtra PPF Line",
+                "[Owner_Email]": "sofia.x.kajouj@gsk.com",
+                "[RAG]": "Red",
+                "[ExecutiveSummary]": " Overall Red as;- Further delay announced on ER execution due to 20R format qualification delays by Optima;- Manufacturing is on hold due to release\nsterility fail on clinical  batch (Op readiness risk);- PQTS+ is focusing on clinical\nmanufacturing while also continuing PPF\nER readiness (target mid-Jun);- Additionally, AVI readiness for PPQ is at\nrisk to delay PPQ report availability (starting point is collection of\ndefect during ER).;",
+                "[KeyUpdates]": "SCHEDULE; - Further delay for 20R Commissioning completion by Optima. 10R and 20R commissioning decoupled - Eng. run now schedule on week of 10Aug (7weeks delay); - Media Fill start date not impacted (End Aug/Early Sep) - Impact on PPQ start date TBC; Documentation readiness can be mitigated as synergies between H3 PPE and H3 PPF project. Bottle neck activities : analytical results on ER (Timing TBC); OP READINESS; - Delivery of GMP material for Eng. run (CTM4) this week  DELIVRABLES; - Simtra TT Plan finalised, to be sent for approval; - GSK Tech plan under final review;  - MBR and Sampling Plan reviewed by GSK, pending protocol for finalisation;",
+                "[KeyNextSteps]": " Next steps:;  - On site workshop ER Readiness and GEMBA, 2-3 June (date TBC due to rescheduling);  - GSK change control AL3 Panel (12 June TBC);  - Completion of the evaluation for i) AVI timeline acceleration ii) decoupling PPQ reports and stability setdown timeline;  - Go, no-Go decision for PPQ on PPE vs PPF line drop dead date to be defined (no later than mid-Aug);"
+            },
+            {
+                "[EntityId]": "07f6db9a-60f4-ef11-9117-00155d18da0f",
+                "[EntityType]": "MS PROJECT",
+                "[Name]": "MMR-V new plant",
+                "[Owner_Email]": "yinan.x.li@gsk.com",
+                "[RAG]": "Red",
+                "[ExecutiveSummary]": "Overall status: Red due to a general delay driven by an MMR PPQ Measles potency OOT at TP12M. Additional investigational runs are required to confirm the root cause. As a result, the V transfer is postponed. To mitigate supply risk, the current line will be extended (risk logged in Veeva).",
+                "[KeyUpdates]": "Schedule Red/ driven by delays to the MMR submission following a PPQ Measles stability OOT at 12 months. While subsequent T16M results appear stabilized, investigational runs planned to support DMAIC may be impacted by LVV media supply constraints, and the Varilrix tech transfer remains on hold pending investigation outcome. Cost impact is Red, with incremental activities for MMR and Varilrix estimated at ~£1m. There is an associated supply risk from extended use of the current line, captured under RE‑014483 and actively monitored in EM‑DP RMCB.",
+                "[KeyNextSteps]": " MMR investigational runs & associated accelerated stability.  VTC in Sep to endorse if initial PPQ can be used for RA submission.  Negotiation with Fidia for eventual cost sharing."
+            }
+        ]
+    }
+}
+
+
+
+https://graph.microsoft.com/v1.0/me/events/@{triggerBody()?['text']}/instances?startDateTime=2026-05-01T00:00:00Z&endDateTime=@{outputs('Get_event_(V3)')?['body/recurrenceEnd']}T00:00:00Z&$orderby=start/dateTime
