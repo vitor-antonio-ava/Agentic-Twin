@@ -1,0 +1,170 @@
+kind: AdaptiveDialog
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: meetingEventConfigId
+    description: The meeting event id from dataverse.
+    shouldPromptUser: true
+
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_zrbs9a
+      input:
+        binding:
+          text: =Topic.meetingEventConfigId
+
+      output:
+        binding:
+          meetingeventdata: Topic.meetingEventData
+
+      flowId: fed3de58-845a-f111-bec7-002248048965
+
+    - kind: ParseValue
+      id: h1JSYf
+      variable: Topic.Var3
+      valueType:
+        kind: Record
+        properties:
+          DIAStatus: Number
+          EventConfigurationId: String
+          EventDate: String
+          EventId: String
+          EventMeetingType: String
+          EventMeetingValue: String
+          EventName: String
+          EventStatus: Number
+          MandatoryAttendees: String
+          MeetingConfigurationId: String
+          MeetingEventId: String
+          MeetingFrequency: Number
+          MeetingGroupId: String
+          MeetingKpis:
+            type:
+              kind: Table
+              properties:
+                description: String
+                id: String
+                name: String
+                owner: String
+                ownerEmail: String
+                ownerId: String
+
+          MeetingMsProjects:
+            type:
+              kind: Table
+              properties:
+                owner: String
+                ownerEmail: String
+                projectId: String
+                projectName: String
+
+          MeetingPlannerId: String
+          MeetingSetupJson: String
+          MeetingTierCode: String
+          MeetingTierDescription: String
+          MeetingTierId: String
+          OptionalAttendees: String
+          PostEventStatus: Number
+
+      value: =Topic.meetingEventData
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_iJaLan
+      input:
+        binding:
+          text: =Topic.meetingEventConfigId
+
+      output:
+        binding:
+          eventmandatoryattendees: Topic.eventMandatoryAttendees
+          eventoptionalattendees: Topic.eventOptionalAttendees
+          originalmandatoryattendees: Topic.originalMandatoryAttendees
+          originaloptionalattendees: Topic.originalOptionalAttendees
+
+      flowId: 6203ccb3-0355-f111-bec6-7c1e528d4fea
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_DKzqMG
+      input:
+        binding:
+          mandatoryAttendeesEmails: =Topic.eventMandatoryAttendees
+          meetingEventDate: |-
+            =Text(
+                DateTimeValue(Topic.Var3.EventDate),
+                "yyyy-mm-dd"
+            )
+          meetingEventName: =Topic.Var3.EventName
+          optionalAttendeesEmails: =Topic.eventOptionalAttendees
+
+      output:
+        binding:
+          predictionOutput: Topic.aiSummaryOutput
+
+      aIModelId: 7019e05f-9208-4df2-99b0-3368669b0d80
+
+    - kind: Question
+      id: question_eSqLaf
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.Var1
+      prompt: |-
+        {Topic.aiSummaryOutput.structuredOutput.textMessage}
+
+
+        -------------------------------
+
+        Does this look good, can we continue with Agenda and Deck generation?
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Looks good, let's continue
+              displayName: Looks good, let's continue
+
+            - id: No, I need to make changes
+              displayName: No, I need to make changes
+
+    - kind: ConditionGroup
+      id: conditionGroup_UO10wa
+      conditions:
+        - id: conditionItem_SjsuCj
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.CalculateMeetingEventAttendeesV2.main.question_eSqLaf'.'Looks good, let''s continue'
+          actions:
+            - kind: SetMultipleVariables
+              id: setVariable_nruUUO
+              assignments:
+                - variable: Global.AICalculationSummaryText
+                  value: =Topic.aiSummaryOutput.structuredOutput.textMessage
+
+                - variable: Global.calculatedMandatoryAttendees
+                  value: =Topic.eventMandatoryAttendees
+
+                - variable: Global.calculatedOptionalAttendees
+                  value: =Topic.eventOptionalAttendees
+
+                - variable: Global.AICalculationSummaryHTML
+                  value: =Topic.aiSummaryOutput.structuredOutput.htmlMessage
+
+        - id: conditionItem_54aVTk
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.CalculateMeetingEventAttendeesV2.main.question_eSqLaf'.'No, I need to make changes'
+          actions:
+            - kind: ClearAllVariables
+              id: NXQfs3
+              variables: ConversationScopedVariables
+
+            - kind: BeginDialog
+              id: ureBP4
+              dialog: cr1d7_agenttIFALA.topic.ConversationStart
+
+inputType:
+  properties:
+    meetingEventConfigId:
+      displayName: meetingEventConfigId
+      description: The meeting event id from dataverse.
+      type: String
+
+outputType: {}

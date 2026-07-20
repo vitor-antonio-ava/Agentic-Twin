@@ -14,11 +14,106 @@ beginDialog:
       variable: Topic.meetingEvent
       value: =Topic.meetingEventConfig
 
+    - kind: ConditionGroup
+      id: conditionGroup_DADY06
+      conditions:
+        - id: conditionItem_sjFp9B
+          condition: =IsEmpty(Topic.meetingEvent.MeetingKpis) && IsEmpty(Topic.meetingEvent.MeetingMsProjects)
+          actions:
+            - kind: SendActivity
+              id: sendActivity_s3utNE
+              activity: No KPI's or MSProjects are configured for this meeting, skiping the PowerBI data fetching step..
+
+            - kind: SetVariable
+              id: setVariable_pWPSUU
+              variable: Topic.dataResult
+              value: "{}"
+
+            - kind: GotoAction
+              id: P54pnn
+              actionId: invokeFlowAction_m3Za9a
+
+    - kind: AdaptiveCardPrompt
+      id: pDizz3
+      card: |-
+        ={
+          type: "AdaptiveCard",
+          '$schema': "http://adaptivecards.io/schemas/adaptive-card.json",
+          version: "1.3",
+          body: [
+            {
+              type: "TextBlock",
+              text: "Select Start Date",
+              weight: "Bolder",
+              size: "Medium"
+            },
+            {
+              type: "TextBlock",
+              text: "From where should I start calculating the KPI values?",
+              wrap: true
+            },
+            {
+              type: "Input.Date",
+              id: "startDate",
+              label: "Start Date",
+              isRequired: true,
+              errorMessage: "Please select a start date"
+            },
+            {
+              type: "Input.Date",
+              id: "endDate",
+              label: "End Date",
+              isRequired: true,
+              errorMessage: "Please select an end date"
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Submit",
+              data: {
+                action: "submitStartDate"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          action: Topic.action
+          actionSubmitId: Topic.actionSubmitId
+          endDate: Topic.endDate
+          startDate: Topic.startDate
+
+      outputType:
+        properties:
+          action: String
+          actionSubmitId: String
+          endDate: String
+          startDate: String
+
+    - kind: SetMultipleVariables
+      id: PRyvo0
+      assignments:
+        - variable: Topic.dataStartDate
+          value: |-
+            =Text(
+                DateValue(Topic.startDate),
+                "yyyy-MM-dd"
+            )
+
+        - variable: Topic.dataEndDate
+          value: |-
+            =Text(
+                DateValue(Topic.endDate),
+                "yyyy-MM-dd"
+            )
+
     - kind: InvokeFlowAction
       id: invokeFlowAction_p7VJSD
       input:
         binding:
-          date: 2026-04-01
+          date: =Topic.dataStartDate
+          date_1: =Topic.dataEndDate
           text: =Topic.meetingEvent.MeetingTierCode & "_ID"
           text_1: |-
             =Concat(
@@ -73,116 +168,199 @@ beginDialog:
       variable: Topic.redKPIs
       value: =Topic.redKPIsResults.structuredOutput.redKPIS
 
-    - kind: AdaptiveCardPrompt
-      id: aALrpA
-      card: |-
-        ={
-          type: "AdaptiveCard",
-          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
-          version: "1.5",
-          body: [
-            {
-              type: "TextBlock",
-              text: "⚠️ Items Requiring Attention",
-              weight: "Bolder",
-              size: "Medium",
-              wrap: true
-            },
-            {
-              type: "TextBlock",
-              text: "The following KPIs and Projects associated with this meeting are flagged:",
-              wrap: true,
-              spacing: "Small",
-              isSubtle: true
-            },
-            {
-              type: "TextBlock",
-              text: Concat(
-                Topic.redKPIs,
-                    If(RAG = "Red", "🔴", "🟠") & " **" & Name & "** — " & EntityType & " • " & RAG & " • " & EntityId  & Char(10) & Char(10) & "👤 " & OwnerName & " (" & OwnerEmail & ")" & Char(10) & Char(10) & " ------------ " & Char(10) & Char(10) 
-              ),
-              wrap: true,
-              spacing: "Medium",
-              separator: true
-            },
-            {
-              type: "TextBlock",
-              text: "These are the items that need further action.",
-              wrap: true,
-              spacing: "Large",
-              weight: "Bolder",
-              size: "Medium"
-            },
-            {
-              type: "TextBlock",
-              text: "Please select which items you want to create tasks for and their due date.",
-              wrap: true,
-              spacing: "Medium",
-              horizontalAlignment: "Left",
-              style: "default",
-              fontType: "Default",
-              size: "Medium",
-              weight: "Bolder"
-            },
-            {
-              type: "Input.ChoiceSet",
-              label: "Items",
-              isMultiSelect: true,
-              choices: [
+    - kind: SetVariable
+      id: setVariable_UN5HlR
+      variable: Topic.Var1
+      value: =CountRows(Topic.redKPIs)
+
+    - kind: ConditionGroup
+      id: conditionGroup_114QvX
+      conditions:
+        - id: conditionItem_91d88l
+          condition: =Topic.Var1 >= 1
+          actions:
+            - kind: AdaptiveCardPrompt
+              id: UMvDLG
+              card: |-
+                ={
+                  type: "AdaptiveCard",
+                  '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+                  version: "1.5",
+                  body: [
+                    {
+                      type: "TextBlock",
+                      text: "⚠️ Items Requiring Attention",
+                      weight: "Bolder",
+                      size: "Medium",
+                      wrap: true
+                    },
+                    {
+                      type: "TextBlock",
+                      text: "The following KPIs and Projects associated with this meeting are flagged:",
+                      wrap: true,
+                      spacing: "Small",
+                      isSubtle: true
+                    },
+                    {
+                      type: "TextBlock",
+                      text: Concat(
+                        Topic.redKPIs,
+                            If(RAG = "Red", "🔴", "🟠") & " **" & Name & "** — " & EntityType & " • " & RAG & " • " & EntityId  & Char(10) & Char(10) & "👤 " & OwnerName & " (" & OwnerEmail & ")" & Char(10) & Char(10) & " ------------ " & Char(10) & Char(10) 
+                      ),
+                      wrap: true,
+                      spacing: "Medium",
+                      separator: true
+                    },
+                    {
+                      type: "TextBlock",
+                      text: "These are the items that need further action.",
+                      wrap: true,
+                      spacing: "Large",
+                      weight: "Bolder",
+                      size: "Medium"
+                    },
+                    {
+                      type: "TextBlock",
+                      text: "Please select which items you want to create tasks for and their due date.",
+                      wrap: true,
+                      horizontalAlignment: "Left",
+                      style: "default",
+                      fontType: "Default",
+                      size: "Medium",
+                      weight: "Bolder"
+                    },
+                    {
+                      type: "Input.ChoiceSet",
+                      label: "Items",
+                      isMultiSelect: true,
+                      choices: ForAll(
+                        Topic.redKPIs,
+                        {
+                          title: Name & " — " & EntityType & " (" & OwnerName & ")",
+                          value: EntityId
+                        }
+                      ),
+                      placeholder: "Select items",
+                      id: "itemChoice"
+                    },
+                    {
+                      type: "Input.Date",
+                      label: "Due date",
+                      isRequired: true,
+                      errorMessage:"A due date value is required",
+                      id: "dueDateValue"
+                    },
+                    {
+                      type: "TextBlock",
+                      text: "ℹ️ When confirming, by default, optional DIA tasks will be sent out to all meeting attendees.",
+                      wrap: true,
+                      spacing: "Small",
+                      isSubtle: true,
+                      weight: "Bolder"
+                    }
+                  ],
+                  actions: [
+                    {
+                      type: "Action.Submit",
+                      title: "Confirm",
+                      data: {
+                        action: "confirmDIA"
+                      }
+                    },
+                    {
+                      type: "Action.Submit",
+                      title: "Skip",
+                      associatedInputs: "none",
+                      data: {
+                        action: "skipDIA"
+                      }
+                    }
+                  ]
+                }
+              output:
+                binding:
+                  action: Topic.action
+                  actionSubmitId: Topic.actionSubmitId
+                  dueDateValue: Topic.dueDateValue
+                  itemChoice: Topic.itemChoice
+
+              outputType:
+                properties:
+                  action: String
+                  actionSubmitId: String
+                  dueDateValue: String
+                  itemChoice: String
+
+      elseActions:
+        - kind: AdaptiveCardPrompt
+          id: nlUJ8L
+          card: |-
+            ={
+              type: "AdaptiveCard",
+              '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+              version: "1.5",
+              body: [
                 {
-                  title: "KPIs",
-                  value: "KPI"
+                  type: "TextBlock",
+                  text: "There are no items requiring attention",
+                  weight: "Bolder",
+                  size: "Medium",
+                  wrap: true
                 },
                 {
-                  title: "Ms Projects",
-                  value: "MSPROJECT"
+                  type: "TextBlock",
+                  text: "Can I proceed with creating the default DIA tasks (Optional) for the meeting attendees?",
+                  wrap: true,
+                  spacing: "Small",
+                  isSubtle: true,
+                  weight: "Bolder"
                 },
                 {
-                  title: "Planner Overdue Tasks",
-                  value: "PLANNERTASK"
+                  type: "TextBlock",
+                  text: "If yes, please provide the due date for the DIA tasks.",
+                  wrap: true,
+                  spacing: "Small",
+                  isSubtle: true
+                },
+                {
+                  type: "Input.Date",
+                  label: "Due date",
+                  isRequired: true,
+                  errorMessage:"A due date value is required",
+                  id: "dueDateValue"
                 }
               ],
-              placeholder: "Placeholder text",
-              id: "itemChoice"
-            },
-            {
-              type: "Input.Date",
-              label: "Due date",
-              isRequired: true,
-              errorMessage:"A due date value is required",
-              id: "dueDateValue"
+              actions: [
+                {
+                  type: "Action.Submit",
+                  title: "Confirm",
+                  data: {
+                    action: "confirmDIA"
+                  }
+                },
+                {
+                  type: "Action.Submit",
+                  title: "Skip",
+                  associatedInputs: "none",
+                  data: {
+                    action: "skipDIA"
+                  }
+                }
+              ]
             }
-          ],
-          actions: [
-            {
-              type: "Action.Submit",
-              title: "Confirm",
-              data: {
-                action: "confirmDIA"
-              }
-            },
-            {
-              type: "Action.Submit",
-              title: "Skip",
-              data: {
-                action: "skipDIA"
-              }
-            }
-          ]
-        }
-      output:
-        binding:
-          action: Topic.action
-          actionSubmitId: Topic.actionSubmitId
-          dueDateValue: Topic.dueDateValue
-          itemChoice: Topic.selectedTypes
+          output:
+            binding:
+              action: Topic.action
+              actionSubmitId: Topic.actionSubmitId
+              dueDateValue: Topic.dueDateValue
+              itemChoice: Topic.itemChoice
 
-      outputType:
-        properties:
-          action: String
-          actionSubmitId: String
-          dueDateValue: String
-          itemChoice: String
+          outputType:
+            properties:
+              action: String
+              actionSubmitId: String
+              dueDateValue: String
+              itemChoice: String
 
     - kind: ConditionGroup
       id: conditionGroup_81rKJh
@@ -193,56 +371,84 @@ beginDialog:
             - kind: SetVariable
               id: setVariable_5IhTdv
               variable: Topic.kpiTypes
-              value: =Split(Topic.selectedTypes, ",")
+              value: =Split(Topic.itemChoice, ",")
+
+            - kind: SetVariable
+              id: setVariable_AMVJpc
+              variable: Topic.kpisToCreate
+              value: =Split(Topic.itemChoice, ",")
+
+            - kind: SetVariable
+              id: qQyyQx
+              variable: Topic.filteredKpisToCreate
+              value: |-
+                =Filter(
+                    Topic.redKPIs,
+                    EntityId in Topic.kpisToCreate
+                )
+
+            - kind: SetVariable
+              id: setVariable_zd3WyF
+              variable: Topic.filteredAttendeesList
+              value: |-
+                =Filter(
+                        Split(Topic.meetingEvent.MandatoryAttendees, ","),
+                        !EndsWith(TrimEnds(Value), ".onmicrosoft.com") &&
+                        IsBlank(
+                            LookUp(
+                                Topic.filteredKpisToCreate,
+                                Lower(OwnerEmail) = Lower(TrimEnds(Value))
+                            )
+                        )
+                    )
+
+            - kind: InvokeFlowAction
+              id: invokeFlowAction_e37Tuv
+              input:
+                binding:
+                  text: =Concat(Topic.filteredAttendeesList, Value, ",")
+
+              output:
+                binding:
+                  usersdata: Topic.usersData
+
+              flowId: 4304199c-9c7b-f111-ab0f-000d3a33da71
+
+            - kind: ParseValue
+              id: 6YI3PG
+              variable: Topic.optionalDiaUsers
+              valueType:
+                kind: Table
+                properties:
+                  attendeeEmail: String
+                  attendeeName: String
+
+              value: =Topic.usersData
 
             - kind: SetVariable
               id: setVariable_dh6Tfo
               variable: Topic.meetingAttendeesOptionalDIAs
               value: |-
                 =ForAll(
-                    Filter(
-                        Split(Topic.meetingEvent.MandatoryAttendees, ","),
-                        !EndsWith(TrimEnds(Value), ".onmicrosoft.com") &&
-                        IsBlank(
-                            LookUp(
-                                Topic.redKPIs,
-                                Lower(OwnerEmail) = Lower(TrimEnds(Value))
-                            )
-                        )
-                    ),
+                    Topic.optionalDiaUsers,
                     {
                         EntityId: GUID(),
                         EntityType: "OPTIONALDIA",
-                        Name: "Regular Attendee Default (Optional)",
-                        OwnerEmail: TrimEnds(Value),
-                        OwnerName: "",
-                        RAG: "N/A"
+                        Name: "Meeting Attendee (Optional)",
+                        OwnerEmail: TrimEnds(ThisRecord.attendeeEmail),
+                        OwnerName: Text(ThisRecord.attendeeName),
+                        RAG: "N/A",
+                        ExecutiveSummary: "N/A",
+                        KeyUpdates: "N/A",
+                        KeyNextSteps: "N/A"
                     }
                 )
-
-            - kind: SetVariable
-              id: setVariable_yammGw
-              variable: Topic.filteredKPIs
-              value: |-
-                =Filter(
-                    Topic.redKPIs,
-                    EntityType in Topic.kpiTypes
-                )
-
-            - kind: Question
-              id: question_pWiGKJ
-              interruptionPolicy:
-                allowInterruption: true
-
-              variable: init:Topic.Var2
-              prompt: Continue?
-              entity: StringPrebuiltEntity
 
             - kind: InvokeFlowAction
               id: LAOSdV
               input:
                 binding:
-                  text: =JSON(Topic.filteredKPIs)
+                  text: =JSON(Topic.filteredKpisToCreate)
                   text_1: =Topic.meetingEvent.MeetingConfigurationId
                   text_2: =Topic.meetingEvent.MeetingGroupId
                   text_3: =Text(Topic.dueDateValue)
@@ -255,6 +461,11 @@ beginDialog:
 
               flowId: ea9f9ba9-4c49-f111-bec6-002248048965
 
+            - kind: SetVariable
+              id: setVariable_bpQG3I
+              variable: Topic.tierCode
+              value: =Topic.meetingEventConfig.MeetingTierCode
+
             - kind: InvokeFlowAction
               id: invokeFlowAction_ZtvYja
               input:
@@ -263,30 +474,14 @@ beginDialog:
                   text_1: =Topic.meetingEvent.MeetingPlannerId
                   text_2: =Topic.meetingEvent.MeetingConfigurationId
                   text_3: =Topic.meetingEvent.EventMeetingValue
+                  text_4: =Topic.tierCode
 
               output: {}
               flowId: 493e7b22-6550-f111-bec7-0022480489a1
 
             - kind: SendActivity
               id: ASokDb
-              activity: All Planner DIA tasks created successfully!
-
-    - kind: Question
-      id: lEH2U8
-      interruptionPolicy:
-        allowInterruption: true
-
-      variable: Topic.Var1
-      prompt: Done for now?
-      entity:
-        kind: EmbeddedEntity
-        definition:
-          kind: ClosedListEntity
-          items:
-            - id: Yes
-              displayName: Yes
-
-        displayName: EmbeddedEntity-JG6Fpb
+              activity: All Planner DIA tasks were created successfully!
 
 inputType:
   properties:
@@ -298,13 +493,14 @@ inputType:
           DIAStatus: Number
           EventConfigurationId: String
           EventDate: String
-          EventId: Blank
+          EventId: String
           EventMeetingType: String
           EventMeetingValue: String
           EventName: String
           EventStatus: Number
           MandatoryAttendees: String
           MeetingConfigurationId: String
+          MeetingEventId: String
           MeetingFrequency: Number
           MeetingGroupId: String
           MeetingKpis:
@@ -332,7 +528,7 @@ inputType:
           MeetingTierCode: String
           MeetingTierDescription: String
           MeetingTierId: String
-          OptionalAttendees: Blank
+          OptionalAttendees: String
           PostEventStatus: Number
 
 outputType: {}

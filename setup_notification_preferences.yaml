@@ -1,0 +1,41 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: SetVariable
+      id: setVariable_LnaTzs
+      variable: Topic.meetingtitle
+      value: =Global.selectedMeeting.DisplayName
+
+    - kind: Question
+      id: question_SrCOEc
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.userSelectedNotificationDays
+      prompt: |-
+        When should I send you the a preparation notification for this meeting:
+
+        **{Topic.meetingtitle}**
+
+        How many business days before the meeting happens?
+      entity:
+        kind: DynamicClosedListEntity
+        items: =["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]
+
+    - kind: SetVariable
+      id: setVariable_vWSQLE
+      variable: Global.userMeetingNotificationDays
+      value: =Topic.userSelectedNotificationDays
+
+    - kind: SendActivity
+      id: sendActivity_XiQdOr
+      activity: Great, I will notify you **{Topic.userSelectedNotificationDays}**  days before the next ocurrence of the **{Topic.meetingtitle}** happens!
+
+    - kind: BeginDialog
+      id: ys6E0E
+      dialog: cr1d7_agenttIFALA.topic.SavePre-ConfigurationDetails
+
+inputType: {}
+outputType: {}

@@ -5,7 +5,7 @@ beginDialog:
   actions:
     - kind: SendActivity
       id: sendActivity_GcgER8
-      activity: I'm going to wrap everything up now...
+      activity: I’ll now wrap everything up and get things finalised for you.
 
     - kind: SetVariable
       id: setVariable_MFRNCt
@@ -46,7 +46,9 @@ beginDialog:
             notification: {
                 daysBefore: Global.userMeetingNotificationDays,
                 nextMeetingDateTime: ""
-            }
+            },
+            sharePointTeamSiteUrl: Global.selectedMeeting.sharePointTeamSiteUrl,
+            meetingPurpose: Global.selectedMeeting.meetingPurpose
         }
 
     - kind: SetVariable
@@ -65,41 +67,60 @@ beginDialog:
         }
 
     - kind: Question
-      id: question_VKp2IQ
+      id: question_QA2M6c
       interruptionPolicy:
         allowInterruption: true
 
-      variable: init:Topic.Var1
+      variable: init:Topic.Var3
       prompt: |-
-        This is the information I have so far:
-
-        {Global.preConfiguredMeetingData}
+        {Concatenate(
+            "📋 **Meeting Configuration Summary**", Char(10), Char(10),
+            "**Meeting:** ", Topic.preConfiguredMeeting.meetingSubject, Char(10),
+            "**Organizer:** ", Topic.preConfiguredMeeting.organizerName, " (", Topic.preConfiguredMeeting.organizerEmail, ")", Char(10), Char(10),
+            "---", Char(10),
+            "**Tier Information**", Char(10),
+            "• Tier: ", Topic.preConfiguredMeeting.tier, Char(10),
+            "• Code: ", Topic.preConfiguredMeeting.tierCode, Char(10),
+            "• Description: ", Topic.preConfiguredMeeting.tierDescription, Char(10),
+            "• ID: ", Topic.preConfiguredMeeting.tierId, Char(10), Char(10),
+            "---", Char(10),
+            "**Tracked KPIs**", Char(10), Char(10),
+            If(
+                CountRows(Topic.preConfiguredMeeting.trackedKPIs) = 0,
+                "No KPIs configured yet.",
+                Concat(
+                    Topic.preConfiguredMeeting.trackedKPIs,
+                    Concatenate("• **", ThisRecord.name, "** (", ThisRecord.id, ")", Char(10), "  Owner: ", ThisRecord.owner, " (", ThisRecord.ownerEmail, ")", Char(10))
+                )
+            ), Char(10),
+            "---", Char(10),
+            "**Tracked MS Projects**", Char(10),Char(10),
+            If(
+                CountRows(Topic.preConfiguredMeeting.trackedMSProjects) = 0,
+                "No MS Projects configured yet.",
+                Concat(
+                    Topic.preConfiguredMeeting.trackedMSProjects,
+                    Concatenate("• **", ThisRecord.projectName, "** — Owner: ", ThisRecord.owner, " (", ThisRecord.ownerEmail, ")", Char(10))
+                )
+            )
+        )}
       entity:
         kind: EmbeddedEntity
         definition:
           kind: ClosedListEntity
           items:
-            - id: Yes, proceed
-              displayName: Yes, proceed
+            - id: Yes, proceed and create meeting configuration
+              displayName: Yes, proceed and create meeting configuration
+
+            - id: No, let's start over
+              displayName: No, let's start over
 
     - kind: ConditionGroup
       id: conditionGroup_a2tI6e
       conditions:
         - id: conditionItem_2LofAa
-          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.SavePre-ConfigurationDetails.main.question_VKp2IQ'.'Yes, proceed'
+          condition: =Topic.Var3 = 'cr1d7_agenttIFALA.topic.SavePre-ConfigurationDetails.main.question_QA2M6c'.'Yes, proceed and create meeting configuration'
           actions:
-            - kind: InvokeFlowAction
-              id: xESZ5m
-              input:
-                binding:
-                  text: =JSON(Global.preConfiguredMeetingData)
-
-              output:
-                binding:
-                  jsonresult: Topic.jsonResult
-
-              flowId: 856fe3bb-d839-0fe3-7f1d-f0fb08c87102
-
             - kind: InvokeFlowAction
               id: invokeFlowAction_dF4dLA
               input:
@@ -121,6 +142,13 @@ beginDialog:
 
               output: {}
               flowId: 1da58013-1637-f111-88b4-002248048965
+
+        - id: conditionItem_H34wZy
+          condition: =Topic.Var3 = 'cr1d7_agenttIFALA.topic.SavePre-ConfigurationDetails.main.question_QA2M6c'.'No, let''s start over'
+          actions:
+            - kind: BeginDialog
+              id: n4fmR5
+              dialog: cr1d7_agenttIFALA.topic.ResetConversation
 
     - kind: Question
       id: question_UDOmtR
@@ -154,8 +182,8 @@ beginDialog:
           condition: =Topic.Var2 = 'cr1d7_agenttIFALA.topic.SavePre-ConfigurationDetails.main.question_UDOmtR'.'Done for now'
           actions:
             - kind: BeginDialog
-              id: PZIGt5
-              dialog: cr1d7_agenttIFALA.topic.InitialTopic
+              id: 5Ihdeg
+              dialog: cr1d7_agenttIFALA.topic.ResetConversation
 
       elseActions:
         - kind: CancelAllDialogs

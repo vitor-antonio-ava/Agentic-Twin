@@ -1,0 +1,290 @@
+kind: AdaptiveDialog
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: meetingCalendarEventId
+    description: The meeting event Id
+    shouldPromptUser: true
+
+  - kind: AutomaticTaskInput
+    propertyName: meetingEventId
+    name: meetingEventId
+    description: The dataverse id of the meeting event
+    shouldPromptUser: true
+
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_1xKBYQ
+      input:
+        binding:
+          text: =Topic.meetingCalendarEventId
+
+      output:
+        binding:
+          submitteddias: Topic.submittedDIAs
+
+      flowId: 4b8e5cae-aa59-f111-bec7-7c1e528d4fea
+
+    - kind: ParseValue
+      id: UU7AhB
+      variable: Topic.submittedDIATable
+      valueType:
+        kind: Table
+        properties:
+          AssignedOwnerEmail: String
+          AssignedOwnerName: String
+          BalancedScorecard: String
+          CurrentResponse: String
+          DIA: String
+          DIATaskId: String
+          DIATaskName: String
+          DIATaskType: String
+          DIAType: String
+          DIAUserInput: String
+          KPIId: String
+          KPIName: String
+          NextSteps: String
+          PatientImpact: String
+          Recommendation: String
+          Situation: String
+
+      value: =Topic.submittedDIAs
+
+    - kind: AdaptiveCardPrompt
+      id: fClfZn
+      card: |-
+        ={
+          type: "AdaptiveCard",
+          '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+          version: "1.5",
+          body: [
+            {
+              type: "TextBlock",
+              text: "DIA Tasks Summary",
+              weight: "Bolder",
+              size: "Large",
+              color: "Accent"
+            },
+            {
+              type: "TextBlock",
+              text: Concatenate(Text(CountRows(Topic.submittedDIATable)), " DIA task(s)"),
+              size: "Small",
+              isSubtle: true,
+              spacing: "None"
+            },
+            {
+              type: "Container",
+              spacing: "Medium",
+              items: ForAll(
+                Topic.submittedDIATable,
+                {
+                  type: "Container",
+                  separator: true,
+                  spacing: "Medium",
+                  items: [
+                    {
+                      type: "TextBlock",
+                      text: ThisRecord.DIATaskName,
+                      weight: "Bolder",
+                      size: "Medium",
+                      wrap: true,
+                      color: "Accent"
+                    },
+                    {
+                      type: "ColumnSet",
+                      spacing: "Small",
+                      columns: [
+                        {
+                          type: "Column",
+                          width: "stretch",
+                          items: [
+                            {
+                              type: "TextBlock",
+                              text: "Task Type",
+                              size: "Small",
+                              isSubtle: true,
+                              spacing: "None"
+                            },
+                            {
+                              type: "TextBlock",
+                              text: ThisRecord.DIATaskType,
+                              size: "Small",
+                              weight: "Bolder",
+                              spacing: "None",
+                              wrap: true
+                            }
+                          ]
+                        },
+                        {
+                          type: "Column",
+                          width: "stretch",
+                          items: [
+                            {
+                              type: "TextBlock",
+                              text: "DIA Type",
+                              size: "Small",
+                              isSubtle: true,
+                              spacing: "None"
+                            },
+                            {
+                              type: "TextBlock",
+                              text: ThisRecord.DIAType,
+                              size: "Small",
+                              weight: "Bolder",
+                              spacing: "None",
+                              wrap: true
+                            }
+                          ]
+                        },
+                        {
+                          type: "Column",
+                          width: "stretch",
+                          items: [
+                            {
+                              type: "TextBlock",
+                              text: "Assigned To",
+                              size: "Small",
+                              isSubtle: true,
+                              spacing: "None"
+                            },
+                            {
+                              type: "TextBlock",
+                              text: If(IsBlank(ThisRecord.AssignedOwnerName), ThisRecord.AssignedOwnerEmail, Concatenate(ThisRecord.AssignedOwnerName, " - ", ThisRecord.AssignedOwnerEmail)),
+                              size: "Small",
+                              weight: "Bolder",
+                              spacing: "None",
+                              wrap: true
+                            }
+                          ]
+                        }
+                      ]
+                    },
+                    {
+                      type: "FactSet",
+                      spacing: "Small",
+                      facts: [
+                        {
+                          title: "Situation",
+                          value: ThisRecord.Situation
+                        },
+                        {
+                          title: "Current Response",
+                          value: ThisRecord.CurrentResponse
+                        },
+                        {
+                          title: "Patient Impact",
+                          value: ThisRecord.PatientImpact
+                        },
+                        {
+                          title: "Balanced Scorecard",
+                          value: ThisRecord.BalancedScorecard
+                        },
+                        {
+                          title: "DIA",
+                          value: If(IsBlank(ThisRecord.DIA), "N/A", ThisRecord.DIA)
+                        },
+                        {
+                          title: "DIA Type",
+                          value: If(IsBlank(ThisRecord.DIAType), "N/A", ThisRecord.DIAType)
+                        },
+                        {
+                          title: "DIA User Input",
+                          value: If(ThisRecord.DIAType = "Input", If(IsBlank(ThisRecord.DIAUserInput), "N/A", ThisRecord.DIAUserInput), "N/A")
+                        },
+                        {
+                          title: "Recommendation",
+                          value: ThisRecord.Recommendation
+                        },
+                        {
+                          title: "Next Steps",
+                          value: ThisRecord.NextSteps
+                        }
+                      ]
+                    }
+                  ]
+                }
+              )
+            }
+          ],
+          actions: [
+            {
+              type: "Action.Submit",
+              title: "Go back to start",
+              data: {
+                action: "GoToStart"
+              }
+            },
+            {
+              type: "Action.Submit",
+              title: "Prepare meeting deck and agenda",
+              data: {
+                action: "PrepareDeck"
+              }
+            }
+          ]
+        }
+      output:
+        binding:
+          action: Topic.action
+          actionSubmitId: Topic.actionSubmitId
+
+      outputType:
+        properties:
+          action: String
+          actionSubmitId: String
+
+    - kind: ConditionGroup
+      id: conditionGroup_430duK
+      conditions:
+        - id: conditionItem_SlYPGN
+          condition: =Topic.action = "PrepareDeck"
+          actions:
+            - kind: SendActivity
+              id: sendActivity_BornCy
+              activity: I will first calculate the meeting attendees and determine mandatory vs optional attendees based on the DIA submissions and assignments.
+
+            - kind: BeginDialog
+              id: NLMgTn
+              input:
+                binding:
+                  meetingEventConfigId: =Topic.meetingEventId
+
+              dialog: cr1d7_agenttIFALA.topic.CalculateMeetingEventAttendeesV2
+              output: {}
+
+            - kind: InvokeFlowAction
+              id: invokeFlowAction_Nd7CzK
+              input:
+                binding:
+                  text: =Topic.meetingEventId
+                  text_1: =Global.calculatedMandatoryAttendees
+                  text_2: =Global.calculatedOptionalAttendees
+
+              output: {}
+              flowId: b5895120-fa6a-f111-a826-002248048965
+
+            - kind: BeginDialog
+              id: eAMA7A
+              input:
+                binding:
+                  MandatoryAttendees: =Global.calculatedMandatoryAttendees
+                  meetingEventId: =Topic.meetingEventId
+                  OptionalAttendees: =Global.calculatedOptionalAttendees
+
+              dialog: cr1d7_agenttIFALA.topic.GenerateMeetingAgenda
+
+inputType:
+  properties:
+    meetingCalendarEventId:
+      displayName: meetingCalendarEventId
+      description: The meeting event Id
+      type: String
+
+    meetingEventId:
+      displayName: meetingEventId
+      description: The dataverse id of the meeting event
+      type: String
+
+outputType: {}

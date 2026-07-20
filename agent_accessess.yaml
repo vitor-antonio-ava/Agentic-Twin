@@ -1,0 +1,42 @@
+Name	Email	Role
+Abdul Nasir	abdul.x.nasir@gsk.com	Viewer
+Agnieszka Kowalczyk	agnieszka.x.kowalczyk@gsk.com	Viewer
+Anna Reczyńska	anna.x.reczynska@gsk.com	Viewer
+Anthony Ronsmans	anthony.x.ronsmans@gsk.com	Viewer
+Cherith Adams	cherith.x.adams@gsk.com	Viewer
+Courtney Vander Poppen	courtney.x.vanderpoppen@gsk.com	Viewer
+Danielle Hubbard  danielle.l.hubbard@gsk.com Viewer
+Dilawar Mansoori	dilawar.x.mansoori@gsk.com	Editor
+Fatiha Raghghay	fatiha.x.raghghay@gsk.com	Viewer
+Giulia Agostinetto	giulia.x.agostinetto@gsk.com	Viewer
+Jenny Fry	jenny.l.fry@gsk.com	Viewer
+Laurent Desmanet	laurent.x.desmanet@gsk.com	Viewer
+Marjorie Decaluwe	marjorie.x.decaluwe@gsk.com	Viewer
+Mark Newell	mark.c.newell@gsk.com	Viewer
+Morgan Kasiera	morgan.m.kasiera@gsk.com	Viewer
+Nuwandi De Silva nuwandi.x.desilva@gsk.com  Viewer
+Kunhal Lakhiani kunhal.x.lakhiani@gsk.com Viewer
+Paula Aiello	paula.c.aiello@gsk.com	Viewer
+Phillip Barratt	phillip.a.barratt@gsk.com	Viewer
+Rohitkumar Jagannath Ninawe	rohitkumarjagannath.x.ninawe@gsk.com	Editor
+Simon Delacroix	simon.x.delacroix@gsk.com	Viewer
+Sumit Kaura	sumit.x.kaura@gsk.com	Viewer
+Taylor Pankratz	taylor.x.cugini@gsk.com	Viewer
+Vitor Antonio	vitor.x.antonio@gsk.com	Owner
+
+
+GSC-External-Manufacturing-Viewers	
+Active Directory group to provide viewer (read only) access to business owned: External Manufacturing (EM) Power BI workspaces and user (run) access to EM Power Apps for team members who require visibility of EM data to perform their role.
+
+Type: Entitlement Owner: APPROVALGROUP-GSC-External-Manufacturing-Admins Application: AD-WMSERVICE Attribute: memberOf
+
+Requested access to these people: 
+Request Access: Danielle Hubbard [dlh30987]
+Request Access: Kunhal Lakhiani [kl392974]
+Request Access: Abdul Nasir [an853501]
+Request Access: Nuwandi De Silva [dd169959]
+Request Access: Simon Delacroix [sd917872]
+Request Access: Rohitkumar Jagannath Ninawe [rn438977]
+Request Access: Marjorie Decaluwe [md512592]
+Request Access: Giulia Agostinetto [ga476088]
+Request Access: Anthony Ronsmans [ar323336]

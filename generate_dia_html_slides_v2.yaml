@@ -71,16 +71,14 @@ beginDialog:
                 - id: conditionItem_jX7asu
                   condition: =Topic.Var3 = 'cr1d7_agenttIFALA.topic.GenerateDIAHTMLSlidesV2.main.question_QcSAg3'.'Will use current one'
                   actions:
-                    - kind: SendActivity
-                      id: sendActivity_lixMCy
-                      activity: Have a nice meeting!
+                    - kind: SetVariable
+                      id: setVariable_ChmdGG
+                      variable: Topic.documentLocation
+                      value: =Topic.deckFileLocation
 
-                    - kind: ClearAllVariables
-                      id: XVaKAs
-
-                    - kind: BeginDialog
-                      id: w3vHu6
-                      dialog: cr1d7_agenttIFALA.topic.InitialTopic
+                    - kind: GotoAction
+                      id: MZeaN1
+                      actionId: question_x2Td7D
 
                 - id: conditionItem_xNNpsZ
                   condition: =Topic.Var3 = 'cr1d7_agenttIFALA.topic.GenerateDIAHTMLSlidesV2.main.question_QcSAg3'.'Generate new deck'
@@ -133,6 +131,7 @@ beginDialog:
         binding:
           agendaData: =JSON(Topic.meetingEventAgendaSlideData)
           diaList: =JSON(Topic.meetingSubmittedDIAs)
+          meetingTitle: =Topic.meetingEventTitle
 
       output:
         binding:
@@ -166,16 +165,21 @@ beginDialog:
 
       variable: init:Topic.Var1
       prompt: |-
-        The meeting deck was successfully generated, you can download and access it here:
+        The meeting deck is ready! You can download and access it here:
 
         {Topic.documentLocation}
+
+        Should I now send the updated meeting invitation and deck to the meeting attendees?
       entity:
         kind: EmbeddedEntity
         definition:
           kind: ClosedListEntity
           items:
-            - id: Ok
-              displayName: Ok
+            - id: Yes send it
+              displayName: Yes send it
+
+            - id: Don't send
+              displayName: Don't send
 
         displayName: EmbeddedEntity-HlUYpK
 
@@ -183,14 +187,31 @@ beginDialog:
       id: conditionGroup_QNyzWg
       conditions:
         - id: conditionItem_1v7dmK
-          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.GenerateDIAHTMLSlidesV2.main.question_x2Td7D'.Ok
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.GenerateDIAHTMLSlidesV2.main.question_x2Td7D'.'Yes send it'
+          actions:
+            - kind: InvokeFlowAction
+              id: BwhhF9
+              input:
+                binding:
+                  text: =Global.calculatedMandatoryAttendees
+                  text_1: =Global.calculatedOptionalAttendees
+                  text_2: =Global.AICalculationSummaryHTML
+                  text_3: =Topic.meetingEventId
+                  text_4: =Topic.documentLocation
 
-    - kind: ClearAllVariables
-      id: cZYsr5
+              output: {}
+              flowId: a16a8c86-1f55-f111-bec7-000d3a33da71
 
-    - kind: BeginDialog
-      id: MyJ7BI
-      dialog: cr1d7_agenttIFALA.topic.InitialTopic
+            - kind: SendActivity
+              id: sendActivity_nzZKSB
+              activity: Meeting update sent via email!
+
+        - id: conditionItem_mTuI9h
+          condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.GenerateDIAHTMLSlidesV2.main.question_x2Td7D'.'Don''t send'
+
+    - kind: SendActivity
+      id: JU5pbX
+      activity: Have a nice meeting!
 
 inputType:
   properties:
@@ -234,6 +255,11 @@ inputType:
     meetingEventId:
       displayName: meetingEventId
       description: The meeting event id
+      type: String
+
+    meetingEventTitle:
+      displayName: meetingEventTitle
+      description: The meeting event title
       type: String
 
 outputType: {}

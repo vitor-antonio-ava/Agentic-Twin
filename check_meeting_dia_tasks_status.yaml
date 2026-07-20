@@ -5,6 +5,11 @@ inputs:
     description: The meeting Event ID
     shouldPromptUser: true
 
+  - kind: AutomaticTaskInput
+    propertyName: meetingCalendarEventId
+    description: The meeting calendar event id
+    shouldPromptUser: true
+
 beginDialog:
   kind: OnRedirect
   id: main
@@ -119,7 +124,16 @@ beginDialog:
                           size: "Small",
                           weight: "Bolder",
                           horizontalAlignment: "Right",
-                          color: If(DateDiff(Today(), DateTimeValue(ThisRecord.TaskDueDate), TimeUnit.Days) <= 3, "Warning", "Good")
+                          color: If(DateDiff(Today(), DateTimeValue(ThisRecord.TaskDueDate), TimeUnit.Days) <= 3 And ThisRecord.Status = 0, "Warning", "Good")
+                        },
+                        {
+                          type: "TextBlock",
+                          text: "Due date close",
+                          size: "Small",
+                          weight: "Bolder",
+                          horizontalAlignment: "Right",
+                          color: "Attention",
+                          isVisible: If(DateDiff(Today(), DateTimeValue(ThisRecord.TaskDueDate), TimeUnit.Days) <= 2 And DateDiff(Today(), DateTimeValue(ThisRecord.TaskDueDate), TimeUnit.Days) > 0 And ThisRecord.Status = 0, true, false)
                         },
                         {
                           type: "TextBlock",
@@ -128,7 +142,7 @@ beginDialog:
                           weight: "Bolder",
                           horizontalAlignment: "Right",
                           color: "Attention",
-                          isVisible: If(Today() > DateTimeValue(ThisRecord.TaskDueDate), true, false)
+                          isVisible: If((Today() > DateTimeValue(ThisRecord.TaskDueDate) And ThisRecord.Status = 0), true, false)
                         }
                       ]
                     }
@@ -144,6 +158,13 @@ beginDialog:
               data: {
                 action: "Acknowledge"
               }
+            },
+            {
+              type: "Action.Submit",
+              title: "Start meeting preparation",
+              data: {
+                action: "StartMeeting"
+              }
             }
           ]
         }
@@ -157,8 +178,29 @@ beginDialog:
           action: String
           actionSubmitId: String
 
+    - kind: ConditionGroup
+      id: conditionGroup_A6HaCH
+      conditions:
+        - id: conditionItem_GLSOpS
+          condition: =Topic.action = "StartMeeting"
+          actions:
+            - kind: BeginDialog
+              id: XvGfwg
+              input:
+                binding:
+                  meetingCalendarEventId: =Topic.meetingCalendarEventId
+                  meetingEventId: =Topic.meetingEventId
+
+              dialog: cr1d7_agenttIFALA.topic.ShowSubmittedDIAs
+              output: {}
+
 inputType:
   properties:
+    meetingCalendarEventId:
+      displayName: meetingCalendarEventId
+      description: The meeting calendar event id
+      type: String
+
     meetingEventId:
       displayName: meetingEventId
       description: The meeting Event ID

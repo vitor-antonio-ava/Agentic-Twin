@@ -36,6 +36,7 @@ beginDialog:
           TaskName: String
           TaskStartDate: String
           TaskType: Number
+          TierCode: String
 
       value: =Topic.diaTaskRecord
 
@@ -63,7 +64,7 @@ beginDialog:
             - kind: SetVariable
               id: setVariable_SRzdlq
               variable: Topic.Var3
-              value: =["Fill manually", "Auto‑fill from available data", "Nothing to contribute to this DIA"]
+              value: =["Fill manually", "Fill from example data", "Nothing to contribute to this DIA"]
 
         - id: conditionItem_5hj2cW
           condition: =Topic.selectedDIATask.TaskType = 2
@@ -77,9 +78,129 @@ beginDialog:
           condition: =Topic.selectedDIATask.TaskType = 1
           actions:
             - kind: SetVariable
+              id: setVariable_sXZRwL
+              variable: Topic.lowerTierCode
+              value: =Switch(Topic.selectedDIA.TierCode, "T4", "T3", "T3", "T2", "T2", "T1", "Unclassified")
+
+            - kind: InvokeFlowAction
+              id: invokeFlowAction_EnXBkI
+              input:
+                binding:
+                  text: =Topic.selectedDIA.KpiId
+                  text_1: =Topic.lowerTierCode
+
+              output:
+                binding:
+                  lowertierkpidiadata: Topic.lowerTierKpiDIAData
+
+              flowId: dfcaccfc-b26f-f111-ab0d-7c1e528d4fea
+
+            - kind: ConditionGroup
+              id: conditionGroup_aj9v1s
+              conditions:
+                - id: conditionItem_XyTBWX
+                  condition: =!IsBlank(Topic.lowerTierKpiDIAData)
+                  actions:
+                    - kind: ParseValue
+                      id: ASZOgh
+                      variable: Topic.Var2
+                      valueType:
+                        kind: Record
+                        properties:
+                          AssignedToEmail: String
+                          AssignedToUsername: String
+                          BalancedScorecard: String
+                          CurrentResponse: String
+                          DIA: String
+                          DIAResponseReceived: Number
+                          DIATaskId: String
+                          DIATaskName: String
+                          DIAType: String
+                          DIAUserInput: String
+                          KPIDataPoints: String
+                          KPIName: String
+                          ModifiedOn: String
+                          NextSteps: String
+                          OwnerId: String
+                          PatientImpact: String
+                          PlannerTaskId: String
+                          Recommendation: String
+                          Situation: String
+                          Status: Number
+                          TaskDueDate: String
+                          TaskStartDate: String
+                          TaskType: Number
+
+                      value: =Topic.lowerTierKpiDIAData
+
+                    - kind: Question
+                      id: question_qXcqMq
+                      interruptionPolicy:
+                        allowInterruption: true
+
+                      variable: init:Topic.Var5
+                      prompt: |-
+                        I've found data from a previously submitted DIA for the same KPI on a lower tier - **{Topic.lowerTierCode}** - submitted on **{Text(DateTimeValue(Topic.Var2.ModifiedOn), "yyyy-MM-dd HH:mm")}**.
+
+                        Do you want me to pull in this data to help draft your own DIA?
+                      entity:
+                        kind: EmbeddedEntity
+                        definition:
+                          kind: ClosedListEntity
+                          items:
+                            - id: Yes
+                              displayName: Yes
+
+                            - id: No
+                              displayName: No
+
+                    - kind: ConditionGroup
+                      id: conditionGroup_HeuPbQ
+                      conditions:
+                        - id: conditionItem_dHWC2Y
+                          condition: =Topic.Var5 = 'cr1d7_agenttIFALA.topic.DIADataCaptureV2.main.question_qXcqMq'.Yes
+                          actions:
+                            - kind: SetMultipleVariables
+                              id: BUg8BY
+                              assignments:
+                                - variable: Topic.situationData
+                                  value: =Topic.Var2.Situation
+
+                                - variable: Topic.currentResponseData
+                                  value: =Topic.Var2.CurrentResponse
+
+                                - variable: Topic.patientImpactData
+                                  value: =Topic.Var2.PatientImpact
+
+                                - variable: Topic.balancedScorecardData
+                                  value: =Topic.Var2.BalancedScorecard
+
+                                - variable: Topic.diaData
+                                  value: =Topic.Var2.DIA
+
+                                - variable: Topic.recommendationData
+                                  value: =Topic.Var2.Recommendation
+
+                                - variable: Topic.nextStepsData
+                                  value: =Topic.Var2.NextSteps
+
+                                - variable: Topic.diaType
+                                  value: =Topic.Var2.DIAType
+
+                                - variable: Topic.diaUserInput
+                                  value: =Topic.Var2.DIAUserInput
+
+                            - kind: GotoAction
+                              id: NeNYKT
+                              actionId: HDldMb
+
+                        - id: conditionItem_tCnSVW
+                          condition: =Topic.Var5 = 'cr1d7_agenttIFALA.topic.DIADataCaptureV2.main.question_qXcqMq'.No
+
+            - kind: SetVariable
               id: T5FqjD
               variable: Topic.Var3
-              value: =["Fill manually", "Auto‑fill from available data"]
+              value: =["Fill manually", "Fill from example data"]
 
     - kind: Question
       id: question_uu0MaH
@@ -104,7 +225,7 @@ beginDialog:
               value: =false
 
         - id: conditionItem_TrbsGs
-          condition: =Topic.Var1 = "Auto‑fill from available data"
+          condition: =Topic.Var1 = "Fill from example data"
           actions:
             - kind: SetMultipleVariables
               id: xYv13M
@@ -139,10 +260,10 @@ beginDialog:
                   value: Input
 
                 - variable: Topic.diaUserInput
-                  value: vitor.x.antonio@gsk.com;dilawar.x.mansoori@gsk.com
+                  value: =Blank()
 
                 - variable: Topic.EmailIds
-                  value: vitor.x.antonio@gsk.com;dilawar.x.mansoori@gsk.com
+                  value: =Blank()
 
             - kind: SetVariable
               id: setVariable_SxLGNL
@@ -150,8 +271,8 @@ beginDialog:
               value: =false
 
             - kind: GotoAction
-              id: dCqpnt
-              actionId: question_QThqKj
+              id: tg4JRb
+              actionId: HDldMb
 
         - id: conditionItem_A6vS7c
           condition: =Topic.Var1 = "Nothing to contribute to this DIA"
@@ -228,66 +349,8 @@ beginDialog:
                   value: =Topic.draftedDIAData.structuredOutput.diaUserInput
 
             - kind: GotoAction
-              id: THvexi
-              actionId: question_QThqKj
-
-    - kind: ConditionGroup
-      id: conditionGroup_MilMOY
-      conditions:
-        - id: conditionItem_lg01CO
-          condition: =Topic.pullFromPreRead = true
-          actions:
-            - kind: BeginDialog
-              id: iuPemk
-              input: {}
-              dialog: cr1d7_agenttIFALA.agent.Agent_Jb7
-              output:
-                binding:
-                  docAnalysisOutput: Topic.docAnalysisOutput
-
-            - kind: SetVariable
-              id: setVariable_0V2nL4
-              variable: Topic.agentOutput
-              value: =Topic.docAnalysisOutput
-
-            - kind: SetMultipleVariables
-              id: setVariable_6ewGfZ
-              assignments:
-                - variable: Topic.situationData
-                  value: =Topic.agentOutput.situationData
-
-                - variable: Topic.currentResponseData
-                  value: =Topic.agentOutput.currentResponseData
-
-                - variable: Topic.patientImpactData
-                  value: =Topic.agentOutput.patientImpactData
-
-                - variable: Topic.balancedScorecardData
-                  value: =Topic.agentOutput.balancedScorecardData
-
-                - variable: Topic.diaData
-                  value: =Topic.agentOutput.diaData
-
-                - variable: Topic.recommendationData
-                  value: =Topic.agentOutput.recommendationData
-
-                - variable: Topic.nextStepsData
-                  value: =Topic.agentOutput.nextStepsData
-
-    - kind: SetVariable
-      id: setVariable_uVW4XG
-      variable: Topic.hasPrePopullatedFields
-      value: =!IsBlank(Topic.agentOutput)
-
-    - kind: ConditionGroup
-      id: conditionGroup_rOJmWI
-      conditions:
-        - id: conditionItem_Sms3YE
-          condition: =Topic.hasPrePopullatedFields = true
-          actions:
-            - kind: GotoAction
-              id: 9X7IAm
-              actionId: question_QThqKj
+              id: 1yhtaU
+              actionId: HDldMb
 
     - kind: SetVariable
       id: setVariable_lyuy25
@@ -324,7 +387,7 @@ beginDialog:
             },
             {
               type: "TextBlock",
-              text: "1. Situation",
+              text: "Situation",
               size: "Medium",
               weight: "Bolder",
               wrap: true,
@@ -348,7 +411,7 @@ beginDialog:
             },
             {
               type: "TextBlock",
-              text: "2. Current Response",
+              text: "Current Response",
               size: "Medium",
               weight: "Bolder",
               wrap: true,
@@ -372,7 +435,7 @@ beginDialog:
             },
             {
               type: "TextBlock",
-              text: "3. Patient Impact",
+              text: "Patient Impact",
               size: "Medium",
               weight: "Bolder",
               wrap: true,
@@ -396,7 +459,7 @@ beginDialog:
             },
             {
               type: "TextBlock",
-              text: "4. Balanced Scorecard",
+              text: "Balanced Scorecard",
               size: "Medium",
               weight: "Bolder",
               wrap: true,
@@ -420,7 +483,7 @@ beginDialog:
             },
             {
               type: "TextBlock",
-              text: "5. DIA",
+              text: "DIA",
               size: "Medium",
               weight: "Bolder",
               wrap: true,
@@ -459,7 +522,7 @@ beginDialog:
             },
             {
               type: "TextBlock",
-              text: "6. Recommendation",
+              text: "Recommendation",
               size: "Medium",
               weight: "Bolder",
               wrap: true,
@@ -483,7 +546,7 @@ beginDialog:
             },
             {
               type: "TextBlock",
-              text: "7. Next Steps",
+              text: "Next Steps",
               size: "Medium",
               weight: "Bolder",
               wrap: true,
@@ -739,12 +802,9 @@ beginDialog:
       id: sendActivity_sdDOGD
       activity: Your **- {Topic.selectedDIATask.DisplayName} -** was sucessfully submitted, thank you!
 
-    - kind: ClearAllVariables
-      id: 7tMmdJ
-
     - kind: BeginDialog
-      id: 5oVmSL
-      dialog: cr1d7_agenttIFALA.topic.ConversationStart
+      id: tfEDCO
+      dialog: cr1d7_agenttIFALA.topic.ResetConversation
 
 inputType:
   properties:
@@ -773,6 +833,7 @@ inputType:
           TaskName: String
           TaskStartDate: String
           TaskType: Number
+          TierCode: String
 
 outputType:
   properties:

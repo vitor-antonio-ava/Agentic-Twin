@@ -1,99 +1,27 @@
 Project hotes
 
 Tasks:
-- test the -1 and -2 days before notification for the meeting
+- User should be able to change the title of the meeting deck slides
+- let user change the name for optional DIA's
+- add people from input in DIA to mandatory attendees so they also get email notifications
+ - send update and send final deck 
+- Add environment variable for the Sending Email flows -> and add the FROM advanced input
+  - flows -> Send Email, PA_SendDIANotificationToOrganizer, Update Calendar Meeting Event & DIA Notification to Task Owners and Attendees (turned off)
+
+Documentation Notes: 
+- Add more information on the documents about post-meeting follow up meeting
+- Check Claude notes
 
 - Need to fix the get recurring meeting start date and end date
  - utcnow() - 12 months -> Start date 
-- double check Get User Meeting Configurations V2 -> for unclassified tier meetings
-- Block creation of a meeting configuration if one already exists in dataverse
-- handle error for PowerBI permissions error when fetching Tier Hierarchy and KPI data
 
-- DIA Attendees Update - is it being used???
-- remove PA_WordPopulation ? has a reference to a Word Connector in DMAIC
-- Update Calendar Event Attendees - unused but staying in solution
-- 
-
-- Prepare a guide book (less priority) -> look at the guidebook from Ana
-- Recording of the whole flow (with voice over) -> less priority
-- do a Process Flow for the Meetings twin
-
-- in post-meeting, go straight to the list of DIA tasks
+- in post-meeting, go straight to the list of DIA tasks ?
 - improve the meeting notes prompt
 - how to get the audio from a past meeting and include it in the meeting notes email -> not possible, need to generate audio notes from transcript
-- investigate why not all meeting attendees got the meeting notes email -> look in dataverse meeting attendees
-- possibility to edit Task names before sending them out (post-email) - done
-- let user change the name for optional DIA's
-- handle edge case when no Red KPI are found and no overdue tasks are found too, so just create the optional DIA tasks
+
 
 !Important 
 - Investigate the Office 365 Groups connector, it seems to be able to help with requests for a group
 
-,{"description":"","id":"KPI_EM_074","name":"PO request to PR within Leadtime","owner":"Courtney Vander Poppen","ownerEmail":"courtney.x.vanderpoppen@gsk.com","ownerId":"e46ca000-fd95-4407-88e9-7bfd3b0eee3c"}
 
 
-,{"description":"","id":"KPI_EM_058","name":"Number of PS","owner":"Agnieszka Kowalczyk","ownerEmail":"agnieszka.x.kowalczyk@gsk.com","ownerId":"178f8d9f-b3a6-4cb0-b433-89465eca24eb"}
-
-
-
-KPI_EM_035, KPI_EM_039
-2026-02-01
-Small Molecule
-T3 Business Org
-
-TierID
-
-KPI_EM_035, KPI_EM_039
-2026-02-01
-T3_0003
-T3_ID
-
-
-TierID: T3_ID
-TierValue: T3_0001
-
-KPIs: KPI_EM_005, KPI_EM_009, KPI_EM_017
-
-Date: 2026-02-01
-
-
-concat('EVALUATE VAR ProjectFilter = { ', outputs('Compose_ProjectFilterString'), ' } VAR KpiRagTable = FILTER(SELECTCOLUMNS(CALCULATETABLE(UNION(', outputs('Compose_KpiUnionBlock'), '), TREATAS({ DATE(', variables('varDateYear'), ', ', variables('varDateMonth'), ', 1) }, ''calendar''[MonthStart])', outputs('Compose_TierFilter'), '), "EntityId", [KPI_ID], "EntityType", [EntityType], "Name", LOOKUPVALUE(DIM_LIST_OF_KPIS[KPI_NAME], DIM_LIST_OF_KPIS[KPI_ID], [KPI_ID]), "Owner_Email", BLANK(), "RAG", [RAG]), [RAG] = "Red") VAR MSProjectRagTable = FILTER(SELECTCOLUMNS(CALCULATETABLE(FCT_ACTIVE_MS_PROJECTS, TREATAS(ProjectFilter, FCT_ACTIVE_MS_PROJECTS[ProjectId])), "EntityId", FCT_ACTIVE_MS_PROJECTS[ProjectId], "EntityType", "MS PROJECT", "Name", FCT_ACTIVE_MS_PROJECTS[ProjectName], "Owner_Email", FCT_ACTIVE_MS_PROJECTS[Owner_Email], "RAG", FCT_ACTIVE_MS_PROJECTS[ProjectRAG]), [RAG] IN { "Red", "Amber" }) RETURN UNION(KpiRagTable, MSProjectRagTable)')
-
---- Fixed version (handles single KPI without UNION) ---
-
-concat('EVALUATE VAR ProjectFilter = { ', outputs('Compose_ProjectFilterString'), ' } VAR KpiRagTable = FILTER(SELECTCOLUMNS(CALCULATETABLE(', if(contains(outputs('Compose_KpiUnionBlock'), '), ROW('), concat('UNION(', outputs('Compose_KpiUnionBlock'), ')'), outputs('Compose_KpiUnionBlock')), ', TREATAS({ DATE(', variables('varDateYear'), ', ', variables('varDateMonth'), ', 1) }, ''calendar''[MonthStart])', outputs('Compose_TierFilter'), '), "EntityId", [KPI_ID], "EntityType", [EntityType], "Name", LOOKUPVALUE(DIM_LIST_OF_KPIS[KPI_NAME], DIM_LIST_OF_KPIS[KPI_ID], [KPI_ID]), "Owner_Email", BLANK(), "RAG", [RAG]), [RAG] = "Red") VAR MSProjectRagTable = FILTER(SELECTCOLUMNS(CALCULATETABLE(FCT_ACTIVE_MS_PROJECTS, TREATAS(ProjectFilter, FCT_ACTIVE_MS_PROJECTS[ProjectId])), "EntityId", FCT_ACTIVE_MS_PROJECTS[ProjectId], "EntityType", "MS PROJECT", "Name", FCT_ACTIVE_MS_PROJECTS[ProjectName], "Owner_Email", FCT_ACTIVE_MS_PROJECTS[Owner_Email], "RAG", FCT_ACTIVE_MS_PROJECTS[ProjectRAG]), [RAG] IN { "Red", "Amber" }) RETURN UNION(KpiRagTable, MSProjectRagTable)')
-
-
-date": "2026-03-01",
-        "text": "T3_ID",
-        "text_1": "KPI_EM_004,KPI_EM_007,KPI_EM_008",
-        "text_2": "143d0f8d-5bf0-f011-9ab0-00155d101d02,75271951-ee8d-ee11-883b-00155d102e47",
-        "text_3": "T3_0001"
-
-
-
-
-
----- Lower Tier Logic ----- 
-
-T1
-T2
-T3
-T4
-
-- Take just the last recorded lower tier submitted DIA from the same KPI ID
-- Ask the user if they want to pull data from the found DIA from lower tier, and show the date of submission
-- Take the last submitted -> Ask user if they want they want to use the data
-
-Meeting A  (TIER 2) 25 June -
-- KPI_EM_004
--  
-
-Meeting B (TIER 3) 30 June - 
-- Draft DIA -> look into DATA was previously submitted from the same KPI but from the lower tier (Tier -1)
-- When I'm drafting a DIA assigned to 'me' 
- - KPI_EM_004 -> 
-        - KPI_EM_011 -> TIER 2
-
-Meeting C (Tier 4) 4 July - 
-- KPI_EM_004 -> DIA 

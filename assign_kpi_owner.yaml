@@ -1,0 +1,167 @@
+kind: AdaptiveDialog
+inputs:
+  - kind: AutomaticTaskInput
+    propertyName: Kpis
+    description: List of KPIs with their id's, name and description.
+    shouldPromptUser: true
+
+modelDescription: Test Assign KPI Owner
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: SetVariable
+      id: setVariable_USNrSN
+      variable: Global.updatedKpiValues
+      value: =""
+
+    - kind: Foreach
+      id: foreach_XYAaXN
+      items: =Topic.Kpis
+      value: init:Topic.KpiValue
+      index: init:Topic.LoopIndex1
+      actions:
+        - kind: AdaptiveCardPrompt
+          id: snd9kP
+          card: |-
+            ={
+              type: "AdaptiveCard",
+              '$schema': "http://adaptivecards.io/schemas/adaptive-card.json",
+              version: "1.5",
+              body: [
+                { type: "TextBlock", text: "Select KPI owner", weight: "Bolder", size: "Medium" },
+                { type: "TextBlock", text: "KPI: " & Topic.KpiValue.name, weight: "Bolder" },
+                { type: "TextBlock", text: "KPI Description: " & Topic.KpiValue.description, wrap: true },
+                {
+                  type: "Input.ChoiceSet",
+                  id: "people-picker",
+                  label: "KPI Owner", 
+                  isRequired: false,
+                  errorMessage: "A user is required",      
+                  isMultiSelect: false,
+                  'choices.data': {
+                    type: "Data.Query",
+                    dataset: "graph.microsoft.com/users"
+                  }      
+                },
+
+                {
+                  type: "ActionSet",
+                  actions: [
+                    { type: "Action.Submit", id: "submitOwner", title: "Submit owner" },
+                    { type: "Action.Submit", id: "skipOwner", title: "Skip", style: "destructive" }
+                  ]
+                }
+              ]
+            }
+          output:
+            binding:
+              action: Topic.action
+              actionSubmitId: Topic.actionSubmitId
+              people-picker: Topic.ownerId
+
+          outputType:
+            properties:
+              action: String
+              actionSubmitId: String
+              people-picker: String
+
+        - kind: ConditionGroup
+          id: conditionGroup_d5Merh
+          conditions:
+            - id: conditionItem_Y444DF
+              condition: =Topic.actionSubmitId = "Submit owner" && !IsBlank(Topic.ownerId)
+              actions:
+                - kind: InvokeFlowAction
+                  id: invokeFlowAction_G7nbze
+                  input:
+                    binding:
+                      text: =Topic.ownerId
+
+                  output:
+                    binding:
+                      useremail: Topic.userEmail
+                      userid: Topic.userId
+                      username: Topic.userName
+
+                  flowId: e8fea507-a438-f111-88b5-000d3a33da71
+
+                - kind: SetVariable
+                  id: bfo0X6
+                  variable: Topic.updatedKpi
+                  value: |-
+                    =Patch(
+                        Topic.KpiValue,
+                        { 
+                            owner: Topic.userName,
+                            ownerEmail: Topic.userEmail, 
+                            ownerId: Topic.userId
+                        }
+                    )
+
+                - kind: SetVariable
+                  id: UjHzIt
+                  variable: Global.updatedKpiValues
+                  value: |-
+                    =Global.updatedKpiValues & 
+                    If(Topic.LoopIndex1 > 0, ",", "") 
+                    & JSON(
+                        If(!IsBlank(Topic.updatedKpi),
+                            Topic.updatedKpi,
+                            Topic.KpiValue
+                        )
+                    )
+
+          elseActions:
+            - kind: ContinueLoop
+              id: ZxYuqQ
+
+    - kind: SetVariable
+      id: setVariable_JtHXZO
+      variable: Topic.updatedKpis
+      value: |-
+        =With(
+            {
+                fixedJson: "[" & Global.updatedKpiValues & "]"
+            },
+            ForAll(
+                ParseJSON(fixedJson),
+                {
+                    DisplayName: Text(ThisRecord.name),
+                    Value: Text(ThisRecord.id),
+                    id: Text(ThisRecord.id),
+                    name: Text(ThisRecord.name),
+                    description: Text(ThisRecord.description),
+                    owner: Text(ThisRecord.owner),
+                    ownerEmail: Text(ThisRecord.ownerEmail),
+                    ownerId: Text(ThisRecord.ownerId)
+                }
+            )
+        )
+
+inputType:
+  properties:
+    Kpis:
+      displayName: Kpis
+      description: List of KPIs with their id's, name and description.
+      type:
+        kind: Table
+        properties:
+          description: String
+          id: String
+          name: String
+
+outputType:
+  properties:
+    updatedKpis:
+      displayName: updatedKpis
+      description: The list of updated KPI with their respective owners.
+      type:
+        kind: Table
+        properties:
+          description: String
+          id: String
+          name: String
+          owner: String
+          ownerEmail: String
+          ownerId: String

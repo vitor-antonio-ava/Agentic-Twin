@@ -1,0 +1,718 @@
+kind: AdaptiveDialog
+modelDescription: This topic handles meeting selection for user configuration. It retrieves the user's recurring meetings, allows selection, determines organizer/attendee status, and classifies the meeting tier using the tier hierarchy flow.
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: SendActivity
+      id: sendActivity_Step2Start
+      activity: 📆 Retrieving your recurring calendar meetings. This can take a while, pelase wait..
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_gNXU3P
+      input: {}
+      output:
+        binding:
+          meetings: Topic.meetings
+
+      flowId: d669383c-b84a-f111-bec6-7ced8d3c0385
+
+    - kind: SetVariable
+      id: setVariable_ParseMeetings
+      variable: Topic.meetingsList
+      value: |-
+        =ForAll(
+            ParseJSON(Topic.meetings),
+            {
+                DisplayName: TrimEnds(Text((ThisRecord.subject))),
+                Value: Text(ThisRecord.id),
+                subject: TrimEnds(Text((ThisRecord.subject))),
+                isOrganizer: Text(ThisRecord.isOrganizer),
+                recurrencePattern: Text(ThisRecord.recurrence.pattern.type),
+                recurrenceStart: Text(ThisRecord.recurrence.range.startDate),
+                recurrenceEnd: Text(ThisRecord.recurrence.range.endDate),
+                timeZone: Text(ThisRecord.recurrence.range.recurrenceTimeZone),
+                organizerName: Text(ThisRecord.organizer.emailAddress.name),
+                organizerEmail: Text(ThisRecord.organizer.emailAddress.address),
+                startTime: Text(ThisRecord.start.dateTime),
+                endTime: Text(ThisRecord.end.dateTime),
+                id: Text(ThisRecord.id),
+                onlineMeetingUrl: Text(ThisRecord.onlineMeeting.joinUrl),
+                groupId: Text(ThisRecord.groupID),
+                groupEmail: Text(ThisRecord.groupEmail),
+                requiredAttendees: Text(ThisRecord.requiredAttendees),optionalAttendees: Text(ThisRecord.optionalAttendees)
+            }
+        )
+
+    - kind: SetVariable
+      id: setVariable_MeetingsSummary
+      variable: Topic.meetingsSummaryText
+      value: |-
+        =Concat(
+            Topic.meetingsList,
+            "📅 **" & Text((subject)) & "**" & Char(10) & Char(10) &
+            "🔁 " & Text(recurrencePattern) & Char(10) & Char(10) &
+            "👤 " & Text(organizerName) & Char(10) & Char(10) &
+            "📆 " & Text(recurrenceStart) & Char(10) & Char(10) &
+            "---" & Char(10) & Char(10),
+            ""
+        )
+
+    - kind: ConditionGroup
+      id: conditionGroup_HG9DzR
+      conditions:
+        - id: conditionItem_INK08h
+          condition: =IsEmpty(Topic.meetingsList)
+          actions:
+            - kind: SendActivity
+              id: sendActivity_DDLPy2
+              activity: "I was not able to find any Teams recurring meetings in your calendar where you are the organizer! Going back to the beggining. "
+
+            - kind: ClearAllVariables
+              id: f2FSnG
+
+            - kind: BeginDialog
+              id: h33SPq
+              dialog: cr1d7_agenttIFALA.topic.InitialTopic
+
+    - kind: Question
+      id: question_SelectMeeting
+      interruptionPolicy:
+        allowInterruption: true
+        interruptionTopicListFilter:
+          kind: IncludeSelectedTopics
+          allowedInterruptTopics:
+            - cr1d7_agenttIFALA.topic.ResetConversation
+            - cr1d7_agenttIFALA.topic.RestartResetTopic
+            - cr1d7_agenttIFALA.topic.InitialTopic
+
+      repeatCount: 1
+      variable: init:Topic.selectedMeeting
+      prompt: |-
+        Recurring meetings I found in your calendar:
+
+        {Topic.meetingsSummaryText}
+
+        Which meeting would you like to track?
+        Select a number from the list or type the meeting name.
+      entity:
+        kind: DynamicClosedListEntity
+        items: =Topic.meetingsList
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_9cxXp1
+      input:
+        binding:
+          text: =Topic.selectedMeeting.id
+
+      output:
+        binding:
+          meetingfound: Topic.meetingFound
+
+      flowId: 0ba5ff29-2576-f111-ab0f-000d3a3690d9
+
+    - kind: ConditionGroup
+      id: conditionGroup_Mxb0Ln
+      conditions:
+        - id: conditionItem_5tAmQp
+          condition: =Topic.meetingFound = true
+          actions:
+            - kind: Question
+              id: question_bfOmKR
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var2
+              prompt: A meeting configuration already exists for this meeting - **{Topic.selectedMeeting.DisplayName}**. Please select another meeting from your calendar to configure.
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Go To Start
+                      displayName: Go to Start
+
+            - kind: ConditionGroup
+              id: conditionGroup_kSSCvF
+              conditions:
+                - id: conditionItem_owIbBi
+                  condition: =Topic.Var2 = 'cr1d7_agenttIFALA.topic.MeetingSelectionTopic.main.question_bfOmKR'.'Go To Start'
+
+            - kind: BeginDialog
+              id: ItW8kL
+              dialog: cr1d7_agenttIFALA.topic.ResetConversation
+
+    - kind: SetVariable
+      id: setVariable_OrganizerEmail
+      variable: Topic.meetingOrganizerEmail
+      value: |-
+        =LookUp(
+            Topic.meetingsList,
+            id = Topic.selectedMeeting.id
+        ).organizerEmail
+
+    - kind: SetVariable
+      id: setVariable_MeetingSubject
+      variable: Topic.selectedMeetingSubject
+      value: |-
+        =LookUp(
+            Topic.meetingsList,
+            id = Topic.selectedMeeting.id
+        ).subject
+
+    - kind: SetVariable
+      id: setVariable_DetermineStatus
+      variable: Topic.userMeetingStatus
+      value: |-
+        =If(
+            Boolean(Topic.selectedMeeting.isOrganizer),
+            "organizer",
+            "attendee"
+        )
+
+    - kind: SendActivity
+      id: sendActivity_ShowSelection
+      activity: |-
+        You selected: **{Topic.selectedMeetingSubject}**
+        Your role: **{Topic.userMeetingStatus}**
+
+    - kind: InvokeFlowAction
+      id: zPJ2v5
+      input:
+        binding:
+          text: =Topic.selectedMeeting.groupId
+
+      output:
+        binding:
+          planners: Topic.Planners
+
+      flowId: f184fb76-c52d-f111-88b4-000d3a33da71
+
+    - kind: SetVariable
+      id: setVariable_mLG4pg
+      variable: Topic.teamsPlanners
+      value: |-
+        =ForAll(
+            ParseJSON(Topic.Planners),
+            {
+                title: ThisRecord.BoardName,
+                value: ThisRecord.id
+            }
+        )
+
+    - kind: ConditionGroup
+      id: conditionGroup_w5qjd3
+      conditions:
+        - id: conditionItem_W9tYwY
+          condition: =IsEmpty(Topic.teamsPlanners)
+          actions:
+            - kind: SendActivity
+              id: sendActivity_lqjEE1
+              activity: |-
+                I couldn’t find any planners associated with this meeting.
+                Please ensure a Planner has been created in the relevant Teams channel, then try again.
+
+            - kind: BeginDialog
+              id: HwDtqt
+              dialog: cr1d7_agenttIFALA.topic.InitialTopic
+
+      elseActions:
+        - kind: SetVariable
+          id: setVariable_z0OjT3
+          variable: Topic.plannersFound
+          value: =CountRows(Topic.teamsPlanners)
+
+        - kind: ConditionGroup
+          id: conditionGroup_Jnxz8x
+          conditions:
+            - id: conditionItem_dqY3B9
+              condition: =Topic.plannersFound > 1
+              actions:
+                - kind: AdaptiveCardPrompt
+                  id: VBaKFO
+                  interruptionPolicy:
+                    allowInterruption: true
+                    interruptionTopicListFilter:
+                      kind: IncludeSelectedTopics
+                      allowedInterruptTopics:
+                        - cr1d7_agenttIFALA.topic.ResetConversation
+
+                  repeatCount: 0
+                  card: |-
+                    ={
+                      type: "AdaptiveCard",
+                      '$schema': "https://adaptivecards.io/schemas/adaptive-card.json",
+                      version: "1.5",
+                      body: [
+                        {
+                          type: "TextBlock",
+                          wrap: true,
+                          text: "Which Planner do you want to associate to this meeting and create tasks?"
+                        },
+                        {
+                          type: "Input.ChoiceSet",
+                            choices: ForAll(
+                            Table(ParseJSON(Topic.Planners)),
+                            {
+                              title: ThisRecord.Value.BoardName,
+                              value: ThisRecord.Value.id
+                            }
+                          ),
+                            placeholder: "Placeholder text",
+                            isRequired: "true",
+                            label: "Planner",
+                            errorMessage: "You have to select one planner",
+                            id: "ddlPlanner"
+                        },
+                        {
+                          type: "ActionSet",
+                          actions: [
+                            {
+                              type: "Action.Submit",
+                              title: "Select",
+                              id: "btnSubmit"
+                            },
+                            {
+                              type: "Action.Submit",
+                              title: "Cancel",
+                              id: "btnCancel",
+                              associatedInputs: "none",
+                              data: { action: "cancel" },
+                              style: "destructive"
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  output:
+                    binding:
+                      actionSubmitId: Topic.actionSubmitId
+                      ddlPlanner: Topic.selectedPlannerId
+
+                  outputType:
+                    properties:
+                      actionSubmitId: String
+                      ddlPlanner: String
+
+                - kind: ConditionGroup
+                  id: conditionGroup_FOlFSx
+                  conditions:
+                    - id: conditionItem_rve4kb
+                      condition: =Topic.actionSubmitId = "Cancel"
+                      actions:
+                        - kind: BeginDialog
+                          id: yexhnf
+                          dialog: cr1d7_agenttIFALA.topic.ResetConversation
+
+          elseActions:
+            - kind: SetMultipleVariables
+              id: setVariable_rtAsWo
+              assignments:
+                - variable: Topic.singlePlannerFound
+                  value: =First(Topic.teamsPlanners)
+
+                - variable: Topic.selectedPlannerId
+                  value: =Text(Topic.singlePlannerFound.value)
+
+            - kind: Question
+              id: question_8nksHR
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var1
+              prompt: |-
+                I've found this Planner:
+                **
+                {Topic.singlePlannerFound.title}**
+                ****
+                I will associate it to the selected meeting for task creation. Can we proceed?
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Yes
+                      displayName: Yes
+
+                    - id: No, start over
+                      displayName: No, start over
+
+            - kind: ConditionGroup
+              id: conditionGroup_kqOtJY
+              conditions:
+                - id: conditionItem_dPXZkY
+                  condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.MeetingSelectionTopic.main.question_8nksHR'.Yes
+
+                - id: conditionItem_0DcFF5
+                  condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.MeetingSelectionTopic.main.question_8nksHR'.'No, start over'
+                  actions:
+                    - kind: BeginDialog
+                      id: s2moJy
+                      dialog: cr1d7_agenttIFALA.topic.ResetConversation
+
+        - kind: SetVariable
+          id: setVariable_8vEIVr
+          variable: Topic.selectedMeeting
+          value: "=Patch(Topic.selectedMeeting, { plannerId: Topic.selectedPlannerId })"
+
+    - kind: Question
+      id: question_SelectTier
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.selectedTier
+      prompt: Please classify this meeting's tier level. Select one of the options below, or it will be marked as **Unclassified**.
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Tier 1
+              displayName: Tier 1
+
+            - id: Tier 2
+              displayName: Tier 2
+
+            - id: Tier 3
+              displayName: Tier 3
+
+            - id: Tier 4
+              displayName: Tier 4
+
+            - id: Unclassified
+              displayName: Unclassified
+
+    - kind: SetVariable
+      id: setVariable_TierLabel
+      variable: Topic.tierLabel
+      value: |-
+        =Switch(
+            Topic.selectedTier,
+            'cr1d7_agenttIFALA.topic.MeetingSelectionTopic.main.question_SelectTier'.'Tier 1', "Tier 1",
+            'cr1d7_agenttIFALA.topic.MeetingSelectionTopic.main.question_SelectTier'.'Tier 2', "Tier 2",
+            'cr1d7_agenttIFALA.topic.MeetingSelectionTopic.main.question_SelectTier'.'Tier 3', "Tier 3",
+            'cr1d7_agenttIFALA.topic.MeetingSelectionTopic.main.question_SelectTier'.'Tier 4', "Tier 4",
+            "Unclassified"
+        )
+
+    - kind: SetVariable
+      id: setVariable_TierCode
+      variable: Topic.tierCode
+      value: |-
+        =Switch(
+            Topic.tierLabel,
+            "Tier 1", "T1",
+            "Tier 2", "T2",
+            "Tier 3", "T3",
+            "Tier 4", "T4",
+            "Unclassified"
+        )
+
+    - kind: ConditionGroup
+      id: conditionGroup_TierClassified
+      conditions:
+        - id: conditionItem_IsUnclassified
+          condition: =Topic.tierCode = "Unclassified"
+          actions:
+            - kind: SetMultipleVariables
+              id: setVariable_UnclassifiedDefaults
+              assignments:
+                - variable: Topic.selectedTierId
+                  value:
+
+                - variable: Topic.selectedTierDescription
+                  value: Unclassified
+
+            - kind: SendActivity
+              id: sendActivity_Unclassified
+              activity: Meeting tier set to **Unclassified**. No tier hierarchy lookup required.
+
+      elseActions:
+        - kind: SendActivity
+          id: sendActivity_FetchingHierarchy
+          activity: Fetching tier hierarchy for **{Topic.tierLabel}**...
+
+        - kind: InvokeFlowAction
+          id: invokeFlowAction_ppTy3i
+          input:
+            binding:
+              text: =Topic.tierCode
+
+          output:
+            binding:
+              tierhierarchy: Topic.tierHierarchy
+
+          flowId: 489034bf-703d-f111-88b4-7c1e528d4fea
+
+        - kind: SetVariable
+          id: setVariable_luQYxI
+          variable: Topic.tierHierarchyList2
+          value: =Table()
+
+        - kind: ConditionGroup
+          id: conditionGroup_Uw6yRG
+          conditions:
+            - id: conditionItem_T1Q2rq
+              condition: =Topic.tierCode = "T1"
+              actions:
+                - kind: SetVariable
+                  id: B8zJil
+                  variable: Topic.tierHierarchyList
+                  value: |-
+                    =Filter(
+                        ForAll(
+                            ParseJSON(Topic.tierHierarchy),
+                            {
+                                DisplayName: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T1_Desc]'),
+                                Value: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T1_ID]'),
+                                tierId: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T1_ID]'),
+                                tierDescription: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T1_Desc]')
+                            }
+                        ), 
+                        !IsBlank(ThisRecord.tierId)
+                    )
+
+            - id: conditionItem_7spLLK
+              condition: =Topic.tierCode = "T2"
+              actions:
+                - kind: SetVariable
+                  id: ozZcBW
+                  variable: Topic.tierHierarchyList
+                  value: |-
+                    =Filter(
+                        ForAll(
+                            ParseJSON(Topic.tierHierarchy),
+                            {
+                                DisplayName: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T2_Desc]'),
+                                Value: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T2_ID]'),
+                                tierId: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T2_ID]'),
+                                tierDescription: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T2_Desc]')
+                            }
+                        ), 
+                        !IsBlank(ThisRecord.tierId)
+                    )
+
+            - id: conditionItem_y3pivm
+              condition: =Topic.tierCode = "T3"
+              actions:
+                - kind: SetVariable
+                  id: 8SLdkT
+                  variable: Topic.tierHierarchyList
+                  value: |-
+                    =Filter(
+                        ForAll(
+                            ParseJSON(Topic.tierHierarchy),
+                            {
+                            DisplayName: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T3_Desc]'),
+                            Value: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T3_ID]'),
+                            tierId: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T3_ID]'),
+                            tierDescription: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T3_Desc]')
+                            }
+                        ), 
+                        !IsBlank(ThisRecord.tierId)
+                    )
+
+            - id: conditionItem_OX7YFy
+              condition: =Topic.tierCode = "T4"
+              actions:
+                - kind: SetVariable
+                  id: ASOjeC
+                  variable: Topic.tierHierarchyList
+                  value: |-
+                    =Filter(
+                        ForAll(
+                            ParseJSON(Topic.tierHierarchy),
+                            {
+                                DisplayName: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T4_Desc]'),
+                                Value: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T4_ID]'),
+                                tierId: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T4_ID]'),
+                                tierDescription: Text(ThisRecord.'DIM_UNIVERSAL_HIERARCHY[T4_Desc]')
+                            }
+                        ),
+                        !IsBlank(ThisRecord.tierId)
+                    )
+
+        - kind: SetVariable
+          id: setVariable_TierHierarchySummary
+          variable: Topic.tierHierarchySummaryText
+          value: |-
+            =Concat(
+                ForAll(
+                    Topic.tierHierarchyList,
+                    {
+                        line: Text(ThisRecord.tierId) & " — " & Text(ThisRecord.tierDescription)
+                    }
+                ),
+                line,
+                Char(10) & Char(10)
+            )
+
+        - kind: Question
+          id: question_SelectTierFromHierarchy
+          interruptionPolicy:
+            allowInterruption: true
+
+          variable: init:Topic.userSelectedTierFromHierarchy
+          prompt: |-
+            Here are the available tier levels:
+
+            {Topic.tierHierarchySummaryText}
+
+
+            Please select the tier level you'd like to assign to this meeting.
+          entity:
+            kind: DynamicClosedListEntity
+            items: =Topic.tierHierarchyList
+
+        - kind: SetVariable
+          id: setVariable_SelectedTierRecord
+          variable: Topic.selectedTierRecord
+          value: |-
+            =LookUp(
+                Topic.tierHierarchyList,
+                tierId = Topic.userSelectedTierFromHierarchy.tierId
+            )
+
+        - kind: SetMultipleVariables
+          id: setVariable_SaveTierSelection
+          assignments:
+            - variable: Topic.selectedTierId
+              value: =Text(Topic.selectedTierRecord.tierId)
+
+            - variable: Topic.selectedTierDescription
+              value: =Text(Topic.selectedTierRecord.tierDescription)
+
+    - kind: Question
+      id: question_AqTUB6
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.meetingPurpose
+      prompt: Please provide the meeting **Purpose**, this will be used in the meeting agenda to provide a better description to the meeting purpose.
+      entity: StringPrebuiltEntity
+
+    - kind: InvokeFlowAction
+      id: SzIQHQ
+      input:
+        binding:
+          text: =Topic.selectedMeeting.groupId
+
+      output:
+        binding:
+          sharepointteamsiteurl: Topic.sharepointTeamSiteUrl
+
+      flowId: 2f75797f-4c5f-f111-a826-002248048965
+
+    - kind: SetVariable
+      id: setVariable_Ivf5WS
+      variable: Topic.selectedMeeting
+      value: "=Patch(Topic.selectedMeeting, { sharePointTeamSiteUrl: Topic.sharepointTeamSiteUrl })"
+
+    - kind: SetVariable
+      id: setVariable_iooSsS
+      variable: Topic.selectedMeeting
+      value: "=Patch(Topic.selectedMeeting, { meetingPurpose: Topic.meetingPurpose })"
+
+    - kind: Question
+      id: question_ConfirmSelection
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.userConfirmation
+      prompt: |-
+        Here's a summary of your meeting configuration:
+
+        **Meeting:**
+
+        {Topic.selectedMeetingSubject}
+
+
+        **Your Role:**
+
+        {Topic.userMeetingStatus}
+
+        **Tier:**
+
+        {Topic.tierLabel}
+
+        **Tier ID:**
+
+        {Topic.selectedTierId}
+
+        **Tier Description:**
+
+        {Topic.selectedTierDescription}
+
+        **Meeting Purpose:**
+
+        {Topic.meetingPurpose}
+
+
+
+        Does this look correct? Shall I proceed?
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Yes, proceed
+              displayName: Yes, proceed
+
+            - id: No, start over
+              displayName: No, start over
+
+    - kind: ConditionGroup
+      id: conditionGroup_Confirmation
+      conditions:
+        - id: conditionItem_Confirmed
+          condition: =Topic.userConfirmation = 'cr1d7_agenttIFALA.topic.MeetingSelectionTopic.main.question_ConfirmSelection'.'Yes, proceed'
+          actions:
+            - kind: SetMultipleVariables
+              id: setVariable_SaveToGlobal
+              assignments:
+                - variable: Global.selectedMeeting
+                  value: =Topic.selectedMeeting
+
+                - variable: Global.selectedMeetingStatus
+                  value: =Topic.userMeetingStatus
+
+                - variable: Global.selectedTier
+                  value: =Topic.tierLabel
+
+                - variable: Global.selectedTierId
+                  value: =Topic.selectedTierId
+
+                - variable: Global.selectedTierDescription
+                  value: =Topic.selectedTierDescription
+
+                - variable: Global.selectedMeetingSubject
+                  value: =Topic.selectedMeetingSubject
+
+                - variable: Global.selectedMeetingTierCode
+                  value: =Topic.tierCode
+
+            - kind: SendActivity
+              id: sendActivity_Saved
+              activity: Meeting configuration saved. Moving to the next step...
+
+            - kind: BeginDialog
+              id: MqSDzM
+              dialog: cr1d7_agenttIFALA.topic.KPISelectionV2
+
+        - id: conditionItem_StartOver
+          condition: =Topic.userConfirmation = 'cr1d7_agenttIFALA.topic.MeetingSelectionTopic.main.question_ConfirmSelection'.'No, start over'
+          actions:
+            - kind: ClearAllVariables
+              id: NTC9Zf
+
+            - kind: BeginDialog
+              id: X2glNq
+              dialog: cr1d7_agenttIFALA.topic.InitialTopic
+
+            - kind: SendActivity
+              id: sendActivity_Restarting
+              activity: No problem! Let's start the meeting selection again.
+
+            - kind: GotoAction
+              id: goto_RestartFlow
+              actionId: sendActivity_Step2Start

@@ -43,6 +43,37 @@ beginDialog:
 
       flowId: ab2149c4-ca6b-f111-a826-002248048965
 
+    - kind: ConditionGroup
+      id: conditionGroup_bxa1Ix
+      conditions:
+        - id: conditionItem_Mvh2BJ
+          condition: =IsBlank(Topic.calendarEventData)
+          actions:
+            - kind: Question
+              id: question_3BpCeK
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var4
+              prompt: Sorry, I wasn't able to find that meeting event in your calendar. Maybe the meeting event was cancelled or deleted. Please double check your calendar.
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Understood, go to start
+                      displayName: Understood, go to start
+
+            - kind: ConditionGroup
+              id: conditionGroup_xl1WoY
+              conditions:
+                - id: conditionItem_cEVNhn
+                  condition: =Topic.Var4 = 'cr1d7_agenttIFALA.topic.GenerateMeetingAgenda.main.question_3BpCeK'.'Understood, go to start'
+
+            - kind: BeginDialog
+              id: YHDaGG
+              dialog: cr1d7_agenttIFALA.topic.ResetConversation
+
     - kind: ParseValue
       id: aK4hUN
       variable: Topic.calendarEvent
@@ -688,6 +719,7 @@ beginDialog:
                         DIATaskName: Index(Topic.submittedDIATable, Value).DIATaskName,
                         DIATaskType: Index(Topic.submittedDIATable, Value).DIATaskType,
                         AssignedOwnerName: Index(Topic.submittedDIATable, Value).AssignedOwnerName,
+                        AssignedOwnerEmail: Index(Topic.submittedDIATable, Value).AssignedOwnerEmail,
                         time: Switch(Value,
                                       1, Text(System.Activity.Value.time_1),
                                       2, Text(System.Activity.Value.time_2),
@@ -715,6 +747,11 @@ beginDialog:
                     )
                   }
 
+            - kind: SetVariable
+              id: setVariable_ebKlaC
+              variable: Topic.meetingTitle
+              value: =Topic.meetingEvent.EventName
+
             - kind: BeginDialog
               id: pfbN9l
               input:
@@ -723,6 +760,7 @@ beginDialog:
                   meetingEventAgendaSlideData: =Topic.agendaData
                   meetingEventCalendarId: =Topic.meetingEvent.MeetingEventId
                   meetingEventId: =Topic.meetingEventId
+                  meetingEventTitle: =Topic.meetingTitle
 
               dialog: cr1d7_agenttIFALA.topic.GenerateDIAHTMLSlidesV2
 
@@ -738,6 +776,13 @@ beginDialog:
             - kind: BeginDialog
               id: cWPzGa
               dialog: cr1d7_agenttIFALA.topic.ConversationStart
+
+    - kind: ClearAllVariables
+      id: jfsVst
+
+    - kind: BeginDialog
+      id: r25OVA
+      dialog: cr1d7_agenttIFALA.topic.ConversationStart
 
 inputType:
   properties:

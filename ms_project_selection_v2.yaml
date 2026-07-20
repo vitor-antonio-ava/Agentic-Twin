@@ -1,0 +1,323 @@
+kind: AdaptiveDialog
+beginDialog:
+  kind: OnRedirect
+  id: main
+  actions:
+    - kind: SendActivity
+      id: sendActivity_bK3Jt2
+      activity: Let's now fetch the available MS Projects...
+
+    - kind: InvokeFlowAction
+      id: invokeFlowAction_nJL8iH
+      input: {}
+      output:
+        binding:
+          msprojectslist: Topic.msProjectsList
+
+      flowId: c8d2db9c-2537-f111-88b4-002248048965
+
+    - kind: ConditionGroup
+      id: conditionGroup_UYZxtn
+      conditions:
+        - id: conditionItem_0v73RA
+          condition: =Topic.msProjectsList = "no_records"
+          actions:
+            - kind: Question
+              id: dm73c3
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var2
+              prompt: "I couldn't fetch any MS Projects data. This might be due to a permissions error. Do you want to continue and skip MS Project selection or cancel the meeting configuration? "
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Continue and skip MS Project selection
+                      displayName: Continue and skip MS Project selection
+
+                    - id: Cancel meeting configuration
+                      displayName: Cancel meeting configuration
+
+            - kind: ConditionGroup
+              id: conditionGroup_JRqnvV
+              conditions:
+                - id: conditionItem_nFppGv
+                  condition: =Topic.Var2 = 'cr1d7_agenttIFALA.topic.MSProjectSelectionV2.main.dm73c3'.'Continue and skip MS Project selection'
+                  actions:
+                    - kind: GotoAction
+                      id: SAftG6
+                      actionId: 9YDKBT
+
+                - id: conditionItem_2yxk59
+                  condition: =Topic.Var2 = 'cr1d7_agenttIFALA.topic.MSProjectSelectionV2.main.dm73c3'.'Cancel meeting configuration'
+                  actions:
+                    - kind: BeginDialog
+                      id: qackNg
+                      dialog: cr1d7_agenttIFALA.topic.ResetConversation
+
+    - kind: SetVariable
+      id: m5q8qo
+      variable: Topic.allMsProjectsList
+      value: |-
+        =ForAll(
+            ParseJSON(Topic.msProjectsList),
+            {
+                projectId: Text(ThisRecord.'FCT_ACTIVE_MS_PROJECTS[ProjectId]'),
+                projectName: Text(ThisRecord.'FCT_ACTIVE_MS_PROJECTS[ProjectName]'),
+                owner: Text(ThisRecord.'FCT_ACTIVE_MS_PROJECTS[Owner]'),
+                ownerEmail: Text(ThisRecord.'FCT_ACTIVE_MS_PROJECTS[Owner_Email]')
+            }
+        )
+
+    - kind: AdaptiveCardPrompt
+      id: xeUaTa
+      card: |
+        ={
+          type: "AdaptiveCard",
+          '$schema': "http://adaptivecards.io/schemas/adaptive-card.json",
+          version: "1.5",
+          body: [
+            {
+              type: "Container",
+              style: "emphasis",
+              bleed: true,
+              items: [
+                {
+                  type: "ColumnSet",
+                  columns: [
+                    {
+                      type: "Column",
+                      width: "auto",
+                      items: [
+                        {
+                          type: "Image",
+                          url: "https://img.icons8.com/fluency/48/project-management.png",
+                          size: "Small"
+                        }
+                      ]
+                    },
+                    {
+                      type: "Column",
+                      width: "stretch",
+                      verticalContentAlignment: "Center",
+                      items: [
+                        {
+                          type: "TextBlock",
+                          text: "MS Project Selection",
+                          size: "Large",
+                          weight: "Bolder",
+                          color: "Accent"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              type: "TextBlock",
+              text: "Search and select the MS Projects you want to associate. You can select multiple projects.",
+              wrap: true,
+              spacing: "Medium"
+            },
+            {
+              type: "TextBlock",
+              text: "Search by project name or owner:",
+              weight: "Bolder",
+              spacing: "Medium"
+            },
+            {
+              type: "Input.ChoiceSet",
+              id: "selectedMSProjectsData",
+              style: "filtered",
+              isMultiSelect: true,
+              placeholder: "Type to search projects...",
+              choices: ForAll(
+                ParseJSON(Topic.msProjectsList),
+                {
+                  title: Text(ThisRecord.'FCT_ACTIVE_MS_PROJECTS[ProjectName]') & " (" & Text(ThisRecord.'FCT_ACTIVE_MS_PROJECTS[Owner]') & ")",
+                  value: Text(ThisRecord.'FCT_ACTIVE_MS_PROJECTS[ProjectId]')
+                }
+              )
+            },
+            {
+              type: "TextBlock",
+              text: "💡 Tip: Type a project name or owner to filter the list",
+              size: "Small",
+              isSubtle: true,
+              spacing: "Small"
+            },
+            {
+              type: "ActionSet",
+              actions: [
+                { type: "Action.Submit", id: "submitMSProjectSelection", title: "Confirm Selection", style: "positive" },
+                { type: "Action.Submit", id: "skipMSProjectSelection", title: "Skip", style: "destructive" }
+              ]
+            }
+          ]
+        }
+      output:
+        binding:
+          action: Topic.action
+          actionSubmitId: Topic.actionSubmitId
+          selectedMSProjectsData: Topic.selectedMSProjectsData
+
+      outputType:
+        properties:
+          action: String
+          actionSubmitId: String
+          selectedMSProjectsData: String
+
+    - kind: SetVariable
+      id: setVariable_TotalMsProjectsCount
+      variable: Topic.totalMsProjectsCount
+      value: =CountRows(Topic.allMsProjectsList)
+
+    - kind: ConditionGroup
+      id: conditionGroup_SF4BSY
+      conditions:
+        - id: conditionItem_gaGYbM
+          condition: =Topic.actionSubmitId = "Skip"
+          actions:
+            - kind: SetMultipleVariables
+              id: 9YDKBT
+              assignments:
+                - variable: Global.selectedMsProjectsList
+                  value: =[]
+
+                - variable: Global.selectedMsProjectsJson
+                  value: =Blank()
+
+            - kind: GotoAction
+              id: 8Ny7sm
+              actionId: eCFhts
+
+    - kind: SetVariable
+      id: setVariable_kRQ8Ie
+      variable: Topic.Var1
+      value: =Topic.selectedMSProjectsData
+
+    - kind: InvokeAIBuilderModelAction
+      id: invokeAIBuilderModelAction_rujbtl
+      input:
+        binding:
+          msProjectsData: =Topic.msProjectsList
+          userMsProjectSelection: =Topic.Var1
+
+      output:
+        binding:
+          predictionOutput: Topic.resolvedMsProjectsJson
+
+      aIModelId: dbec2e40-bedf-410e-b801-19bd71a9d939
+
+    - kind: SetVariable
+      id: setVariable_ParseSelectedMsProjects
+      variable: Topic.selectedMsProjectsListWithOwners
+      value: |-
+        =ForAll(
+            Topic.resolvedMsProjectsJson.structuredOutput.matchedProjects,
+            {
+                projectId: Text(ThisRecord.projectId),
+                projectName: Text(ThisRecord.projectName),
+                owner: Text(ThisRecord.owner),
+                ownerEmail: Text(ThisRecord.ownerEmail)
+            }
+        )
+
+    - kind: SetVariable
+      id: setVariable_SelectedMsProjectsSummary
+      variable: Topic.selectedMsProjectsSummaryText
+      value: |-
+        =Concat(
+            ForAll(
+                Sequence(CountRows(Topic.selectedMsProjectsListWithOwners)),
+                With(
+                    { projRow: Last(FirstN(Topic.selectedMsProjectsListWithOwners, Value)) },
+                    {
+                        line: Text(Value) & ". **" &
+                              projRow.projectName & "** (" &
+                              projRow.projectId & ") — Owner: " &
+                              projRow.owner & " (" & projRow.ownerEmail & ")"
+                    }
+                )
+            ),
+            line,
+            Char(13) & Char(10)
+        )
+
+    - kind: SendActivity
+      id: sendActivity_ShowSelectedMsProjects
+      activity: |-
+        You selected {CountRows(Topic.selectedMsProjectsListWithOwners)} MS Project(s):
+
+        {Topic.selectedMsProjectsSummaryText}
+
+    - kind: Question
+      id: question_ConfirmKPIs
+      interruptionPolicy:
+        allowInterruption: true
+
+      variable: init:Topic.msProjectsConfirmation
+      prompt: Does this look correct? Shall I proceed?
+      entity:
+        kind: EmbeddedEntity
+        definition:
+          kind: ClosedListEntity
+          items:
+            - id: Yes, proceed
+              displayName: Yes, proceed
+
+            - id: No, re-select MS Projects
+              displayName: No, re-select MS Projects
+
+    - kind: ConditionGroup
+      id: conditionGroup_KPIConfirmation
+      conditions:
+        - id: conditionItem_KPIConfirmed
+          condition: =Topic.msProjectsConfirmation = 'cr1d7_agenttIFALA.topic.MSProjectSelectionV2.main.question_ConfirmKPIs'.'Yes, proceed'
+          actions:
+            - kind: SetMultipleVariables
+              id: setVariable_SaveKPIsToGlobal
+              assignments:
+                - variable: Global.selectedMsProjectsList
+                  value: =Topic.selectedMsProjectsListWithOwners
+
+                - variable: Global.selectedMsProjectsJson
+                  value: |-
+                    =JSON(
+                        ForAll(
+                            Topic.selectedMsProjectsListWithOwners,
+                            {
+                                projectId: projectId,
+                                projectName: projectName,
+                                owner: owner,
+                                ownerEmail: ownerEmail
+                            }
+                        )
+                    )
+
+            - kind: SendActivity
+              id: sendActivity_KPIsSaved
+              activity: MS Project selection saved for **{Global.selectedMeetingSubject}**. Moving to the next step...
+
+            - kind: BeginDialog
+              id: eCFhts
+              dialog: cr1d7_agenttIFALA.topic.SetupNotificationPreferences
+
+        - id: conditionItem_KPIReselect
+          condition: =Topic.msProjectsConfirmation = 'cr1d7_agenttIFALA.topic.MSProjectSelectionV2.main.question_ConfirmKPIs'.'No, re-select MS Projects'
+          actions:
+            - kind: SendActivity
+              id: sendActivity_RestartKPISelection
+              activity: No problem! Let's select your MS Projects again.
+
+            - kind: SetVariable
+              id: setVariable_ResetPage
+              variable: Topic.currentPage
+              value: =1
+
+            - kind: GotoAction
+              id: GLMMzJ
+              actionId: xeUaTa

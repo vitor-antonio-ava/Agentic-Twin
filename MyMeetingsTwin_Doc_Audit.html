@@ -1,0 +1,768 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Meetings Twin — Documentation Audit</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=Inter:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --paper:#F4F5F2; --panel:#FFFFFF; --ink:#17212B; --ink-soft:#4A5862;
+    --line:#DEE2DD; --line-soft:#EBEEEA;
+    --rail:#122430; --rail-2:#0C1A22; --rail-ink:#C7D2D0; --rail-dim:#7C8D93;
+    --accent:#0E7C86; --accent-deep:#0A5A62; --accent-soft:#E4F0F0;
+    --crit:#B4232A; --crit-bg:#FBEAEA;
+    --high:#BE6A15; --high-bg:#FBF0E2;
+    --med:#8C7412; --med-bg:#F7F1DC;
+    --low:#5C6B75;  --low-bg:#EDF0F1;
+    --good:#2E7D53; --good-bg:#E6F1EA;
+    --dsp:"Space Grotesk",-apple-system,Segoe UI,sans-serif;
+    --body:"Inter",-apple-system,Segoe UI,Roboto,sans-serif;
+    --mono:"IBM Plex Mono",ui-monospace,Menlo,Consolas,monospace;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html{scroll-behavior:smooth}
+  body{background:var(--paper);color:var(--ink);font-family:var(--body);font-size:15px;line-height:1.55;-webkit-font-smoothing:antialiased}
+
+  /* ---------- Masthead ---------- */
+  header.masthead{
+    background:var(--rail);color:var(--rail-ink);
+    padding:22px 30px 20px;border-bottom:3px solid var(--accent);
+  }
+  .mh-eyebrow{font-family:var(--mono);font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .mh-title{font-family:var(--dsp);font-size:26px;font-weight:700;color:#fff;margin-top:6px;letter-spacing:-.01em}
+  .mh-sub{font-size:13.5px;color:var(--rail-dim);margin-top:6px;max-width:70ch}
+  .mh-stats{display:flex;gap:26px;margin-top:16px;flex-wrap:wrap}
+  .mh-stat{display:flex;align-items:baseline;gap:8px}
+  .mh-stat b{font-family:var(--dsp);font-size:22px;color:#fff;font-weight:600}
+  .mh-stat span{font-family:var(--mono);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--rail-dim)}
+
+  /* ---------- Shell ---------- */
+  .shell{display:grid;grid-template-columns:290px 1fr;min-height:calc(100vh - 130px)}
+
+  /* ---------- Rail ---------- */
+  nav.rail{background:var(--rail-2);padding:14px 0 40px;position:sticky;top:0;align-self:start;max-height:100vh;overflow-y:auto}
+  .rail-group{font-family:var(--mono);font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:var(--rail-dim);padding:16px 22px 8px}
+  button.tab{
+    display:block;width:100%;text-align:left;background:none;border:0;cursor:pointer;
+    color:var(--rail-ink);padding:11px 22px 11px 20px;border-left:3px solid transparent;
+    font-family:var(--body);font-size:13.5px;line-height:1.3;position:relative;transition:background .15s,border-color .15s;
+  }
+  button.tab:hover{background:rgba(255,255,255,.04)}
+  button.tab .t-name{font-weight:500;display:block}
+  button.tab .t-meta{font-family:var(--mono);font-size:10px;color:var(--rail-dim);margin-top:3px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+  button.tab[aria-selected="true"]{background:rgba(14,124,134,.16);border-left-color:var(--accent);color:#fff}
+  button.tab:focus-visible{outline:2px solid var(--accent);outline-offset:-2px}
+  .dot{width:7px;height:7px;border-radius:2px;display:inline-block}
+  .dot.crit{background:var(--crit)} .dot.high{background:var(--high)} .dot.med{background:var(--med)} .dot.low{background:var(--low)} .dot.good{background:var(--good)}
+
+  /* ---------- Panel ---------- */
+  main.panel{padding:34px 40px 80px;max-width:1000px}
+  .doc-head{border-bottom:1px solid var(--line);padding-bottom:20px;margin-bottom:26px}
+  .doc-kicker{font-family:var(--mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:600}
+  .doc-title{font-family:var(--dsp);font-size:28px;font-weight:700;letter-spacing:-.015em;margin-top:7px;line-height:1.15}
+  .doc-file{font-family:var(--mono);font-size:12px;color:var(--ink-soft);margin-top:8px;word-break:break-all}
+  .meta-row{display:flex;gap:26px;flex-wrap:wrap;margin-top:16px}
+  .meta{font-size:12.5px}
+  .meta .k{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--ink-soft);display:block;margin-bottom:2px}
+  .meta .v{font-weight:500}
+  .verdict{margin-top:18px;padding:13px 16px;border-radius:8px;font-size:13.5px;border:1px solid var(--line);background:var(--panel);display:flex;gap:11px;align-items:flex-start}
+  .verdict .tag{font-family:var(--mono);font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:3px 8px;border-radius:5px;white-space:nowrap;margin-top:1px}
+  .tally{display:flex;gap:8px;margin-top:16px;flex-wrap:wrap}
+  .tchip{font-family:var(--mono);font-size:11px;font-weight:600;padding:4px 9px;border-radius:6px;display:flex;gap:6px;align-items:center}
+  .tchip.crit{background:var(--crit-bg);color:var(--crit)} .tchip.high{background:var(--high-bg);color:var(--high)}
+  .tchip.med{background:var(--med-bg);color:var(--med)} .tchip.low{background:var(--low-bg);color:var(--low)} .tchip.good{background:var(--good-bg);color:var(--good)}
+
+  /* ---------- Issue cards ---------- */
+  .issue{border:1px solid var(--line);border-radius:10px;background:var(--panel);margin-bottom:16px;overflow:hidden}
+  .issue-top{display:flex;gap:12px;align-items:flex-start;padding:15px 18px 13px;border-bottom:1px solid var(--line-soft)}
+  .sev{font-family:var(--mono);font-size:9.5px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:4px 8px;border-radius:5px;white-space:nowrap;margin-top:2px}
+  .sev.crit{background:var(--crit);color:#fff} .sev.high{background:var(--high);color:#fff}
+  .sev.med{background:var(--med);color:#fff} .sev.low{background:var(--low);color:#fff}
+  .issue-h{font-family:var(--dsp);font-weight:600;font-size:16px;line-height:1.3}
+  .issue-area{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:4px}
+  .miss{font-family:var(--mono);font-size:9px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;padding:4px 8px;border-radius:5px;white-space:nowrap;margin-top:2px;background:#2A3B45;color:#fff}
+  .issue.gap{border-style:dashed}
+  .issue.gap .issue-top{background:#F7FAFA}
+  .issue-body{padding:4px 18px 16px}
+  .field{padding:11px 0 0;border-top:1px solid var(--line-soft);margin-top:11px}
+  .field:first-child{border-top:0;margin-top:0;padding-top:12px}
+  .field .lbl{font-family:var(--mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;font-weight:600;margin-bottom:4px;display:flex;align-items:center;gap:7px}
+  .field.says .lbl{color:var(--crit)} .field.truth .lbl{color:var(--accent-deep)} .field.fix .lbl{color:var(--good)}
+  .field p{font-size:14px}
+  .field.says p{font-style:italic;color:#5a3a3c}
+  code,.mono{font-family:var(--mono);font-size:12.5px;background:var(--low-bg);padding:1px 5px;border-radius:4px;color:var(--ink)}
+
+  /* ---------- Overview ---------- */
+  .lead{font-size:16px;color:var(--ink-soft);max-width:74ch;margin-bottom:26px;line-height:1.6}
+  .theme{border-left:3px solid var(--accent);background:var(--panel);border:1px solid var(--line);border-left:3px solid var(--accent);border-radius:0 9px 9px 0;padding:15px 18px;margin-bottom:14px}
+  .theme h4{font-family:var(--dsp);font-size:16px;font-weight:600;display:flex;gap:10px;align-items:baseline}
+  .theme h4 .num{font-family:var(--mono);font-size:12px;color:var(--accent);font-weight:600}
+  .theme p{font-size:14px;color:var(--ink-soft);margin-top:5px}
+  .theme .aff{font-family:var(--mono);font-size:11px;color:var(--ink-soft);margin-top:8px}
+  .theme .aff b{color:var(--ink)}
+
+  .sec-title{font-family:var(--dsp);font-size:13px;font-weight:600;letter-spacing:.02em;text-transform:uppercase;color:var(--ink-soft);margin:34px 0 14px;padding-bottom:7px;border-bottom:1px solid var(--line)}
+
+  /* heatmap */
+  .heat{width:100%;border-collapse:collapse;font-size:13px;margin-top:6px}
+  .heat th,.heat td{border:1px solid var(--line);padding:8px 10px;text-align:center}
+  .heat th{font-family:var(--mono);font-size:10px;letter-spacing:.06em;text-transform:uppercase;color:var(--ink-soft);font-weight:600;background:var(--line-soft)}
+  .heat td.doc{text-align:left;font-weight:500;font-size:12.5px}
+  .heat .cell{font-family:var(--mono);font-weight:600;border-radius:0}
+  .heat .n0{color:var(--line);}
+  .heat .cell.crit{background:var(--crit-bg);color:var(--crit)}
+  .heat .cell.high{background:var(--high-bg);color:var(--high)}
+  .heat .cell.med{background:var(--med-bg);color:var(--med)}
+  .heat .cell.low{background:var(--low-bg);color:var(--low)}
+  .heat td.total{font-family:var(--dsp);font-weight:700;background:#fbfbfa}
+  .heat tr.jump{cursor:pointer}
+  .heat tr.jump:hover td{background:var(--accent-soft)}
+  .heat.cov td.doc{max-width:none}
+  .heat.cov .cell.ok{color:var(--good);font-weight:600}
+  .heat.cov .cell.no{color:#C7CDC9}
+  .heat.cov .cell.crit{background:var(--crit);color:#fff}
+  .heat.cov .cell.high{background:var(--high-bg);color:var(--high)}
+  .heat.cov .cell.med{background:var(--med-bg);color:var(--med)}
+  .heat.cov .cell.low{background:var(--good-bg);color:var(--good)}
+  .cov-note{display:block;font-family:var(--body);font-weight:400;font-size:11.5px;color:var(--ink-soft);margin-top:2px;line-height:1.35}
+
+  /* ground truth */
+  .gt-card{border:1px solid var(--line);border-radius:10px;background:var(--panel);padding:16px 18px;margin-bottom:14px}
+  .gt-card h4{font-family:var(--dsp);font-size:15px;font-weight:600;margin-bottom:9px;display:flex;gap:9px;align-items:center}
+  .gt-card h4 .ic{font-family:var(--mono);font-size:11px;color:#fff;background:var(--accent);padding:2px 7px;border-radius:5px;font-weight:600}
+  .gt-list{list-style:none}
+  .gt-list li{padding:5px 0 5px 18px;position:relative;font-size:13.5px;border-top:1px solid var(--line-soft)}
+  .gt-list li:first-child{border-top:0}
+  .gt-list li:before{content:"";position:absolute;left:2px;top:12px;width:6px;height:6px;background:var(--accent);border-radius:2px}
+  .kv{display:grid;grid-template-columns:180px 1fr;gap:2px 14px;font-size:13.5px}
+  .kv dt{font-family:var(--mono);font-size:11.5px;color:var(--ink-soft);padding:5px 0;border-top:1px solid var(--line-soft)}
+  .kv dd{padding:5px 0;border-top:1px solid var(--line-soft)}
+  .kv dt:first-of-type,.kv dd:first-of-type{border-top:0}
+
+  .foot{margin-top:40px;padding-top:16px;border-top:1px solid var(--line);font-family:var(--mono);font-size:11px;color:var(--ink-soft);line-height:1.7}
+
+  .panel-view{display:none}
+  .panel-view.active{display:block;animation:fade .25s ease}
+  @keyframes fade{from{opacity:0;transform:translateY(4px)}to{opacity:1;transform:none}}
+
+  @media (max-width:820px){
+    .shell{grid-template-columns:1fr}
+    nav.rail{position:static;max-height:none;display:flex;flex-wrap:wrap;padding:8px}
+    .rail-group{width:100%}
+    button.tab{width:auto;border-left:0;border-bottom:3px solid transparent;padding:9px 12px;border-radius:7px}
+    button.tab[aria-selected="true"]{border-left:0;border-bottom-color:var(--accent)}
+    button.tab .t-meta{display:none}
+    main.panel{padding:24px 18px 60px}
+    .kv{grid-template-columns:1fr}
+    .kv dt{padding-bottom:0}
+  }
+  @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<header class="masthead">
+  <div class="mh-eyebrow">Documentation Fidelity Audit · GSC Enterprise AI</div>
+  <h1 class="mh-title">My Meetings Twin — Documentation vs. Solution</h1>
+  <p class="mh-sub">Every finding below is cross-checked against the exported Copilot Studio solution <span class="mono" style="color:var(--rail-ink)">MeetingDIASolution v1.0.0.7</span> — the bot definition, topics, 53 Power Automate flows, 4 Dataverse tables and 7 AI Builder models. That package is the source of truth.</p>
+</header>
+
+<div class="shell">
+  <nav class="rail" id="rail" role="tablist" aria-label="Documents"></nav>
+  <main class="panel" id="panel"></main>
+</div>
+
+<script>
+/* ============================ DATA ============================ */
+const F = (sev,area,says,truth,fix)=>({sev,area,says,truth,fix});
+const G = (sev,area,does,add)=>({sev,gap:true,area,truth:does,fix:add});
+
+const DOCS = [
+  /* ---------- OVERVIEW ---------- */
+  { id:"overview", group:"Summary", name:"Overview & Cross-Doc Themes", meta:"5 through-lines", type:"overview" },
+  { id:"coverage", group:"Summary", name:"Coverage & Gaps", meta:"what the docs miss", type:"coverage" },
+
+  /* ---------- TDD ---------- */
+  { id:"tdd", group:"Documents", name:"Technical Design Document", kicker:"TDD",
+    file:"My_Meetings_Twin_-_TDD.docx",
+    metaInfo:[["Author","Ana Ocariz"],["Approver","Vinciane Polet"],["Version","1.0"]],
+    verdict:{tag:"Rework",cls:"crit",text:"The most error-laden document. Two blocks of alien RPA-template text, a direct self-contradiction on scheduling, and several component descriptions that don't match the solution."},
+    issues:[
+      F("crit","§3.28 Data\\Object Models",
+        "This process is built based on AA tasks and scripts… credentials are retrieved in Credential Manager… operations on excel files are done via SQL queries supported by Microsoft.ACE.OLEDB.12.0 driver for Excel.",
+        "The solution has no Automation Anywhere tasks, no Credential Manager, and no Excel/OLEDB. It is a Copilot Studio agent with Power Automate flows over Dataverse, Power BI, Planner, Teams, SharePoint and Outlook.",
+        "Delete the paragraph entirely and replace with the real object model (the 4 Dataverse tables + JSON config payloads)."),
+      F("crit","§3.4, §3.17, §3.25 vs §3.29 — Scheduling",
+        "\"No background processing\" · \"No unattended or background execution\" · \"Scheduling: Not applicable… does not run on a schedule\" — while §3.29 says it \"will essentially run daily to check for notifications.\"",
+        "There IS unattended execution: PA_SendDIANotificationToOrganizer runs on a Recurrence trigger every 1 hour, plus 4 Dataverse-webhook flows fire on row changes. The cadence is hourly, not daily.",
+        "State a single, correct model: user-initiated conversation PLUS an hourly recurrence flow and event-driven Dataverse flows that notify organizers/owners. Remove the 'no background execution' claims."),
+      F("high","§3.6 Core Topics — Initial Topic",
+        "Options: \"Initiate DIA, Manage DIA, My Assigned DIA, Post-Meeting.\"",
+        "The Initial Topic menu's first option is Start Meeting Configuration (routes to Meeting Selection Topic). There is no 'Initiate DIA' menu item.",
+        "Correct the first option to Start Meeting Configuration."),
+      F("high","§3.7 Get User Configured Meetings",
+        "\"Retrieves all the User Teams Meetings where the current user is the organizer for.\"",
+        "GetUserConfiguredMeetings reads the user's already-configured meetings from Dataverse (flow GetUserMeetingConfigurationsV2, by email). Retrieving recurring Teams meetings where you're organizer is a different topic — Meeting Selection Topic (flow GetUserTeamsRecurringMeetings).",
+        "Rewrite: 'Retrieves the user's previously configured meetings stored in Dataverse.' Keep the Teams-recurring retrieval under Meeting Selection Topic."),
+      F("high","§2.4 Acronyms — DIA",
+        "DIA = Data Input & Analysis.",
+        "DIA = Decision / Input / Awareness (the myagtwin_diatask.DIAType option set: 0=Decision, 1=Input, 2=Awareness). DIADataCaptureV2 branches on 'DIA Type is Input → ask who input is needed from.'",
+        "Redefine DIA as Decision / Input / Awareness."),
+      F("med","§3.12 Prompts table",
+        "Lists 6 AI Builder prompts.",
+        "The solution binds 7 AI Builder models — the KPI Selection prompt (df42093e…) is missing from the table.",
+        "Add the KPI Selection prompt row so all 7 are documented."),
+      F("med","§3.2 / §3.23 Architecture & Model",
+        "Architecture components list Graph, Dataverse, Power BI, Planner; the LLM is never named.",
+        "The agent runs on model GPT5Chat, channels Teams + M365 Copilot, GenerativeActionsEnabled=false, contentModeration=High. Teams (channel + transcript) and SharePoint (deck storage) are integral and missing from the architecture list.",
+        "Name the model and content-moderation setting; add Teams and SharePoint to the architecture and connector inventory."),
+      F("low","§3.4 Persistence",
+        "\"Stateless execution with minimal persistence via Dataverse.\"",
+        "Persistence is substantial: 4 tables holding meeting configs, event occurrences, KPI catalogue and full DIA content.",
+        "Soften to 'session-based conversation with durable configuration and DIA records persisted in Dataverse.'"),
+      G("high","Write / action operations",
+        "The agent creates follow-up meetings & sends invites (CreateCalendarMeeting), sends emails (SendEmail / AF_SendEmail), creates & completes Planner tasks, and updates the meeting event/deck (UpdateCalendarMeetingEvent). None is described — the doc instead claims no background/action execution. (An attendee-invite-update flow, UpdateCalendarEventAttendees, also exists but appears unwired in this export — confirm status.)",
+        "Add a 'System actions / write operations' section listing every create / update / send the agent performs and what triggers it."),
+      G("high","Generative answering & no knowledge source",
+        "The Search topic answers off-script questions generatively via SearchAndSummarizeContent (with useModelKnowledge = true), and human escalation is disabled ('not currently configured'). Neither the generative fallback nor the escalation status is documented.",
+        "Document the conversational-boosting behaviour, any knowledge sources, and state that in-agent escalation is disabled."),
+      G("high","Follow-up meeting creation flow",
+        "In Post-Meeting, on organiser confirmation, the agent creates a follow-up calendar meeting and sends invites ('Follow up meeting created successfully!').",
+        "Document the follow-up-meeting creation flow (CreateCalendarMeeting) and its confirmation gate."),
+      G("med","Tier cascade (lower-tier DIA reuse)",
+        "DIADataCaptureV2 calls GetLowerTierKPIDIAData to pull an already-submitted DIA for the same KPI one tier down (T4→T3→T2→T1) and offers to pre-fill from it.",
+        "Describe the lower-tier DIA reuse behaviour and the flow behind it."),
+      G("med","Data / object model & moderation",
+        "§3.28 (where the object model belongs) held RPA text. The 4 Dataverse tables and the DIATask fields (Situation, Current Response, Patient Impact, Balanced Scorecard, DIA, Recommendation, Next Steps, DIA Type) are never laid out; the content-moderation = High setting is also unstated.",
+        "Replace the RPA block with the real data model, and record the content-moderation setting."),
+      G("low","Meeting Purpose & duplicate guard",
+        "Setup captures a free-text Meeting Purpose (used in the agenda) and blocks re-configuring an already-configured meeting (FindMeetinginDataverse).",
+        "Add both steps to the Meeting Selection topic description."),
+      G("med","Owner notification & the confirmation gate",
+        "§3.7 correctly says the ORGANIZER is reminded on schedule, but the TDD never describes that (a) owners are auto-notified via Teams + email when DIA tasks are created (DIANotificationtoTaskOwnersandAttendees), and (b) DetectRedKpis only creates tasks after the organizer selects the flagged items and confirms.",
+        "Document the confirmation gate (organizer selects + confirms → tasks created) and the owner-notification background flow."),
+    ]},
+
+  /* ---------- AI Accountability ---------- */
+  { id:"rai", group:"Documents", name:"AI Accountability Report", kicker:"Responsible AI · xlsx",
+    file:"My_Meetings_Twin_-_AI_Accountability_Report.xlsx",
+    metaInfo:[["Business Owner","Sumit Kaura"],["Tech Owner","Vinciane Polet"],["Overall risk","Low"]],
+    verdict:{tag:"Correct + disclose",cls:"high",text:"Structurally sound, but understates the AI surface — the governance-critical omission is the 7 generative AI Builder models, including the Red-KPI classifier that decides who gets tasked."},
+    issues:[
+      F("high","Summary Sheet — AI overview",
+        "DIA (Data Input & Analysis).",
+        "DIA = Decision / Input / Awareness (per the DIAType option set).",
+        "Correct the definition in the accountability record."),
+      F("high","Technical Specifications — models",
+        "\"Uses a pre-trained LLM within Copilot Studio… does not involve custom-developed models\" — no models named.",
+        "Beyond the conversational GPT5Chat model, the solution runs AI Builder prompt models — 7 wired to topics (Red-KPI Interpreter, Draft-DIA, transcript, attendee calc, HTML slides, KPI/MS-Project selection) and 13 more shipped-but-orphaned (20 total). The Red-KPI classifier influences who gets tasked; Draft-DIA generates content.",
+        "Disclose all AI components. The Red-KPI classifier and Draft-DIA generator influence task assignment and produce content — they belong in an AI accountability report."),
+      F("med","Summary Sheet / Impact Assessment",
+        "\"The system is user-triggered and does not run unattended\"; Model Influence Low, Decision Consequence Low.",
+        "Unattended flows exist (hourly notifications; owner/attendee notifications on DIA creation). The agent also auto-drafts DIA content and can add people to meeting invites — higher influence than 'guidance only.'",
+        "Note the unattended notification flows and revisit whether the influence/consequence ratings should reflect auto-drafting and automated invite changes."),
+      G("high","Write / action operations",
+        "The report says outputs are guidance and the agent 'does not trigger actions.' It in fact creates follow-up meetings & sends invites, sends emails and creates Planner tasks on the user's behalf. (A calendar attendee-update flow also exists; confirm whether it is active.)",
+        "Enumerate the write actions and reflect them in the Model Influence and Decision Consequence ratings."),
+      G("high","Generative free-text answering not disclosed",
+        "Outputs are described as structured/topic-based, but the Search topic answers arbitrary off-script questions with an LLM (SearchAndSummarizeContent + useModelKnowledge). Free-text generation is an AI risk not captured; note also that human escalation is disabled.",
+        "Disclose the conversational-boosting generative surface as an AI capability/risk, and record that escalation is not configured."),
+      G("med","AI-generated attendance rationale",
+        "The agent generates a written 'why you're invited' explanation about specific named individuals (attendance-explanation output).",
+        "Disclose the attendance-explanation generation as AI-authored text about individuals."),
+    ]},
+
+  /* ---------- User Requirements ---------- */
+  { id:"ur", group:"Documents", name:"User Requirements", kicker:"UR",
+    file:"My_Meetings_Twin_-_User_Requirements.docx",
+    metaInfo:[["Author","Ana Ocariz"],["Template","GxP Track Delivery, WI11"],["Approvers","Sumit Kaura · Vinciane Polet"]],
+    verdict:{tag:"Reconcile scope",cls:"high",text:"A blanket GxP framing that conflicts with the rest of the pack, plus interface requirements that omit most of what the agent actually integrates with."},
+    issues:[
+      F("high","Whole document — GxP framing",
+        "Built on the 'GxP Track Delivery' template; every process/rule row tagged 'GxP Support' (+ 'GDPR').",
+        "The EUD Checklist answers GxP = No and the RAI Process answers GxP Impact = None; the Guidebook agrees it makes no regulated decisions. The UR is the outlier.",
+        "Reconcile the GxP stance across the pack. If the agent is assistive-only and non-GxP, drop the blanket 'GxP Support' tags (or downgrade to 'GxP-adjacent, no impact')."),
+      F("high","§6.1 Glossary — DIA",
+        "DIA = Data Input & Analysis.",
+        "DIA = Decision / Input / Awareness.",
+        "Correct the glossary entry."),
+      F("med","§5.7 Interfaces (UR-0701/2/3)",
+        "Only require integration with Microsoft Graph, Dataverse and Power BI.",
+        "Task creation (Planner), transcript + channel (Teams), notifications/agenda emails (Outlook) and deck storage (SharePoint) are all core, and Entra ID for auth.",
+        "Add interface requirements for Planner, Teams, Outlook and SharePoint."),
+      G("high","Missing requirement — follow-up meeting & invite writes",
+        "No requirement covers the agent creating follow-up meetings, sending invites, or auto-updating attendees on existing invites — all live behaviours.",
+        "Add requirements for follow-up meeting creation and meeting-invite updates, including the confirmation gate before a write."),
+      G("med","Missing requirement — post-meeting & deck",
+        "No requirement for transcript analysis, post-meeting notes email, or meeting-pack / deck generation (Analyse Meeting Transcript, Generate Meeting Agenda + DIA HTML Slides).",
+        "Add requirements covering the Post-Meeting journey and meeting-pack generation."),
+      G("med","Missing data requirement — DIA record",
+        "No data requirement defines the DIA record: Situation, Current Response, Patient Impact, Balanced Scorecard, DIA, Recommendation, Next Steps, DIA Type (Decision/Input/Awareness).",
+        "Add a data requirement specifying the DIA record structure and the DIA Type values."),
+      F("low","UR-0302 Availability",
+        "\"The system shall remain available during standard business hours.\"",
+        "The background notification flow runs 24/7 on an hourly recurrence.",
+        "Clarify that automated notification processing runs continuously, independent of business hours."),
+    ]},
+
+  /* ---------- EUD ---------- */
+  { id:"eud", group:"Documents", name:"EUD Checklist", kicker:"End-User Dev",
+    file:"My_Meetings_Twin_-_EUD_Checklist.docx",
+    metaInfo:[["Completed by","Ana Ocariz"],["Reviewed by","Yves Franquinet (GRC)"],["Environment","High / GSC Dedicated"]],
+    verdict:{tag:"Fix entries",cls:"high",text:"A contradictory checkbox and an under-scoped connector/automation inventory. Definition error carried through."},
+    issues:[
+      F("high","Glossary — DIA",
+        "DIA (Data Input & Analysis).",
+        "DIA = Decision / Input / Awareness.",
+        "Correct the expansion."),
+      F("med","Q1.2 Access management",
+        "\"Is the solution accessed by users outside of GSK?\" — both ☒ Yes and ☒ No are ticked.",
+        "A single answer is required; the solution authenticates internal users via Entra ID/SSO, so the answer is No.",
+        "Untick Yes; leave No."),
+      F("med","Environment & connectors",
+        "Connector list: Graph, Dataverse, Power BI, Planner.",
+        "The solution also uses Teams (transcript/channel), SharePoint (deck storage), Outlook (email/calendar) and Azure AD.",
+        "Add Teams, SharePoint, Outlook and Azure AD to the connector list with rationale."),
+      F("med","Solution components — Automations",
+        "\"Get User Data, Get KPI Data, Save User Preferences, Create Planner Tasks, Retrieve Meeting Details.\"",
+        "These generic names don't match the solution, and it lists 5 of 53 actual flows (e.g. AF_PreSetupConfig, GetUserTeamsRecurringMeetings, DetectRedKpis chain, CreateDIAPlannerTask, AnalyseMeetingTranscript chain).",
+        "Reference the real flow inventory (or attach the 53-flow catalogue) instead of placeholder names."),
+      F("low","Q1 EUD tools · Version",
+        "Only 'Copilot Studio' ticked; Solution Version '1.0.0'.",
+        "53 Power Automate flows means 'Automate' also applies; the exported package is at v1.0.0.7.",
+        "Consider ticking Automate; confirm the version reference matches the deployed build."),
+      G("med","Write actions absent from dataflow",
+        "The 'Data inputs & ingestion' section covers reads only. The agent also writes outbound: Planner tasks, calendar meetings/invites, emails and SharePoint deck files.",
+        "Note the outbound writes (Planner, calendar, email, SharePoint) in the architecture / dataflow section."),
+    ]},
+
+  /* ---------- RAI Process ---------- */
+  { id:"raip", group:"Documents", name:"GSC RAI Process", kicker:"Responsible AI intake",
+    file:"My_Meetings_Twin_-_GSC_RAI_Process.docx",
+    metaInfo:[["Business Owner","Sumit Kaura"],["Channels","Teams / M365 Copilot"],["GxP impact","None"]],
+    verdict:{tag:"Disclose AI + actions",cls:"high",text:"Consistent assistive framing, but it omits both the generative AI Builder models and the agent's write actions (creating meetings, editing invites, sending email), and the data-source list is incomplete."},
+    issues:[
+      F("high","Intended use — DIA",
+        "DIA (Data Input & Analysis).",
+        "DIA = Decision / Input / Awareness.",
+        "Correct the definition."),
+      F("med","Data sources",
+        "Lists Microsoft Graph, Dataverse, Power BI, user inputs.",
+        "Also draws on Planner (tasks/overdue), Teams (meeting transcripts), Outlook (email) and SharePoint (deck storage).",
+        "Complete the data-source list."),
+      F("med","AI disclosure",
+        "Describes only a conversational assistant; no generative components named.",
+        "The agent uses 7 AI Builder prompt models including Red-KPI interpretation, DIA drafting and transcript analysis.",
+        "Disclose the AI Builder models in the RAI intake, since two of them generate content and influence tasking."),
+      G("high","Write / action operations",
+        "States the agent 'does not make decisions' but omits that it creates follow-up meetings & sends invites, sends emails and creates Planner tasks — real writes performed on the user's behalf.",
+        "List the agent's write actions in the intended-use / outputs section so the risk assessment reflects them."),
+      G("med","Generative answering & escalation status",
+        "The agent answers off-script questions generatively (conversational boosting) — an AI risk not covered — and human escalation is disabled ('not currently configured').",
+        "Note the generative fallback as an AI risk and state that in-agent escalation is not available."),
+    ]},
+
+  /* ---------- BCP ---------- */
+  { id:"bcp", group:"Documents", name:"Business Continuity Plan", kicker:"BCP",
+    file:"My_Meetings_Twin_-_BCP.docx",
+    metaInfo:[["Author","Ana Ocariz"],["Approver","Vinciane Polet"],["Version","1.0 · 07-Jul-2026"]],
+    verdict:{tag:"One deletion",cls:"crit",text:"Otherwise a solid, well-structured plan — but it carries a single alien SAP/RPA exception row pasted from a different bot's template."},
+    issues:[
+      F("crit","§3.1.2 Technical Exceptions Matrix",
+        "\"Instance name was not found in the SAP logon\" · recipient \"Vx RPA community\" · \"if the task fails to log into SAP for 2 times in a row… a critical error will be thrown… Login into SAP unsuccessful.\"",
+        "There is no SAP connector or dependency anywhere in the solution — this is leftover text from an RPA/SAP bot BCP template.",
+        "Delete the SAP row. If a substitute is wanted, add a real dependency (e.g. Power BI dataset unavailable, or Teams transcript not yet generated)."),
+      F("low","§2 Process Overview",
+        "Uses 'Microsoft Graph' as the umbrella for calendar/Teams/Planner access.",
+        "The specific connectors are Office 365 (Outlook/Users/Groups), Teams, Planner, SharePoint, Power BI, Dataverse and Azure AD.",
+        "Optional: name the specific connectors for precision (the current stack list is otherwise complete)."),
+    ]},
+
+  /* ---------- Testing Log ---------- */
+  { id:"log", group:"Documents", name:"Informal Testing Log", kicker:"Test evidence · xlsx",
+    file:"My_Meetings_Twin_-_Informal_Testing_Log.xlsx",
+    metaInfo:[["Product Owner","Sumit Kaura"],["Tech Owner (listed)","Dipendra Shekhawat"],["Testers","Sukant Sondhi · Vitor Antonio"]],
+    verdict:{tag:"Align + resolve",cls:"high",text:"Section names don't match the agent's real menu, an owner is inconsistent with the rest of the pack, and two failures are recorded but left open."},
+    issues:[
+      F("high","Section headers",
+        "Groups tests under \"Initiate DIA\" and \"Generate Meeting Deck.\"",
+        "The agent's four menu options are Start Meeting Configuration, Manage DIA, My Assigned DIA and Post-Meeting. 'Initiate DIA' rows actually test red-KPI detection (the Manage DIA journey); 'Manage DIA' rows test configuration (the Start Meeting Configuration journey). The groupings are crossed, and 'Generate Meeting Deck' is not a top-level option.",
+        "Rename sections to the four real journeys and re-file the crossed rows."),
+      F("high","S.No 63 & 64 — open failures",
+        "\"Verify error handling logs failures\" = F, and \"Verify DIA-to-Task linkage is maintained (Dataverse stores Task ID mapping)\" = F.",
+        "The DIA↔Planner linkage underpins CreatePlannerTasksinDataverse / UpdateDIATaskData / CompletePlannerTaskbyId. This failure sits in tension with S.No 62 'DIA completion updates Planner task = P.'",
+        "Treat as open defects, log them in the defect tracker, and reconcile with the passing sync tests before sign-off."),
+      F("med","Owner consistency",
+        "Technical Owner listed as Dipendra Shekhawat.",
+        "Every other document (TDD, BCP, EUD, RAI, Business Case) names Vinciane Polet as Tech Owner; the BCP lists Dipendra as a back-up, not the owner.",
+        "Align the Tech Owner field with the rest of the pack (Vinciane Polet), or note the back-up role explicitly."),
+      F("low","Log hygiene",
+        "Duplicate S.No values (38, 42, 48, 53, 59), missing dates/objectives, platform typo 'Copilto Studio.'",
+        "—",
+        "Renumber uniquely, backfill dates/objectives, fix the typo."),
+      F("med","S.No 61 — “DIA process initiates automatically”",
+        "Verify DIA process initiates automatically → KPI/Project fetch begins without manual intervention.",
+        "The DIA process is not automatic. The hourly flow only emails a reminder to the organizer; DetectRedKpis then requires the organizer to open Manage DIA, select the flagged items and confirm before any DIA task is created or any owner is notified.",
+        "Reword to reflect the gate: the scheduled flow reminds the organizer; the DIA process begins only when the organizer opens Manage DIA and confirms."),
+    ]},
+
+  /* ---------- Guidebook ---------- */
+  { id:"guide", group:"Documents", name:"User Guidebook V1", kicker:"End-user guide",
+    file:"My_Meetings_Twin_Guidebook_V1-.docx",
+    metaInfo:[["Audience","Organisers & contributors"],["Dated","July 2026"],["Journeys","4 (correct)"]],
+    verdict:{tag:"Strongest — 2 fixes",cls:"high",text:"Still the best document in the set — journeys, Tier selection, channels and integrations are accurate, and it avoids the DIA definition trap. But it understates the follow-up-meeting write action, and the DIA form fields are wrong."},
+    issues:[
+      F("high","§3.2 My Assigned DIA — manual fields",
+        "\"You enter executive summary, key updates, next steps, RAG context, and other DIA fields directly.\"",
+        "Those are the KPI context fields pulled from Power BI. The actual DIA capture card fields the contributor fills are: Situation, Current Response, Patient Impact, Balanced Scorecard, DIA, Recommendation, Next Steps — plus DIA Type (Decision / Input / Awareness).",
+        "Replace the field list with the real DIA capture fields."),
+      F("high","§2 / §3.2 tables & Appendix E — follow-up meetings",
+        "\"Suggests a follow-up meeting when the transcript indicates unresolved items\" · \"follow-up meeting suggestions\" · \"suggest follow-up meetings where required.\"",
+        "The agent doesn't only suggest. On confirmation it creates the calendar meeting and sends the invite — CreateCalendarMeeting flow, topic message “Follow up meeting created successfully!”, Test log: “invite is sent to necessary attendees.” Every Guidebook mention says only “suggests,” understating a write action.",
+        "State that, once the organiser confirms, the agent creates the follow-up meeting and sends invites to the required attendees."),
+      F("low","§3.2 Setup walkthrough",
+        "Sequence: Meeting → Planner → Tier → Tier ID → KPI/MS Project → notifications.",
+        "The live flow also prompts for a Meeting Purpose (free text, used in the agenda) after Tier and before KPI selection.",
+        "Add the Meeting Purpose step to the walkthrough."),
+      G("med","Tier cascade (lower-tier DIA reuse)",
+        "When filling a KPI DIA, the agent can pull an already-submitted DIA from one tier down and offer to pre-fill from it — a real time-saver for contributors.",
+        "Add a note that the agent may offer lower-tier DIA data to pre-fill a KPI DIA."),
+      F("high","§3.3 Notifications — who is prompted, and the confirmation gate",
+        "These preferences determine … when contributors should be prompted to prepare / KPI owners and attendees receive prompts before inputs are due.",
+        "The scheduled reminder goes to the ORGANIZER — PA_SendDIANotificationToOrganizer emails myagtwin_organizeremail when today ≥ EventWorkingDate. Owners/attendees are prompted only AFTER the organizer opens Manage DIA, reviews the flagged Red/Amber + overdue items and confirms, which creates the DIA tasks and triggers the owner notification. The schedule does not prompt contributors directly.",
+        "Rewrite §3.3: the schedule triggers a preparation reminder to the organizer; the organizer then runs Manage DIA and confirms; only then are owners auto-notified (Teams + email)."),
+    ]},
+
+  /* ---------- Business Case ---------- */
+  { id:"bc", group:"Documents", name:"Business Case", kicker:"Value model · xlsx",
+    file:"My_Meetings_Twin_-_Business_Case.xlsx",
+    metaInfo:[["Process Owner","Sumit Kaura"],["AI Owner","Vinciane Polet"],["Complexity","High (2.75)"]],
+    verdict:{tag:"Validate inputs",cls:"med",text:"No solution-fidelity errors in the description — the concern is unvalidated volumetrics producing implausible headline numbers."},
+    issues:[
+      F("med","Step 1–5 volumetrics",
+        "'Meeting duration' at 2,146,433 runs/year → ~177 FTEs freed → $17.6M; total P&L $35.1M; ROI 439×; payback ~0.03 months.",
+        "These are placeholder-scale inputs. A governance-meeting agent for GSC won't plausibly run millions of times a year or free 177 FTEs.",
+        "Replace with validated run volumes and effort estimates before this supports any funding decision."),
+      F("low","Step 1 assumptions",
+        "'% of task the agent can automate' is 0.3 in three columns but 1.0 in the 'Meeting skipped' column.",
+        "Inconsistent automation assumptions across the four value streams.",
+        "Reconcile the automation percentages, or document why 'Meeting skipped' is 100%."),
+      F("low","Front Sheet labelling",
+        "'Value Score 3.75' sits next to a complexity scale that maxes at 3.0.",
+        "3.75 is the Business-Value-Priorities average (0–5 scale); complexity is a separate 2.75 → High. Easy to misread as one score.",
+        "Label the two scores distinctly on the Front Sheet."),
+    ]},
+
+  /* ---------- GROUND TRUTH ---------- */
+  { id:"truth", group:"Reference", name:"Ground Truth (solution facts)", meta:"basis for every finding", type:"truth" },
+];
+
+const SEV_ORDER = {crit:0,high:1,med:2,low:3};
+const SEV_LABEL = {crit:"Critical",high:"High",med:"Medium",low:"Low"};
+
+/* ============================ RENDER ============================ */
+function counts(d){
+  const c={crit:0,high:0,med:0,low:0};
+  (d.issues||[]).forEach(i=>c[i.sev]++);
+  return c;
+}
+function totalCounts(){
+  const c={crit:0,high:0,med:0,low:0,issues:0,docs:0};
+  DOCS.forEach(d=>{ if(d.issues){c.docs++; d.issues.forEach(i=>{c[i.sev]++;c.issues++})} });
+  return c;
+}
+
+/* rail */
+const rail=document.getElementById('rail');
+let lastGroup='';
+DOCS.forEach((d,idx)=>{
+  if(d.group!==lastGroup){
+    const g=document.createElement('div'); g.className='rail-group'; g.textContent=d.group; rail.appendChild(g); lastGroup=d.group;
+  }
+  const b=document.createElement('button');
+  b.className='tab'; b.setAttribute('role','tab'); b.id='tab-'+d.id; b.setAttribute('aria-controls','view-'+d.id);
+  b.setAttribute('aria-selected', idx===0?'true':'false'); b.tabIndex = idx===0?0:-1;
+  let metaHtml='';
+  if(d.issues){
+    const c=counts(d);
+    metaHtml = ['crit','high','med','low'].filter(k=>c[k]).map(k=>`<span class="dot ${k}"></span>${c[k]}`).join('');
+    if(!metaHtml) metaHtml='<span class="dot good"></span>clean';
+  } else { metaHtml = d.meta||''; }
+  b.innerHTML=`<span class="t-name">${d.kicker?`<span style="font-family:var(--mono);font-size:10px;color:var(--rail-dim)">${d.kicker}</span><br>`:''}${d.name}</span><span class="t-meta">${metaHtml}</span>`;
+  b.addEventListener('click',()=>select(d.id));
+  rail.appendChild(b);
+});
+
+/* panel views */
+const panel=document.getElementById('panel');
+DOCS.forEach((d,idx)=>{
+  const v=document.createElement('section');
+  v.className='panel-view'+(idx===0?' active':''); v.id='view-'+d.id;
+  v.setAttribute('role','tabpanel'); v.setAttribute('aria-labelledby','tab-'+d.id);
+  v.innerHTML = d.type==='overview'?renderOverview() : d.type==='coverage'?renderCoverage() : d.type==='truth'?renderTruth() : renderDoc(d);
+  panel.appendChild(v);
+});
+
+function renderDoc(d){
+  const c=counts(d);
+  const tally=['crit','high','med','low'].filter(k=>c[k]).map(k=>`<span class="tchip ${k}"><span class="dot ${k}"></span>${c[k]} ${SEV_LABEL[k]}</span>`).join('')||`<span class="tchip good"><span class="dot good"></span>No blocking issues</span>`;
+  const meta=(d.metaInfo||[]).map(([k,v])=>`<div class="meta"><span class="k">${k}</span><span class="v">${v}</span></div>`).join('');
+  const issues=(d.issues||[]).slice().sort((a,b)=>SEV_ORDER[a.sev]-SEV_ORDER[b.sev] || (a.gap?1:0)-(b.gap?1:0)).map(renderIssue).join('');
+  return `
+    <div class="doc-head">
+      <div class="doc-kicker">${d.kicker||''}</div>
+      <h2 class="doc-title">${d.name}</h2>
+      <div class="doc-file">${d.file||''}</div>
+      <div class="verdict"><span class="tag tchip ${d.verdict.cls}">${d.verdict.tag}</span><span>${d.verdict.text}</span></div>
+      <div class="tally">${tally}</div>
+    </div>
+    ${issues}`;
+}
+
+function renderIssue(i){
+  const tag = i.gap? `<span class="miss">Missing from this doc</span>`:'';
+  const truthLbl = i.gap? '● What the solution does (undocumented)' : '● What the solution shows';
+  const fixLbl = i.gap? '▸ Add' : '▸ Fix';
+  return `<div class="issue${i.gap?' gap':''}">
+    <div class="issue-top">
+      <span class="sev ${i.sev}">${SEV_LABEL[i.sev]}</span>${tag}
+      <div><div class="issue-area">${i.area}</div></div>
+    </div>
+    <div class="issue-body">
+      ${i.says&&i.says!=='—'?`<div class="field says"><div class="lbl">◆ What it says</div><p>“${i.says}”</p></div>`:''}
+      ${i.truth&&i.truth!=='—'?`<div class="field truth"><div class="lbl">${truthLbl}</div><p>${i.truth}</p></div>`:''}
+      ${i.fix?`<div class="field fix"><div class="lbl">${fixLbl}</div><p>${i.fix}</p></div>`:''}
+    </div>
+  </div>`;
+}
+
+function renderOverview(){
+  const t=totalCounts();
+  const themes=[
+    ["1","DIA is defined wrong in five documents",
+     "Every doc that expands the acronym calls it “Data Input &amp; Analysis.” The solution’s <code>DIAType</code> option set is <b>Decision / Input / Awareness</b>, and the capture topic branches on the Input value. This is the exact fidelity failure to eliminate first.",
+     "TDD · AI Accountability · User Requirements · EUD · GSC RAI Process"],
+    ["2","Two RPA/SAP template leftovers survived paste-in",
+     "Whole blocks describe a different (RPA) product: the TDD’s “AA tasks… Credential Manager… Excel OLEDB driver,” and the BCP’s SAP-logon exception row routed to the “Vx RPA community.” Neither has anything to do with this Copilot agent.",
+     "TDD §3.28 · BCP §3.1.2"],
+    ["3","The background-execution story is wrong and self-contradictory",
+     "The TDD alternately says there’s no schedule and that it runs daily; the RAI docs say it never runs unattended. Reality: an <b>hourly</b> recurrence flow plus four Dataverse-webhook flows drive notifications without a user.",
+     "TDD · AI Accountability · GSC RAI Process"],
+    ["4","GxP stance conflicts across the pack",
+     "User Requirements tags everything “GxP Support” on a GxP template; the EUD and RAI both answer GxP = No / None. One of these is wrong — the majority and the assistive-only design point to non-GxP.",
+     "User Requirements ⟷ EUD ⟷ GSC RAI Process"],
+    ["5","Connector &amp; AI-model inventories are shorthand or incomplete",
+     "Docs lean on “Microsoft Graph, Dataverse, Power BI.” The real stack adds Teams, SharePoint, Planner, Outlook and Azure AD, and the AI surface is <b>7 AI Builder models</b> (incl. the Red-KPI classifier and DIA drafter) on top of the GPT5Chat shell — rarely fully listed.",
+     "TDD · EUD · GSC RAI Process · AI Accountability"],
+  ];
+  const heatDocs=DOCS.filter(d=>d.issues);
+  const rows=heatDocs.map(d=>{
+    const c=counts(d); const tot=c.crit+c.high+c.med+c.low;
+    const cell=(k)=>`<td class="cell ${c[k]?k:'n0'}">${c[k]||'·'}</td>`;
+    return `<tr class="jump" data-go="${d.id}"><td class="doc">${d.name}</td>${cell('crit')}${cell('high')}${cell('med')}${cell('low')}<td class="total">${tot}</td></tr>`;
+  }).join('');
+  return `
+    <div class="doc-head">
+      <div class="doc-kicker">Audit summary</div>
+      <h2 class="doc-title">What’s wrong, across the set</h2>
+      <p class="lead" style="margin-top:12px">${t.issues} findings across ${t.docs} documents, checked line-by-line against the exported solution. Five themes recur; the Guidebook is the only near-clean document. Click any row in the matrix to jump to that document.</p>
+    </div>
+    <div class="sec-title">Five through-lines</div>
+    ${themes.map(([n,h,p,aff])=>`<div class="theme"><h4><span class="num">${n}</span>${h}</h4><p>${p}</p><div class="aff"><b>Appears in:</b> ${aff}</div></div>`).join('')}
+    <div class="sec-title">Severity matrix</div>
+    <table class="heat">
+      <thead><tr><th style="text-align:left">Document</th><th>Critical</th><th>High</th><th>Medium</th><th>Low</th><th>Total</th></tr></thead>
+      <tbody>${rows}</tbody>
+    </table>
+    <div class="foot">Severity key — <b>Critical</b>: alien/false content or self-contradiction · <b>High</b>: factual mismatch with the solution · <b>Medium</b>: incomplete or inconsistent · <b>Low</b>: cosmetic / hygiene.</div>`;
+}
+
+function renderTruth(){
+  const cards=[
+    ["ID","Agent identity",[
+      "Display name <b>My Meetings Twin</b> · schema <code>cr1d7_agenttIFALA</code>",
+      "Model <b>GPT5Chat</b> · channels <b>Microsoft Teams + M365 Copilot</b>",
+      "<code>GenerativeActionsEnabled = false</code> — no autonomous <i>action</i> orchestration; BUT the Search topic runs <code>SearchAndSummarizeContent</code> on OnUnknownIntent and <code>useModelKnowledge = true</code>, so the agent DOES generate free-text answers to off-script questions",
+      "<b>Human escalation is disabled</b> — the Escalate topic says escalation “is not currently configured for this agent.” Oversight = the user validating outputs, not a handoff",
+      "<code>contentModeration = High</code> · semantic search on · <code>publishOnImport = true</code>",
+    ]],
+    ["DIA","DIA = Decision / Input / Awareness",[
+      "From <code>myagtwin_diatask.DIAType</code>: <b>0 = Decision, 1 = Input, 2 = Awareness</b>",
+      "A DIA is a governance agenda item an owner prepares, stating what they need from the meeting",
+      "Capture fields: Situation · Current Response · Patient Impact · Balanced Scorecard · DIA · Recommendation · Next Steps · DIA Type",
+      "<b>Not</b> “Data Input &amp; Analysis”",
+    ]],
+    ["4","Four user journeys (Initial Topic menu)",[
+      "<b>Start Meeting Configuration</b> → Meeting Selection → KPI/MS Project → Notifications → Save",
+      "<b>Manage DIA</b> → detect Red KPIs → create DIA Planner tasks for owners + optional DIAs for attendees",
+      "<b>My Assigned DIA</b> → fill the DIA form (manual, example, draft, or nothing to contribute)",
+      "<b>Post-Meeting</b> → transcript analysis → notes, follow-up tasks, follow-up meeting",
+    ]],
+    ["DB","Dataverse — 4 tables",[
+      "<code>myagtwin_MeetingConfiguration</code> — the durable tracked-meeting record (46 cols)",
+      "<code>myagtwin_EventConfiguration</code> — one per meeting occurrence (30 cols)",
+      "<code>myagtwin_MetingKPIs</code> — KPI/project catalogue (37 cols · note the schema typo “Meting”)",
+      "<code>myagtwin_DIATask</code> — the DIA form/task; TaskType 0=Planner,1=KPI,2=MSProject,3=Optional; Status 0=In Progress,1=Submitted",
+    ]],
+    ["AI","AI Builder models — 20 shipped, 7 wired, 13 orphaned",[
+      "Wired (7): RedKPI-Interpreter · KPI-Selection · MSProject-Selection · Draft-DIA · HTML-Slides · Calc-Attendees · Transcript-Analysis",
+      "13 more are shipped (type-401 components, 40 AIConfiguration blocks = 20 models × training) but bound to no topic — likely old versions/experiments",
+      "Plus the GPT5Chat conversational shell and the generative conversational-boosting path (Search topic)",
+      "Disclose “7 active / 20 present” and clean up the 13 orphans before release",
+    ]],
+    ["PA","53 Power Automate flows · 5 run in the background",[
+      "<code>PA_SendDIANotificationToOrganizer</code> — Recurrence, <b>every 1 hour</b>",
+      "<code>DIANotificationtoTaskOwnersandAttendees</code> — fires on DIA task create/update → Teams + email",
+      "<code>PA_OnNewSetupCreation</code>, <code>PA_AddNewMeetingEvnt</code>, <code>PA_EventWorkingDay</code> — Dataverse webhooks",
+      "The rest are agent-invoked (Office 365, Teams, Planner, Power BI, Dataverse, Azure AD, SharePoint)",
+    ]],
+    ["W","Confirmed write actions (changes external state)",[
+      "Dataverse: creates MeetingConfiguration, EventConfiguration, MetingKPIs & DIATask rows; updates status/attendee rows",
+      "Planner: creates DIA tasks (owner + attendee) and post-meeting tasks; completes tasks on submission",
+      "Outlook: <b>creates the follow-up meeting &amp; sends invite</b> (V4CalendarPostItem); <b>patches the real meeting event</b> (V4CalendarPatchItem ×2, live via GenerateDIAHTMLSlidesV2); sends emails",
+      "Teams: posts DIA notifications to owner/attendee chats · SharePoint: creates folder + stores the HTML deck",
+    ]],
+    ["10","Connectors (authoritative) &amp; data model depth",[
+      "10 connection references: Dataverse · Office 365 Outlook · Office 365 Users · Planner · Teams · Azure AD · Office 365 Groups · Office 365 Groups Mail · Power BI · SharePoint Online",
+      "There is <b>no “Microsoft Graph” connector</b> and <b>no SAP</b> — docs that name Graph as a connector are imprecise",
+      "customizations.xml also holds <b>29 table relationships, 27 option sets, 28 views</b> and AI-config blocks — none of the relationships/option sets are in the TDD or UR",
+      "V1/V2: KPICardOriginal, KPICardPart-1/2/3, TestMulti-select are unreferenced (dead); some V1 topics remain cross-referenced (live+legacy tangled)",
+    ]],
+    ["BI","Power BI sources & environment",[
+      "Tier hierarchy from <code>DIM_UNIVERSAL_HIERARCHY</code> (T1–T4) · projects from <code>FCT_ACTIVE_MS_PROJECTS</code>",
+      "KPI fields extracted: TARGET, ONTARGET, VALUE, KeyUpdates, KeyNextSteps, KeySummary → cached in Dataverse",
+      "Notification window: <code>notifyDaysPrior</code> in business days (1–10)",
+      "Env vars: MeetingAgent folder · Documents library · Shared Documents/ path",
+    ]],
+  ];
+  return `
+    <div class="doc-head">
+      <div class="doc-kicker">Reference · source of truth</div>
+      <h2 class="doc-title">Ground truth from the solution</h2>
+      <p class="lead" style="margin-top:12px">These are the facts read directly from <code>MeetingDIASolution v1.0.0.7</code>. Every finding in this audit is measured against them.</p>
+    </div>
+    ${cards.map(([ic,h,items])=>`<div class="gt-card"><h4><span class="ic">${ic}</span>${h}</h4><ul class="gt-list">${items.map(x=>`<li>${x}</li>`).join('')}</ul></div>`).join('')}
+    <div class="foot">Full teardown available in the companion reference: MyMeetingsTwin_Solution_Analysis.md</div>`;
+}
+
+/* ============================ NAV ============================ */
+function renderCoverage(){
+  const cols=["Guide","TDD","UR","EUD","RAI","BCP","Acct","Test","BC"];
+  // presence string in col order Guide,TDD,UR,EUD,RAI,BCP,Acct,Test,BC
+  const rows=[
+    ["Meeting Purpose capture","000000000","The free-text purpose asked at setup, injected into the agenda."],
+    ["Lower-tier DIA reuse (T4→T1 cascade)","000000000","Pre-fills a DIA from an already-submitted lower-tier one."],
+    ["Duplicate meeting-config guard","000000000","Blocks re-configuring an already-configured meeting."],
+    ["Balanced Scorecard (DIA field)","000000000","A real capture field on the DIA form."],
+    ["GPT5Chat model named","000000000","The conversational model is never named."],
+    ["7 AI Builder models named","000000000","Red-KPI classifier, DIA drafter, transcript, etc. — none listed."],
+    ["Content-moderation = High","000000000","The moderation setting is undocumented."],
+    ["Meeting invite auto-updated w/ attendees","000000010","WRITE ACTION — edits real Outlook invites. In the Test log only."],
+    ["Patient Impact (DIA field)","000000100","One mention (Accountability Report); pharma-sensitive."],
+    ["Follow-up MEETING creation (create + invite)","000000010","WRITE ACTION. Solution creates the meeting & sends the invite; the Guidebook only says it “suggests” one. Truthfully captured in the Test log alone."],
+    ["Attendance-explanation message","100000010","AI-generated “why you’re invited” text."],
+    ["Optional DIAs to attendees","100000010","Auto-tasks every attendee with an optional DIA."],
+    ["Situation / Recommendation / Next Steps","000010100","Core DIA fields; barely covered, Guidebook lists wrong fields."],
+    ["Tier hierarchy / Tier ID","110000000",""],
+    ["Deck stored in SharePoint","100001010","WRITE ACTION — saves file to the team site."],
+    ["Follow-up TASKS from transcript","100001010","WRITE ACTION — creates Planner tasks. Missing from TDD & UR."],
+    ["Overdue Planner tasks detection","110000010",""],
+    ["DIA draft-from-data / example","110000010",""],
+    ["DIA status tracking","110011010",""],
+    ["Slide / deck generation","110011010",""],
+    ["Post-meeting notes emailed","100011010","WRITE ACTION — emails attendees."],
+    ["Agenda generation (time slots)","101011010",""],
+    ["Attendee calc (mandatory/optional)","010101010",""],
+    ["Transcript analysis","110001110",""],
+    ["MS Project tracking (amber/red)","110011110",""],
+    ["DIA Type = Decision/Input/Awareness","100010110","Mentioned in ~4 docs but mis-defined as “Data Input & Analysis” in 5."],
+    ["Planner selection (multi-plan)","110111010",""],
+    ["Conversational boosting / free-text LLM answers","000000000","Search topic answers off-script questions generatively (SearchAndSummarizeContent + useModelKnowledge). Undocumented AI-risk surface."],
+    ["Human escalation (none — disabled in agent)","000000000","Escalate topic says escalation “is not currently configured.” No doc states there is no handoff."],
+    ["Red-KPI detection (concept)","111110110","Concept covered; the AI classifier behind it is never disclosed."],
+    ["Notification days-prior","111111110",""],
+    ["Organizer vs Attendee role","111111110",""],
+  ];
+  const cnt=s=>s.split('').filter(c=>c==='1').length;
+  const gapCls=n=> n===0?'crit' : n<=2?'high' : n<=4?'med' : 'low';
+  rows.sort((a,b)=>cnt(a[1])-cnt(b[1]));
+  const body=rows.map(([cap,pres,note])=>{
+    const n=cnt(pres);
+    const cells=pres.split('').map(c=>`<td class="cell ${c==='1'?'ok':'no'}">${c==='1'?'✓':'·'}</td>`).join('');
+    return `<tr><td class="doc" title="${note||''}">${cap}${note?` <span class="cov-note">${note}</span>`:''}</td>${cells}<td class="cell ${gapCls(n)}" style="font-family:var(--dsp)">${n}</td></tr>`;
+  }).join('');
+  const head=`<tr><th style="text-align:left">Capability (in the solution)</th>${cols.map(c=>`<th>${c}</th>`).join('')}<th>#</th></tr>`;
+
+  const nowhere=[
+    "Meeting Purpose capture","Lower-tier DIA reuse / tier cascade","Duplicate meeting-config guard",
+    "Balanced Scorecard field","GPT5Chat model name","The 7 AI Builder models","Content-moderation (High) setting"
+  ];
+  const thin=[
+    ["Follow-up meeting creation (create + send invite)","Test log only. The Guidebook merely says the agent “suggests” a follow-up — it never states the agent creates the meeting and sends the invite."],
+    ["Meeting-invite auto-update (adds attendees)","Test log only"],
+    ["Attendance-explanation message","Guidebook + Test log only"],
+    ["Optional DIAs to attendees","Guidebook + Test log only"],
+    ["Deck → SharePoint / follow-up tasks / post-meeting notes","Missing from TDD and User Requirements"],
+    ["Patient Impact field","Accountability Report only"],
+  ];
+  return `
+    <div class="doc-head">
+      <div class="doc-kicker">Coverage audit · errors of omission</div>
+      <h2 class="doc-title">What the solution does that the docs don’t say</h2>
+      <p class="lead" style="margin-top:12px">Grepped all nine documents for every solution capability — then checked whether a mention actually describes the behaviour. It often doesn’t: the <b>Guidebook only says the agent “suggests” a follow-up meeting</b>, but the solution <b>creates the meeting and sends the invite</b>. That write behaviour is captured truthfully in <b>one</b> place — the Testing Log. The same pattern repeats across several write actions that create meetings, edit invites and send email — the docs a reviewer approves against barely mention them, or understate them.</p>
+    </div>
+
+    <div class="sec-title">Documented nowhere — in any of the 9 docs</div>
+    <div class="theme" style="border-left-color:var(--crit)">
+      <ul class="gt-list">${nowhere.map(x=>`<li style="border-color:var(--line-soft)">${x}</li>`).join('')}</ul>
+    </div>
+
+    <div class="sec-title">In user/test docs only — missing from every spec &amp; governance doc</div>
+    ${thin.map(([h,w])=>`<div class="theme" style="border-left-color:var(--high)"><h4 style="font-size:15px">${h}</h4><p class="aff"><b>Where:</b> ${w}</p></div>`).join('')}
+
+    <div class="theme" style="border-left-color:var(--accent);background:var(--accent-soft)">
+      <h4><span class="num" style="color:var(--accent-deep)">!</span>The write-action problem</h4>
+      <p>The agent <b>creates calendar meetings, edits meeting invites, sends emails and creates Planner tasks</b> — real writes to people’s calendars and inboxes. Yet the TDD, RAI Process and AI Accountability Report describe it as assistive and “does not trigger actions.” These actions need to be enumerated and reflected in the risk rating.</p>
+    </div>
+
+    <div class="sec-title">Full coverage matrix — ✓ = mentioned (a mention can still understate the real behaviour — see follow-up meeting) · sorted by # of docs</div>
+    <table class="heat cov"><thead>${head}</thead><tbody>${body}</tbody></table>
+    <div class="foot"><b>Every gap above is now also filed under the relevant document’s own tab</b> (marked “Missing from this doc”), so each owner sees it where they’ll fix it.<br>Column key — Guide · TDD · UR (User Requirements) · EUD · RAI (Process) · BCP · Acct (AI Accountability) · Test (Testing Log) · BC (Business Case). The <b>#</b> column counts how many documents mention the capability; 0 = documented nowhere.</div>`;
+}
+
+/* ============================ NAV ============================ */
+function select(id){
+  DOCS.forEach(d=>{
+    const tab=document.getElementById('tab-'+d.id), view=document.getElementById('view-'+d.id);
+    const on = d.id===id;
+    tab.setAttribute('aria-selected', on?'true':'false'); tab.tabIndex = on?0:-1;
+    view.classList.toggle('active', on);
+  });
+  document.getElementById('tab-'+id).focus();
+  document.querySelector('main.panel').scrollTop=0;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+/* jump from heatmap rows */
+panel.addEventListener('click',e=>{
+  const tr=e.target.closest('tr.jump'); if(tr) select(tr.dataset.go);
+});
+
+/* keyboard: up/down through the rail */
+rail.addEventListener('keydown',e=>{
+  if(!['ArrowDown','ArrowUp','Home','End'].includes(e.key)) return;
+  e.preventDefault();
+  const ids=DOCS.map(d=>d.id);
+  const cur=ids.findIndex(id=>document.getElementById('tab-'+id).getAttribute('aria-selected')==='true');
+  let next=cur;
+  if(e.key==='ArrowDown') next=(cur+1)%ids.length;
+  if(e.key==='ArrowUp') next=(cur-1+ids.length)%ids.length;
+  if(e.key==='Home') next=0;
+  if(e.key==='End') next=ids.length-1;
+  select(ids[next]);
+});
+</script>
+</body>
+</html>

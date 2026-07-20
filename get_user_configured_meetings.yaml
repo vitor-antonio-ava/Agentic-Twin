@@ -5,7 +5,9 @@ beginDialog:
   actions:
     - kind: SendActivity
       id: sendActivity_HmCUzx
-      activity: Fetching your configured meetings data...
+      activity: |-
+        I’m fetching your configured meetings data 📊
+        This will just take a moment ⏳
 
     - kind: InvokeFlowAction
       id: invokeFlowAction_4fik0n
@@ -27,7 +29,7 @@ beginDialog:
             ParseJSON(Topic.eventsFound),
             {
                 EventName: Text(ThisRecord.EventName),
-                DisplayName: Text(ThisRecord.EventName),
+                DisplayName: Text(ThisRecord.EventName) & "(" & Text(DateTimeValue(ThisRecord.EventDate), "yyyy-mm-dd") & ")",
                 EventDate: Text(ThisRecord.EventDate),
                 EventMeetingType: Text(ThisRecord.EventMeetingType),
                 MandatoryAttendees: Text(ThisRecord.MandatoryAttendees),
@@ -47,7 +49,8 @@ beginDialog:
                 MeetingTierId: Text(ThisRecord.MeetingTierId),
                 MeetingConfigurationId: Text(ThisRecord.MeetingConfigurationId),
                 MeetingGroupId: Text(ThisRecord.MeetingGroupId),
-                MeetingFrequency: Value(ThisRecord.MeetingFrequency)
+                MeetingFrequency: Value(ThisRecord.MeetingFrequency),
+                MeetingEventId: Text(ThisRecord.MeetingEventId)
             }
         )
 
@@ -96,13 +99,14 @@ beginDialog:
                       DIAStatus: Number
                       EventConfigurationId: String
                       EventDate: String
-                      EventId: Blank
+                      EventId: String
                       EventMeetingType: String
                       EventMeetingValue: String
                       EventName: String
                       EventStatus: Number
                       MandatoryAttendees: String
                       MeetingConfigurationId: String
+                      MeetingEventId: String
                       MeetingFrequency: Number
                       MeetingGroupId: String
                       MeetingKpis:
@@ -130,7 +134,7 @@ beginDialog:
                       MeetingTierCode: String
                       MeetingTierDescription: String
                       MeetingTierId: String
-                      OptionalAttendees: Blank
+                      OptionalAttendees: String
                       PostEventStatus: Number
 
                   value: =Topic.selectedMeetingEventJson
@@ -142,9 +146,10 @@ beginDialog:
                       condition: =Topic.selectedMeetingEvent.DIAStatus = 1
                       actions:
                         - kind: BeginDialog
-                          id: 1QrbPB
+                          id: MTZafq
                           input:
                             binding:
+                              meetingCalendarEventId: =Topic.selectedMeetingEvent.MeetingEventId
                               meetingEventId: =Topic.selectedMeetingEvent.EventMeetingValue
 
                           dialog: cr1d7_agenttIFALA.topic.CheckOnGoingDIAsStatus
@@ -159,40 +164,77 @@ beginDialog:
                       dialog: cr1d7_agenttIFALA.topic.DetectRedKpis
 
       elseActions:
-        - kind: Question
-          id: question_xOTrl2
-          interruptionPolicy:
-            allowInterruption: true
+        - kind: InvokeFlowAction
+          id: pmKlwN
+          input:
+            binding:
+              text: =System.User.Email
 
-          variable: init:Topic.Var1
-          prompt: "I couldn't find any records of configured meetings, do you want to configure one? "
-          entity:
-            kind: EmbeddedEntity
-            definition:
-              kind: ClosedListEntity
-              items:
-                - id: Yes
-                  displayName: Yes
+          output:
+            binding:
+              meetingsfound: Topic.meetingsFound
 
-                - id: No
-                  displayName: No
+          flowId: 7fdb6997-9b47-f111-bec6-000d3a3690d9
 
         - kind: ConditionGroup
-          id: conditionGroup_j5PX8F
+          id: conditionGroup_TbHnPg
           conditions:
-            - id: conditionItem_3J05Qg
-              condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.GetUserConfiguredMeetings.main.question_xOTrl2'.Yes
+            - id: conditionItem_Q3YI3F
+              condition: =Topic.meetingsFound = "[]"
               actions:
-                - kind: BeginDialog
-                  id: IIChwC
-                  dialog: cr1d7_agenttIFALA.topic.MeetingSelectionTopic
+                - kind: Question
+                  id: TmSoOB
+                  interruptionPolicy:
+                    allowInterruption: true
 
-            - id: conditionItem_cSkXHs
-              condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.GetUserConfiguredMeetings.main.question_xOTrl2'.No
-              actions:
-                - kind: BeginDialog
-                  id: 9JGD8e
-                  dialog: cr1d7_agenttIFALA.topic.InitialTopic
+                  variable: Topic.Var1
+                  prompt: "I couldn't find any records of configured meetings, do you want to configure one? "
+                  entity:
+                    kind: EmbeddedEntity
+                    definition:
+                      kind: ClosedListEntity
+                      items:
+                        - id: Yes
+                          displayName: Yes
+
+                        - id: No
+                          displayName: No
+
+                - kind: ConditionGroup
+                  id: rbxoIQ
+                  conditions:
+                    - id: Fzu5bg
+                      condition: =Topic.Var1 = 'cr1d7_agenttIFALA.topic.GetUserConfiguredMeetings.main.TmSoOB'.Yes
+                      actions:
+                        - kind: BeginDialog
+                          id: 2HP2X3
+                          dialog: cr1d7_agenttIFALA.topic.MeetingSelectionTopic
+
+                  elseActions:
+                    - kind: BeginDialog
+                      id: uW5zkF
+                      dialog: cr1d7_agenttIFALA.topic.ResetConversation
+
+          elseActions:
+            - kind: Question
+              id: HNHpl1
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: Topic.Var2
+              prompt: None of your configured meetings is yet ready for a DIA or meeting preparation process. Check back later when you receive the notification to start the next meeting preparation and DIA process.
+              entity:
+                kind: EmbeddedEntity
+                sensitivityLevel: None
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Ok
+                      displayName: Ok
+
+            - kind: BeginDialog
+              id: aWeOZI
+              dialog: cr1d7_agenttIFALA.topic.ResetConversation
 
 inputType: {}
 outputType: {}

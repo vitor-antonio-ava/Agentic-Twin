@@ -31,6 +31,20 @@ beginDialog:
 
       value: =Topic.userEventList
 
+    - kind: SetVariable
+      id: vYh0GA
+      variable: Topic.userEvents
+      value: |-
+        =ForAll(
+            ParseJSON(Topic.userEventList),
+            {
+                EventName: Text(ThisRecord.EventName),
+                EventId: Text(ThisRecord.EventId),
+                DisplayName: Text(ThisRecord.EventName) & "(" & Text(DateTimeValue(ThisRecord.EventDate), "yyyy-mm-dd") & ")",
+                EventDate: Text(ThisRecord.EventDate)
+            }
+        )
+
     - kind: ConditionGroup
       id: conditionGroup_V4A6Jn
       conditions:
@@ -43,7 +57,7 @@ beginDialog:
                 allowInterruption: true
 
               variable: init:Topic.Var2
-              prompt: You have no in progress DIA tasks assigned to you at the moment.
+              prompt: You don’t have any in-progress DIA tasks assigned to you right now 😊
               entity:
                 kind: EmbeddedEntity
                 definition:
@@ -66,7 +80,7 @@ beginDialog:
         allowInterruption: true
 
       variable: init:Topic.userSelectedEvent
-      prompt: Which meeting event you want to check your assigned DIAs?
+      prompt: Please select the meeting event for which you’d like to view your assigned DIAs.
       entity:
         kind: DynamicClosedListEntity
         items: =Topic.userEvents
@@ -95,7 +109,10 @@ beginDialog:
           DIAResponseReceived: Number
           DIATaskId: String
           DisplayName: String
-          KpiId: Blank
+          ExecutiveSummary: String
+          KeyNextSteps: String
+          KeyUpdates: String
+          KpiId: String
           OwnerId: String
           PlannerTaskId: String
           Status: Number
@@ -103,6 +120,7 @@ beginDialog:
           TaskName: String
           TaskStartDate: String
           TaskType: Number
+          TierCode: String
 
       value: =Topic.userAssignedDIAs
 
@@ -118,7 +136,7 @@ beginDialog:
                 allowInterruption: true
 
               variable: init:Topic.Var1
-              prompt: "I couldn't find any in-progress DIA's assigned to your for this meeting event. "
+              prompt: I couldn't find any in-progress DIA's assigned to your for this meeting/event.
               entity:
                 kind: EmbeddedEntity
                 definition:
@@ -149,12 +167,13 @@ beginDialog:
         items: =Topic.userDIAs
 
     - kind: BeginDialog
-      id: 2N2EO7
+      id: oaOc35
       input:
         binding:
           diaTaskRecord: =JSON(Topic.userSelectedDIA)
+          selectedDIARecord: =Topic.userSelectedDIA
 
-      dialog: cr1d7_agenttIFALA.topic.DIADataCapture
+      dialog: cr1d7_agenttIFALA.topic.DIADataCaptureV2
       output:
         binding:
           diaReportOutput: Topic.diaReportOutput

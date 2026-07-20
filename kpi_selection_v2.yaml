@@ -20,6 +20,47 @@ beginDialog:
 
       flowId: 52efb6eb-2537-f111-88b5-000d3a33da71
 
+    - kind: ConditionGroup
+      id: conditionGroup_VVjYSc
+      conditions:
+        - id: conditionItem_3IjMRh
+          condition: =Topic.kpiData = "no_records"
+          actions:
+            - kind: Question
+              id: question_vnrScA
+              interruptionPolicy:
+                allowInterruption: true
+
+              variable: init:Topic.Var2
+              prompt: I couldn't fetch any KPI's data. This might be due to a permissions error. Do you want to continue and skip KPI selection or cancel the meeting configuration
+              entity:
+                kind: EmbeddedEntity
+                definition:
+                  kind: ClosedListEntity
+                  items:
+                    - id: Continue and skip KPI selection
+                      displayName: Continue and skip KPI selection
+
+                    - id: Cancel meeting configuration
+                      displayName: Cancel meeting configuration
+
+            - kind: ConditionGroup
+              id: conditionGroup_r1x6dy
+              conditions:
+                - id: conditionItem_ukxVRx
+                  condition: =Topic.Var2 = 'cr1d7_agenttIFALA.topic.KPISelectionV2.main.question_vnrScA'.'Continue and skip KPI selection'
+                  actions:
+                    - kind: GotoAction
+                      id: aukMIv
+                      actionId: f4Bquh
+
+                - id: conditionItem_b60Jh8
+                  condition: =Topic.Var2 = 'cr1d7_agenttIFALA.topic.KPISelectionV2.main.question_vnrScA'.'Cancel meeting configuration'
+                  actions:
+                    - kind: BeginDialog
+                      id: 9EDNl5
+                      dialog: cr1d7_agenttIFALA.topic.ResetConversation
+
     - kind: SetVariable
       id: setVariable_ParseAllKPIs
       variable: Topic.allKPIsList
@@ -35,152 +76,140 @@ beginDialog:
             }
         )
 
+    - kind: AdaptiveCardPrompt
+      id: LHLX1E
+      card: |
+        ={
+          type: "AdaptiveCard",
+          '$schema': "http://adaptivecards.io/schemas/adaptive-card.json",
+          version: "1.5",
+          body: [
+            {
+              type: "Container",
+              style: "emphasis",
+              bleed: true,
+              items: [
+                {
+                  type: "ColumnSet",
+                  columns: [
+                    {
+                      type: "Column",
+                      width: "auto",
+                      items: [
+                        {
+                          type: "Image",
+                          url: "https://img.icons8.com/fluency/48/combo-chart.png",
+                          size: "Small"
+                        }
+                      ]
+                    },
+                    {
+                      type: "Column",
+                      width: "stretch",
+                      verticalContentAlignment: "Center",
+                      items: [
+                        {
+                          type: "TextBlock",
+                          text: "KPI Selection",
+                          size: "Large",
+                          weight: "Bolder",
+                          color: "Accent"
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              type: "TextBlock",
+              text: "Search and select the KPIs you want to track. You can select multiple items.",
+              wrap: true,
+              spacing: "Medium"
+            },
+            {
+              type: "TextBlock",
+              text: "Search by name or ID:",
+              weight: "Bolder",
+              spacing: "Medium"
+            },
+            {
+              type: "Input.ChoiceSet",
+              id: "selectedKpisData",
+              style: "filtered",
+              isMultiSelect: true,
+              placeholder: "Type to search KPIs...",
+              choices: ForAll(
+                ParseJSON(Topic.kpiData),
+                {
+                  title: Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_NAME]') & " (" & Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_ID]') & ")",
+                  value: Text(ThisRecord.'DIM_LIST_OF_KPIS[KPI_ID]')
+                }
+              )
+            },
+            {
+              type: "TextBlock",
+              text: "💡 Tip: Type a KPI name or ID to filter the list",
+              size: "Small",
+              isSubtle: true,
+              spacing: "Small"
+            },
+            {
+              type: "ActionSet",
+              actions: [
+                { type: "Action.Submit", id: "submitKpiSelection", title: "Confirm Selection", style: "positive" },
+                { type: "Action.Submit", id: "skipKpiSelection", title: "Skip", style: "destructive" }
+              ]
+            }
+          ]
+        }
+      output:
+        binding:
+          action: Topic.action
+          actionSubmitId: Topic.actionSubmitId
+          selectedKpisData: Topic.selectedKpisData
+
+      outputType:
+        properties:
+          action: String
+          actionSubmitId: String
+          selectedKpisData: String
+
     - kind: SetVariable
       id: setVariable_TotalCount
       variable: Topic.totalKPICount
       value: =CountRows(Topic.allKPIsList)
 
-    - kind: SetMultipleVariables
-      id: setVariable_PaginationInit
-      assignments:
-        - variable: Topic.pageSize
-          value: =20
-
-        - variable: Topic.currentPage
-          value: =1
-
-        - variable: Topic.totalPages
-          value: =RoundUp(Topic.totalKPICount / 20, 0)
-
-    - kind: SetVariable
-      id: setVariable_PageStart
-      displayName: Calculate page start index
-      variable: Topic.pageStartIndex
-      value: =((Topic.currentPage - 1) * Topic.pageSize) + 1
-
-    - kind: SetVariable
-      id: setVariable_CurrentPageKPIs
-      displayName: Slice KPIs for current page
-      variable: Topic.currentPageKPIs
-      value: |-
-        =FirstN(
-            LastN(
-                Topic.allKPIsList,
-                Topic.totalKPICount - Topic.pageStartIndex + 1
-            ),
-            Topic.pageSize
-        )
-
-    - kind: SetVariable
-      id: setVariable_PageDisplay
-      variable: Topic.currentPageDisplayText
-      value: |-
-        =With(
-            { startNum: Topic.pageStartIndex },
-            Concat(
-                ForAll(
-                    Sequence(CountRows(Topic.currentPageKPIs)),
-                    With(
-                        { kpiRow: Last(FirstN(Topic.currentPageKPIs, Value)) },
-                        {
-                            line: Text(startNum + Value - 1) & ". **" &
-                                  kpiRow.name & "** (ID: " &
-                                  kpiRow.id & ") — " &
-                                  kpiRow.description
-                        }
-                    )
-                ),
-                line,
-                Char(10)
-            )
-        )
-
-    - kind: SendActivity
-      id: sendActivity_ShowKPIPage
-      activity: |-
-        {If(
-            Topic.totalKPICount > Topic.pageSize,
-            "Showing page " & Text(Topic.currentPage) & " of " & Text(Topic.totalPages) &
-            " (" & Text(Topic.totalKPICount) & " KPIs total)" & Char(10) & Char(10),
-            ""
-        )}{Topic.currentPageDisplayText}
-
-    - kind: Question
-      id: question_SelectKPIs
-      interruptionPolicy:
-        allowInterruption: true
-
-      variable: init:Topic.userKPISelection
-      prompt: |-
-        Which KPIs would you like to track for meeting '{Global.selectedMeetingSubject}'?
-
-        Select by number or name. You can select multiple (e.g. "1, 3, 5" or "On-Time Delivery Rate, Cycle Time").
-        {If(Topic.totalPages > 1, "Type **'next'** to see the next page or **'prev'** for the previous page.", "")}
-      entity: StringPrebuiltEntity
-
     - kind: ConditionGroup
-      id: conditionGroup_PaginationCheck
+      id: conditionGroup_UlDxnn
       conditions:
-        - id: conditionItem_NextPage
-          condition: =Lower(Trim(Topic.userKPISelection)) = "next"
+        - id: conditionItem_0TTzPZ
+          condition: =Topic.actionSubmitId = "Skip"
           actions:
-            - kind: ConditionGroup
-              id: conditionGroup_CanGoNext
-              conditions:
-                - id: conditionItem_HasNextPage
-                  condition: =Topic.currentPage < Topic.totalPages
-                  actions:
-                    - kind: SetVariable
-                      id: setVariable_IncrementPage
-                      variable: Topic.currentPage
-                      value: =Topic.currentPage + 1
+            - kind: SetMultipleVariables
+              id: f4Bquh
+              assignments:
+                - variable: Global.selectedKPIsList
+                  value: =[]
 
-                    - kind: GotoAction
-                      id: goto_ShowNextPage
-                      actionId: setVariable_PageStart
+                - variable: Global.selectedKPIsJson
+                  value: =Blank()
 
-              elseActions:
-                - kind: SendActivity
-                  id: sendActivity_NoNextPage
-                  activity: You're already on the last page.
+            - kind: GotoAction
+              id: PvZ7De
+              actionId: qY48tx
 
-                - kind: GotoAction
-                  id: goto_ReaskAfterNoNext
-                  actionId: question_SelectKPIs
-
-        - id: conditionItem_PrevPage
-          condition: =Lower(Trim(Topic.userKPISelection)) = "prev"
-          actions:
-            - kind: ConditionGroup
-              id: conditionGroup_CanGoPrev
-              conditions:
-                - id: conditionItem_HasPrevPage
-                  condition: =Topic.currentPage > 1
-                  actions:
-                    - kind: SetVariable
-                      id: setVariable_DecrementPage
-                      variable: Topic.currentPage
-                      value: =Topic.currentPage - 1
-
-                    - kind: GotoAction
-                      id: goto_ShowPrevPage
-                      actionId: setVariable_PageStart
-
-              elseActions:
-                - kind: SendActivity
-                  id: sendActivity_NoPrevPage
-                  activity: You're already on the first page.
-
-                - kind: GotoAction
-                  id: goto_ReaskAfterNoPrev
-                  actionId: question_SelectKPIs
+    - kind: SetVariable
+      id: setVariable_TjUOu1
+      variable: Topic.Var1
+      value: =Topic.selectedKpisData
 
     - kind: InvokeAIBuilderModelAction
       id: invokeAIBuilderModelAction_bVd9YT
       input:
         binding:
           kpiData: =Topic.kpiData
-          userKPISelection: =Topic.userKPISelection
+          userKPISelection: =Topic.Var1
 
       output:
         binding:
@@ -193,7 +222,7 @@ beginDialog:
       variable: Topic.selectedKPIsList
       value: |-
         =ForAll(
-            Topic.resolvedKPIsJsonResult.structuredOutput.result,
+            Topic.resolvedKPIsJsonResult.structuredOutput.matchedKPIs,
             {
                 id: Text(ThisRecord.id),
                 name: Text(ThisRecord.name),
@@ -213,8 +242,12 @@ beginDialog:
                     {
                         line: Text(Value) & ". **" &
                               kpiRow.name & "** (" &
-                              kpiRow.id & ") — " &
-                              kpiRow.description
+                              kpiRow.id & ")" &
+                              If(
+                                  !IsBlank(kpiRow.description),
+                                  " — " & kpiRow.description,
+                                  ""
+                              )
                     }
                 )
             ),
@@ -259,7 +292,7 @@ beginDialog:
 
     - kind: SendActivity
       id: sendActivity_AssigningOwners
-      activity: Now let's assign owners to each selected KPI...
+      activity: Let’s now assign owner(s) to each of the selected KPIs.
 
     - kind: BeginDialog
       id: beginDialog_AssignKPIOwner
@@ -311,7 +344,9 @@ beginDialog:
     - kind: SendActivity
       id: sendActivity_ShowFinalKPIs
       activity: |-
-        Here are your selected KPIs with assigned owners for meeting **{Global.selectedMeetingSubject}**:
+        Here are your selected KPIs with their assigned owners for this meeting:
+
+        **{Global.selectedMeetingSubject}**:
 
         {Topic.finalKPISummaryText}
 
@@ -337,7 +372,7 @@ beginDialog:
       id: conditionGroup_KPIConfirmation
       conditions:
         - id: conditionItem_KPIConfirmed
-          condition: =Topic.kpiConfirmation = 'cr1d7_agenttIFALA.topic.KPISelection.main.question_ConfirmKPIs'.'Yes, proceed'
+          condition: =Topic.kpiConfirmation = 'cr1d7_agenttIFALA.topic.KPISelectionV2.main.question_ConfirmKPIs'.'Yes, proceed'
           actions:
             - kind: SetMultipleVariables
               id: setVariable_SaveKPIsToGlobal
@@ -366,21 +401,16 @@ beginDialog:
               activity: KPI selection saved for **{Global.selectedMeetingSubject}**. Moving to the next step...
 
             - kind: BeginDialog
-              id: beginDialog_GoToStep4
-              dialog: cr1d7_agenttIFALA.topic.MSProjectSelection
+              id: qY48tx
+              dialog: cr1d7_agenttIFALA.topic.MSProjectSelectionV2
 
         - id: conditionItem_KPIReselect
-          condition: =Topic.kpiConfirmation = 'cr1d7_agenttIFALA.topic.KPISelection.main.question_ConfirmKPIs'.'No, re-select KPIs'
+          condition: =Topic.kpiConfirmation = 'cr1d7_agenttIFALA.topic.KPISelectionV2.main.question_ConfirmKPIs'.'No, re-select KPIs'
           actions:
             - kind: SendActivity
               id: sendActivity_RestartKPISelection
               activity: No problem! Let's select your KPIs again.
 
-            - kind: SetVariable
-              id: setVariable_ResetPage
-              variable: Topic.currentPage
-              value: =1
-
             - kind: GotoAction
-              id: goto_RestartKPISelection
-              actionId: setVariable_PageStart
+              id: oEV2G6
+              actionId: LHLX1E
